@@ -1,24 +1,11 @@
-# Generate Time Based One-Time Password
+# Dynamic DNS
 
-Generate six digits one time password on linux based OS for AWS MFA.
+Run DNS server on AWS resolve dynamically. This program get Tag information from target EC2 instances then register target Tag's value to DNS record. You can set the polling interval to get Tag information.
 
 ## Getting Started
 
-There are information for this tool below so check it out.
-This tool is on the way so if you find bugs or have opinion to improve, please write up to issue.
+This project is under development.
 
-## Installing
-
-Download "genotp" binary file in the dist directory on this repository then copy that binary to directory was added in PATH.
-
-## How to use
-
-Type in help.
-
-```
-genopt --help
-
-```
 ## Support
 
 Mainly most Linux Distributions.

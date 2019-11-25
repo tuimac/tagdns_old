@@ -15,9 +15,13 @@ class Dns():
             self.ip = ip
         self.port = port
     
-    def run_dns(self):
+    def dns_socket(self):
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         sock.bind((self.ip, self.port))
-        data, addr = sock.recvfrom(512)
-        print(addr)
+        data = sock.recvfrom(512)
         return data
+
+    def run_dns(self):
+        for i in range(3):
+            worker_node = threading.Thread(target=dns_socket, args=(1,))
+            worker_node.start()

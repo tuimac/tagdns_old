@@ -1,11 +1,15 @@
 import socket
-import threading
+from threading import Thread
 ##watch this article
 # https://stackoverflow.com/questions/4373728/can-more-than-one-thread-use-the-same-port
+# https://www.bogotobogo.com/python/Multithread/python_multithreading_Synchronization_Lock_Objects_Acquire_Release.php
 import re
 import queue
 
 REGEX = "^(?:(?:25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(?:25[0-5]|2[0-4]\d|[01]?\d\d?)$"
+
+class 
+
 
 class Dns():
     def __init__(self, ip, port):
@@ -22,6 +26,8 @@ class Dns():
         return data
 
     def run_dns(self):
+
         for i in range(3):
-            worker_node = threading.Thread(target=dns_socket, args=(1,))
+            print(self)
+            worker_node = Thread(name='dns_socket', target=self.dns_socket)
             worker_node.start()

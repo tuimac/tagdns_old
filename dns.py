@@ -8,8 +8,12 @@ import queue
 
 REGEX = "^(?:(?:25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(?:25[0-5]|2[0-4]\d|[01]?\d\d?)$"
 
-class 
+class WorkerNode(Thread):
+    def __init__(self, queue):
+        Thread.__init__(self)
+        self.queue = queue
 
+    def 
 
 class Dns():
     def __init__(self, ip, port):

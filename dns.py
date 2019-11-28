@@ -10,20 +10,17 @@ from queue import Queue
 REGEX = "^(?:(?:25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(?:25[0-5]|2[0-4]\d|[01]?\d\d?)$"
 
 class InboundEndpoints(Thread):
-    def __init__(self, queue, lock, ip, port):
+    def __init__(self, queue, ip, port):
         Thread.__init__(self)
         self.queue = queue
-        self.lock = lock
         self.ip = ip
         self.port = port
 
     def run(self):
-        self.lock.acquire()
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         sock.bind((self.ip, self.port))
         data = sock.recvfrom(512)
         queue.put(data)
-        self.lock.release()
 
 class Dns():
     def __init__(self, ip, port):
@@ -37,7 +34,6 @@ class Dns():
         queue = Queue()
         for i in range(3):
             print("hello")
-            lock = Lock()
-            endpoint = InboundEndpoints(queue, lock, self.ip, self.port)
+            endpoint = InboundEndpoints(queue, self.ip, self.port)
             endpoint.start()
         print(queue.get())

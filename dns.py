@@ -15,12 +15,14 @@ class InboundEndpoints(Thread):
         self.queue = queue
         self.ip = ip
         self.port = port
+        self.stop = stop
 
     def run(self):
-        sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        sock.bind((self.ip, self.port))
-        data = sock.recvfrom(512)
-        queue.put(data)
+        while stop:
+            sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+            sock.bind((self.ip, self.port))
+            data = sock.recvfrom(512)
+            queue.put(data)
 
 class Dns():
     def __init__(self, ip, port):
@@ -29,6 +31,9 @@ class Dns():
         else:
             self.ip = ip
         self.port = port
+
+    def 
+
 
     def run_dns(self):
         queue = Queue()

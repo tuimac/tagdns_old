@@ -13,7 +13,8 @@ class WorkerNode(Thread):
         Thread.__init__(self)
         self.queue = queue
 
-    def 
+    def run():
+
 
 class Dns():
     def __init__(self, ip, port):

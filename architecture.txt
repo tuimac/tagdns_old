@@ -1,0 +1,30 @@
+### Resolve name
+
+#StartDNS(socket, json)
+-> Deploy dictionary record on memory from JSON file.
+-> Create Inbound and Outbound Endpoint.
+
+#InboundEndpoint(socket, threading(single daemon thread))
+-> Get request pass to queue
+
+#GetRequest(threading(multi))
+-> Get request in the queue. Then pass to Resolve class.
+
+##ResolveRequest(DAO)
+-> Return IP if there is.(Talk to database by dictionary form)
+
+#OutboundEndpoint(socket, threading(single daemon thread))
+-> Return response to client by sourceIP.
+
+#StopDNS()
+-> Delete all sockets
+-> Finish this script
+
+
+### Create DNS record
+
+#GetTagValue(boto)
+-> Get Each tag's value for EC2.
+
+#UpdateDatabase(json)
+-> JSON base database.

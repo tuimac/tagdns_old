@@ -17,5 +17,5 @@ class InboundEndpoints(Thread):
             self.queue.put(data)
         sock.close()
 
-    def delete_endpoint(self):
+    def delete_socket(self):
         self.stop = True

@@ -19,7 +19,9 @@ class InboundEndpoint(Thread):
 
     def delete_socket(self):
         self.delete = True
-
+'''
 class OutboundEndpoint(Thread):
     def __init__(self):
-        Thread.__init__(self):
+        Thread.__init__(self)
+
+'''

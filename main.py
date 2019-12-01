@@ -2,30 +2,31 @@
 
 from threading import Thread
 from queue import Queue
-from endpoint import InboundEndpoint
-import re
+
+from initialize import Initialize
+
 import time
-
-REGEX = "^(?:(?:25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(?:25[0-5]|2[0-4]\d|[01]?\d\d?)$"
-
-def createInboundEndpoint(queue, ip, port):
-    endpoint = InboundEndpoints(queue, ip, port)
-    endpoint.daemon = True
-    endpoint.start()
+import os
+import sys
 
 if __name__ == '__main__':
-    
-    ip = '127.0.0.1'
-    port = 53
-    stop = False
-    recordfile_path = "/home/tuimac/github/dynamic_dns/database.json"
 
-    if re.search(REGEX, ip) is None: ip = socket.gethostbyname(ip)
+    initPath = "tagdns.ini"
+    if os.path.exists(initPath) is False:
+        print("There is no init file.", file=sys.stderr)
+        exit(1)
 
-    request_queue = Queue()
-    createInboundEndpoint(request_queue, ip, port)
+    initialData = Initialize(initPath)
 
-    
+    ip = initialData.ip
+    port = initialData.port
+    path = initialData.path
+    delete = False
+
+    initData = initialData.initialize()
+
+    inboundEndpoint = initData["InboundEndpoint"]
+    requestQueue = initData["requestQueue"]
 
     for i in range(3):
-        print(request_queue.get())
+        print(requestQueue.get())

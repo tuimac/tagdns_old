@@ -1,6 +1,6 @@
-# Dynamic DNS
+# Tag DNS
 
-Run DNS server on AWS resolve dynamically. This program get Tag information from target EC2 instances then register target Tag's value to DNS record. You can set the polling interval to get Tag information.
+Run DNS server on AWS resolve dns record by name. This program get Tag information from target EC2 instances then register target Tag's value to DNS record. You can change the polling interval to get Tag information.
 
 ## Getting Started
 

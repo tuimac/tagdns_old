@@ -4,3 +4,4 @@ architechture.txt
 __pycache__/
 test
 *.swp
+records.json

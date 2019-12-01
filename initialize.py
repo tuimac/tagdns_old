@@ -2,6 +2,7 @@ from configparser import ConfigParser
 from queue import Queue
 
 from endpoint import InboundEndpoint
+from records import Records
 
 import re
 import socket
@@ -32,9 +33,17 @@ class Initialize():
 
         return endpoint
 
+    def __createOutboundEndpoint(self):
+        pass
+
+    def __deployRecords(self):
+        return Records(self.path)
+
     def initialize(self):
         initialData = dict()
         initialData["requestQueue"] = self.queue
-        initialData["InboundEndpoint"] = self.__createInboundEndpoint()
+        initialData["inboundEndpoint"] = self.__createInboundEndpoint()
+        initialData["outboundEndpoint"] = self.__createOutboundEndpoint()
+        initialData["records"] = self.__deployRecords()
 
         return initialData

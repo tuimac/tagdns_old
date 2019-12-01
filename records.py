@@ -2,20 +2,24 @@ import json
 import os
 
 class Records():
+
     def __init__(self, path):
+        path = os.path.expanduser(path)
         if os.path.exists(path) is False:
             records = {"NameServer": [], "Records": []}
-            self.__writeToFile(records)
-        self.path = path
+            os.mknod(path)
+            self.__updateRecordsFile(path, records)
+        self.records = self.__getRecords(path)
 
-    def __writeToFile(self, records):
-        json_data = open(self.path, 'w')
-        json.dump(records, 
-            ensure_ascii=False,
-            indent=4,
-            separators=(',',': ')
-        )
+    def __updateRecordsFile(self, path, records):
+        with open(path, 'w', encoding='utf8') as f:
+            json.dump(records, f,
+                default=True,
+                ensure_ascii=False,
+                indent=4,
+                separators=(',', ': ')
+            )
 
-    def getRecords(self):
-        with open(self.path, 'r') as f:
+    def __getRecords(self, path):
+        with open(path, 'r') as f:
             return json.load(f)

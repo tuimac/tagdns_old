@@ -7,7 +7,7 @@ class InboundEndpoints(Thread):
         self.queue = queue
         self.ip = ip
         self.port = port
-        self.stop = stop
+        self.delete = False
 
     def run(self):
         while not self.stop:
@@ -18,4 +18,4 @@ class InboundEndpoints(Thread):
         sock.close()
 
     def delete_socket(self):
-        self.stop = True
+        self.delete = True

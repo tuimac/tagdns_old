@@ -8,6 +8,11 @@ import time
 
 REGEX = "^(?:(?:25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(?:25[0-5]|2[0-4]\d|[01]?\d\d?)$"
 
+def crateInboundEndpoint(queue, ip, port):
+    endpoint = InboundEndpoints(queue, ip, port)
+    endpoint.daemon = True
+    endpoint.start()
+
 if __name__ == '__main__':
     
     ip = '127.0.0.1'
@@ -17,10 +22,10 @@ if __name__ == '__main__':
     if re.search(REGEX, ip) is None:
         ip = socket.gethostbyname(ip)
 
-    queue = Queue()
-    endpoint = InboundEndpoints(queue, ip, port, stop)
-    endpoint.daemon = True
-    endpoint.start()
+    request_queue = Queue()
+    createInboundEndpoint(request_queue, ip, port)
+
     for i in range(3):
         time.sleep(1)
         print(queue.get())
+    

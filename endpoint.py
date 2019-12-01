@@ -1,8 +1,8 @@
 import socket
 from threading import Thread
 
-class InboundEndpoints(Thread):
-    def __init__(self, queue, ip, port, stop):
+class InboundEndpoint(Thread):
+    def __init__(self, queue, ip, port):
         Thread.__init__(self)
         self.queue = queue
         self.ip = ip
@@ -10,7 +10,7 @@ class InboundEndpoints(Thread):
         self.delete = False
 
     def run(self):
-        while not self.stop:
+        while not self.delete:
             sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
             sock.bind((self.ip, self.port))
             data = sock.recvfrom(512)
@@ -19,3 +19,7 @@ class InboundEndpoints(Thread):
 
     def delete_socket(self):
         self.delete = True
+
+class OutboundEndpoint(Thread):
+    def __init__(self):
+        Thread.__init__(self):

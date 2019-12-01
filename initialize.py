@@ -7,10 +7,6 @@ from records import Records
 import re
 import socket
 
-#socket
-#thread
-#record on memory
-
 class Initialize():
     def __init__(self, path):
         config = ConfigParser()

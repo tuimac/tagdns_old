@@ -1,4 +1,4 @@
 add_remote_repo
 logs
 architechture.txt
-__pycache__/
+__pycache__

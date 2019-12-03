@@ -7,7 +7,8 @@ class Records():
         path = os.path.expanduser(path)
         if os.path.exists(path) is False:
             records = {"NameServer": [], "Records": []}
-            os.mknod(path)
+            print(path)
+            os.mknod(path, 0o644)
             self.__updateRecordsFile(path, records)
         self.records = self.__getRecords(path)
 

@@ -1,7 +1,7 @@
 import json
 import os
 
-class Records():
+class Records:
 
     def __init__(self, path):
         path = os.path.expanduser(path)

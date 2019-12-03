@@ -9,6 +9,13 @@ import time
 import os
 import sys
 import traceback
+import binascii
+
+def printContents(request):
+    query = request[0]
+    query.strip()
+    query = bin(int(binascii.hexlify(query), 16)).zfill(8)[6:]   
+    print(query)
 
 if __name__ == '__main__':
     
@@ -32,10 +39,11 @@ if __name__ == '__main__':
         requestQueue = initData["requestQueue"]
         records = initData["records"]
 
-        print(records)
-
         for i in range(3):
-            print(requestQueue.get())
+            printContents(requestQueue.get())
+
+    except FileNotFoundError:
+        print("Maybe tagdns.ini is wrong...")
 
     except:
         traceback.print_exc()

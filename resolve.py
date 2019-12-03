@@ -8,3 +8,4 @@ class Resolver:
 
     def __parseRequest(self):
         request = self.request
+

@@ -1,13 +1,13 @@
 import json
 import os
 
-class Records():
+class Records:
 
     def __init__(self, path):
         path = os.path.expanduser(path)
         if os.path.exists(path) is False:
             records = {"NameServer": [], "Records": []}
-            os.mknod(path)
+            os.mknod(path, 0o644)
             self.__updateRecordsFile(path, records)
         self.records = self.__getRecords(path)
 

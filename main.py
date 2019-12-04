@@ -9,6 +9,7 @@ import time
 import os
 import sys
 import traceback
+import binascii
 
 if __name__ == '__main__':
     
@@ -32,10 +33,8 @@ if __name__ == '__main__':
         requestQueue = initData["requestQueue"]
         records = initData["records"]
 
-        print(records)
-
-        for i in range(3):
-            print(requestQueue.get())
+    except FileNotFoundError:
+        print("Maybe tagdns.ini is wrong...")
 
     except:
         traceback.print_exc()

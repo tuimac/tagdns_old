@@ -1,10 +1,15 @@
 from threading import Thread
 from resolve import Resolve
+from resolveNode import WorkerNode
 
 class ManageNode():
-    def runNode(self, queue):
-        
+    def __init__(self, queue, numOfNodes):
+        self.queue = queue
+        self.numOfNodes = numOfNodes
+        mgrNode = Thread(name='runNode', target=runNode())
 
+    def runNode():
+        while 
 
 class WorkerNode(Thread):
     def __init__(self, queue):
@@ -14,5 +19,7 @@ class WorkerNode(Thread):
     def run(self):
         record = ""
         while record == "":
-            record = queue.get()
-        result = Resolve.get
+            record = self.queue.get()
+        resolve = Resolve(record)
+        result = resolve.resolv()
+

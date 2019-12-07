@@ -1,5 +1,4 @@
-#Reference is below:
-# http://www.networksorcery.com/enp/protocol/dns.htm
+import binascii
 
 class Resolver:
     def __init__(self, request):
@@ -14,4 +13,3 @@ class Resolver:
         request.strip()
 
         return bin(int(binascii.hexlify(request), 16)).zfill(8)[6:]   
-        

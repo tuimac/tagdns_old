@@ -1,25 +1,25 @@
 from threading import Thread
-from resolve import Resolve
-from resolveNode import WorkerNode
-
-class ManageNode():
-    def __init__(self, queue, numOfNodes):
-        self.queue = queue
-        self.numOfNodes = numOfNodes
-        mgrNode = Thread(name='runNode', target=runNode())
-
-    def runNode():
-        while 
+from resolver import Resolver
+import time
 
 class WorkerNode(Thread):
-    def __init__(self, queue):
+    def __init__(self, queue, interval):
         Thread.__init__(self)
         self.queue = queue
-        
-    def run(self):
-        record = ""
-        while record == "":
-            record = self.queue.get()
-        resolve = Resolve(record)
-        result = resolve.resolv()
+        self.interval = interval
+        self.flag = True
 
+    def run(self):
+        while self.flag:
+            if self.queue.qsize() == 0:
+                time.sleep(self.interval * 10)
+                continue
+            request = self.queue.get()
+            self.queue.task_done()
+            resolver = Resolver(request)
+            resolver.resolve()
+
+    def stop(self):
+        self.flag = False
+        
+        return

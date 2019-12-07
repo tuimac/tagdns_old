@@ -9,7 +9,6 @@ import time
 import os
 import sys
 import traceback
-import binascii
 
 if __name__ == '__main__':
     

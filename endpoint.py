@@ -8,12 +8,13 @@ class InboundEndpoint(Thread):
         self.ip = ip
         self.port = port
         self.delete = False
+        self.__buffer = 512
 
     def run(self):
         while not self.delete:
             sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
             sock.bind((self.ip, self.port))
-            data = sock.recvfrom(512)
+            data = sock.recvfrom(self.__buffer)
             self.queue.put(data)
         sock.close()
 

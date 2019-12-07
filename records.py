@@ -2,17 +2,17 @@ import json
 import os
 
 class Records:
-
     def __init__(self, path):
-        path = os.path.expanduser(path)
-        if os.path.exists(path) is False:
-            records = {"NameServer": [], "Records": []}
-            os.mknod(path, 0o644)
-            self.__updateRecordsFile(path, records)
-        self.records = self.__getRecords(path)
+        self.path = os.path.expanduser(path)
+        self.template = {"NameServer": []}
+        self.template["Records"] = [dict()] * 65535
+        if os.path.exists(self.path) is False:
+            os.mknod(path)
+            self.writeRecordsFile(self.template)
+        self.records = self.readRecordsFile()
 
-    def __updateRecordsFile(self, path, records):
-        with open(path, 'w', encoding='utf8') as f:
+    def writeRecordsFile(self, records):
+        with open(self.path, 'w', encoding='utf8') as f:
             json.dump(records, f,
                 default=True,
                 ensure_ascii=False,
@@ -20,6 +20,26 @@ class Records:
                 separators=(',', ': ')
             )
 
-    def __getRecords(self, path):
-        with open(path, 'r') as f:
+    def readRecordsFile(self):
+        with open(self.path, 'r') as f:
             return json.load(f)
+
+    def addNewRecord(self, name, ipv4, ipv6="", cname="", mx="", ns="", ptr="", svr="", txt="", soa=""):
+        record = dict()
+        items = dict()
+        items["A"] = ipv4
+        items["AAAA"] = ipv6
+        items["CNAME"] = cname
+        items["MX"] = mx
+        items["NS"] = ns
+        items["PTR"] = ptr
+        items["SVR"] = svr
+        items["TXT"] = txt
+        items["SOA"] = soa
+        record[name] = items
+
+        self.records["Records"].append(record)
+        self.writeRecordsFile(self.records)
+
+    def lookupIp(self, name):
+        return self.records["Records"][name]

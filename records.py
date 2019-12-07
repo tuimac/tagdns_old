@@ -1,11 +1,11 @@
 import json
 import os
+import sys
 
 class Records:
     def __init__(self, path):
         self.path = os.path.expanduser(path)
-        self.template = {"NameServer": []}
-        self.template["Records"] = [dict()] * 65535
+        self.template = {"NameServer": {}, "Records": {}}
         if os.path.exists(self.path) is False:
             os.mknod(path)
             self.writeRecordsFile(self.template)
@@ -25,21 +25,25 @@ class Records:
             return json.load(f)
 
     def addNewRecord(self, name, ipv4, ipv6="", cname="", mx="", ns="", ptr="", svr="", txt="", soa=""):
-        record = dict()
-        items = dict()
-        items["A"] = ipv4
-        items["AAAA"] = ipv6
-        items["CNAME"] = cname
-        items["MX"] = mx
-        items["NS"] = ns
-        items["PTR"] = ptr
-        items["SVR"] = svr
-        items["TXT"] = txt
-        items["SOA"] = soa
-        record[name] = items
+        if name in self.records["Records"]:
+            print("You can't register same name.", file=sys.stderr)
+            return False
 
-        self.records["Records"].append(record)
+        record = dict()
+        record["A"] = ipv4
+        record["AAAA"] = ipv6
+        record["CNAME"] = cname
+        record["MX"] = mx
+        record["NS"] = ns
+        record["PTR"] = ptr
+        record["SVR"] = svr
+        record["TXT"] = txt
+        record["SOA"] = soa
+
+        self.records["Records"][name] = record
         self.writeRecordsFile(self.records)
 
+        return True
+
     def lookupIp(self, name):
-        return self.records["Records"][name]
+        return self.records["Records"][name]["A"]

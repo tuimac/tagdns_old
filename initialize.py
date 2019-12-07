@@ -42,7 +42,7 @@ class Initialize():
         mgr.startNodes()
         # This code is for test below
         import time
-        time.sleep(5)
+        time.sleep(7)
         mgr.stopAllNodes()
 
     def initialize(self):

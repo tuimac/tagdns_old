@@ -3,7 +3,7 @@ from queue import Queue
 
 from endpoint import InboundEndpoint
 from records import Records
-from manageNode import ManageNode
+from manageNodes import ManageNodes
 
 import re
 import socket
@@ -15,6 +15,7 @@ class Initialize():
         self.ip = self.__resolveIP(config["Default"]["ipaddress"])
         self.port = int(config["Default"]["port"])
         self.path = config["Default"]["recordsPath"]
+        self.interval = config["Default"]["update_interval"]
         self.queue = Queue()
 
     def __resolveIP(self, ip):
@@ -37,8 +38,9 @@ class Initialize():
         return Records(self.path)
 
     def __createResolver(self):
-        mgr = ManageNode(self.queue)
+        mgr = ManageNodes(self.queue)
         mgr.startNodes()
+        # This code is for test below
         import time
         time.sleep(5)
         mgr.stopAllNodes()

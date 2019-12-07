@@ -2,14 +2,9 @@ import binascii
 
 class Resolver:
     def __init__(self, request):
-        self.request = request
+        self.ip = request[1][0]
+        self.port = request[1][1]
+        self.request = bin(int(binascii.hexlify(request[0].strip()), 16)).zfill(8)[6:]   
 
     def resolve(self):
-        request = self.__parseRequest()
-        print(request)
-
-    def __parseRequest(self):
-        request = self.request[0]
-        request.strip()
-
-        return bin(int(binascii.hexlify(request), 16)).zfill(8)[6:]   
+        pass

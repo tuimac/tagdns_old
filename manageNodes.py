@@ -1,8 +1,8 @@
 #from threading import Thread
-from resolveNode import WorkerNode
+from node import WorkerNode
 import sys
 
-class ManageNode:
+class ManageNodes:
     def __init__(self, queue):
         self.queue = queue
         self.numOfNodes = 4
@@ -18,6 +18,7 @@ class ManageNode:
 
     def stopAllNodes(self):
         for node in self.workerNodes:
-            node.stop()
-        if len(self.workerNodes) != 0:
-            print("Fail to stop", file=sys.stderr)
+            if node.stop() is False:
+                print("Fail to stop", file=sys.stderr)
+                return
+            print("Stop node has been successed!")

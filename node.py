@@ -8,6 +8,7 @@ class WorkerNode(Thread):
         self.queue = queue
         self.interval = interval
         self.flag = True
+        self.stopSignal = False
 
     def run(self):
         while self.flag:
@@ -18,8 +19,9 @@ class WorkerNode(Thread):
             self.queue.task_done()
             resolver = Resolver(request)
             resolver.resolve()
+        self.stopSignal = True
 
     def stop(self):
         self.flag = False
-        
-        return
+        time.sleep(0.5)
+        return self.stopSignal

@@ -4,7 +4,8 @@ import os
 class Records:
     def __init__(self, path):
         self.path = os.path.expanduser(path)
-        self.template = {"NameServer": [], "Records": []}
+        self.template = {"NameServer": []}
+        self.template["Records"] = [dict()] * 65535
         if os.path.exists(self.path) is False:
             os.mknod(path)
             self.writeRecordsFile(self.template)
@@ -40,6 +41,5 @@ class Records:
         self.records["Records"].append(record)
         self.writeRecordsFile(self.records)
 
-    def lookupIp(self):
-        pass	
-
+    def lookupIp(self, name):
+        return self.records["Records"][name]

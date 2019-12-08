@@ -37,8 +37,8 @@ class Initialize():
     def __deployRecords(self):
         return Records(self.path)
 
-    def __createResolver(self):
-        mgr = ManageNodes(self.queue)
+    def __createResolver(self, records):
+        mgr = ManageNodes(self.queue, records)
         mgr.startNodes()
         # This code is for test below
         import time
@@ -51,6 +51,6 @@ class Initialize():
         initialData["inboundEndpoint"] = self.__createInboundEndpoint()
         initialData["outboundEndpoint"] = self.__createOutboundEndpoint()
         initialData["records"] = self.__deployRecords()
-        initialData["resolver"] = self.__createResolver()
+        initialData["resolver"] = self.__createResolver(initialData["records"])
 
         return initialData

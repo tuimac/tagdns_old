@@ -3,7 +3,8 @@ from node import WorkerNode
 import sys
 
 class ManageNodes:
-    def __init__(self, queue):
+    def __init__(self, queue, records):
+        self.records = records
         self.queue = queue
         self.numOfNodes = 4
         self.workerNodes = []
@@ -11,7 +12,7 @@ class ManageNodes:
 
     def startNodes(self):
         for x in range(self.numOfNodes):
-            node = WorkerNode(self.queue, self.interval)
+            node = WorkerNode(self.queue, self.interval, self.records)
             node.daemon = True
             node.start()
             self.workerNodes.append(node)

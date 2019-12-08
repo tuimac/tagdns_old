@@ -3,9 +3,10 @@ from resolver import Resolver
 import time
 
 class WorkerNode(Thread):
-    def __init__(self, queue, interval):
+    def __init__(self, queue, interval, records):
         Thread.__init__(self)
         self.queue = queue
+        self.records = records
         self.interval = interval
         self.flag = True
         self.stopSignal = False
@@ -17,7 +18,7 @@ class WorkerNode(Thread):
                 continue
             request = self.queue.get()
             self.queue.task_done()
-            resolver = Resolver(request)
+            resolver = Resolver(request, self.records)
             resolver.resolve()
         self.stopSignal = True
 

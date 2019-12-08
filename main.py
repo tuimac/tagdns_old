@@ -2,6 +2,7 @@
 
 from threading import Thread
 from queue import Queue
+from functools import partial
 
 from initialize import Initialize
 
@@ -9,6 +10,11 @@ import time
 import os
 import sys
 import traceback
+import signal
+
+def signal_handler(resolver, signum, frame):
+    resolver.stopAllNodes()
+    return
 
 if __name__ == '__main__':
     
@@ -31,6 +37,9 @@ if __name__ == '__main__':
         outboundEndpoint = initData["outboundEndpoint"]
         requestQueue = initData["requestQueue"]
         records = initData["records"]
+        resolver = initData["resolver"]
+
+        signal.signal(signal.SIGINT, partial(signal_handler, resolver))
 
     except FileNotFoundError:
         print("Maybe tagdns.ini is wrong...")

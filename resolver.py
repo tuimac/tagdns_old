@@ -49,4 +49,5 @@ class Resolver:
         print("rcode", pickbit(header[3], 4, 7))
 
     def decodeQuestion(self, request):
+
         pass

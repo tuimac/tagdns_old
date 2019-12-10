@@ -20,9 +20,24 @@ class InboundEndpoint(Thread):
 
     def delete_socket(self):
         self.delete = True
-'''
-class OutboundEndpoint(Thread):
-    def __init__(self):
-        Thread.__init__(self)
 
-'''
+class OutboundEndpoint(Thread):
+    def __init__(self, queue, ip, port):
+        Thread.__init__(self)
+        self.queue = queue
+        self.ip = ip
+        self.port = port
+        self.delete = False
+
+    def run(self):
+        while not self.delete:
+            message = self.queue.get()
+            if message == "": continue
+            sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+            print(sock)
+            sock.sendto(message[0], message[1])
+        print("endpoint end")
+        sock.close()
+
+    def delete_socket(self):
+        self.delete = True

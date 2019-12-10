@@ -5,6 +5,5 @@ __pycache__/
 test
 *.swp
 records.json
-driver.py
 result.txt
 lab/

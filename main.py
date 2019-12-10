@@ -31,9 +31,10 @@ if __name__ == '__main__':
 
         initData = initialData.initialize()
 
+        inboundQueue = initData["inboundQueue"]
+        outboundQueue = initData["outboundQueue"]
         inboundEndpoint = initData["inboundEndpoint"]
         outboundEndpoint = initData["outboundEndpoint"]
-        requestQueue = initData["requestQueue"]
         records = initData["records"]
         resolver = initData["resolver"]
 

@@ -1,6 +1,7 @@
 import binascii
 import struct
 import sys
+import random
 
 #Look at this RFC article.
 # https://tools.ietf.org/html/rfc2929
@@ -10,11 +11,8 @@ class Resolver:
         self.ip = request[1][0]
         self.port = request[1][1]
         self.request = request[0]
-<<<<<<< HEAD
         #print(len(self.request))
-=======
         print(self.request)
->>>>>>> 277d430f5438b96b2669ce1fa3a2a8521b3e8ad5
         self.header = {
             "id": 0, "qr": 0, "opcode": 0,
             "aa": 0, "tc": 0, "rd": 0, "ra": 0,
@@ -68,8 +66,8 @@ class Resolver:
         
     def resolve(self):
         if self.header["opcode"] == 0:
-            message = CreateMsg.stdQuery(self.records.lookupIp(self.hostname))
-            outboundQueue.put(message)
+            message = CreateMsg.stdQuery(self.records.lookupIp(self.hostname), self.ip)
+            self.outboundQueue.put(message)
         elif self.header["opcode"] == 1:
             print("Inverse Query")
         else:
@@ -82,12 +80,6 @@ class Bitwiser:
             answer = (answer << 8) | bits[i]
         return answer
 
-<<<<<<< HEAD
-    def __decodeQuestion(self):
-        question = self.request[12:]
-        
-    
-=======
     def trimBit(bits, start, end, length=8):
         if(start > end):
             print("Argument error.", file=sys.stderr)
@@ -95,6 +87,6 @@ class Bitwiser:
         return (bits - ((bits >> (length - start)) << (length - start))) >> (length - end - 1)
 
 class CreateMsg:
-    def stdQuery(ip):
->>>>>>> 277d430f5438b96b2669ce1fa3a2a8521b3e8ad5
+    def stdQuery(response, dest_ip):
+        address = (dest_ip, random.randrange(32768, 65535))
         

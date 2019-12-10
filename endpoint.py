@@ -11,8 +11,8 @@ class InboundEndpoint(Thread):
         self.__buffer = 512
 
     def run(self):
+        sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         while not self.delete:
-            sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
             sock.bind((self.ip, self.port))
             data = sock.recvfrom(self.__buffer)
             self.queue.put(data)
@@ -30,13 +30,11 @@ class OutboundEndpoint(Thread):
         self.delete = False
 
     def run(self):
+        sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         while not self.delete:
             message = self.queue.get()
             if message == "": continue
-            sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-            print(sock)
             sock.sendto(message[0], message[1])
-        print("endpoint end")
         sock.close()
 
     def delete_socket(self):

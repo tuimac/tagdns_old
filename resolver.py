@@ -11,7 +11,7 @@ class Resolver:
         self.ip = request[1][0]
         self.port = request[1][1]
         self.request = request[0]
-        print(len(self.request))
+        #print(len(self.request))
         self.header = {
             "id": 0,
             "qr": 0,
@@ -69,7 +69,7 @@ class Resolver:
 
     def __decodeQuestion(self):
         question = self.request[12:]
-
+        
     
         
     def resolve(self):

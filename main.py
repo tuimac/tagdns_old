@@ -17,7 +17,6 @@ def signal_handler(resolver, signum, frame):
     return
 
 if __name__ == '__main__':
-    
     try:
         initPath = "tagdns.ini"
         if os.path.exists(initPath) is False:
@@ -29,7 +28,6 @@ if __name__ == '__main__':
         ip = initialData.ip
         port = initialData.port
         path = initialData.path
-        delete = False
 
         initData = initialData.initialize()
 

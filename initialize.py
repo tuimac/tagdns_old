@@ -2,11 +2,11 @@ from configparser import ConfigParser
 from queue import Queue
 
 from endpoint import InboundEndpoint
+from endpoint import OutboundEndpoint
 from records import Records
 from manageNodes import ManageNodes
 
 import re
-import socket
 
 class Initialize():
     def __init__(self, path):
@@ -16,7 +16,8 @@ class Initialize():
         self.port = int(config["Default"]["port"])
         self.path = config["Default"]["recordsPath"]
         self.interval = config["Default"]["update_interval"]
-        self.queue = Queue()
+        self.inboudQueue = Queue()
+        self.outboundQueue = Queue()
 
     def __resolveIP(self, ip):
         regex= "^(?:(?:25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(?:25[0-5]|2[0-4]\d|[01]?\d\d?)$"
@@ -25,20 +26,24 @@ class Initialize():
         return ip
 
     def __createInboundEndpoint(self):
-        endpoint = InboundEndpoint(self.queue, self.ip, self.port)
+        endpoint = InboundEndpoint(self.inboundQueue, self.ip, self.port)
         endpoint.daemon = True
         endpoint.start()
 
         return endpoint
 
     def __createOutboundEndpoint(self):
-        pass
+        endpoint = OutboundEndpoint(self.outboundQqueue, self.ip, self.port)
+        endpoint.daemon = True
+        endpoint.start()
+
+        return endpoint
 
     def __deployRecords(self):
         return Records(self.path)
 
     def __createResolver(self, records):
-        mgr = ManageNodes(self.queue, records)
+        mgr = ManageNodes(self.inboundQueue, outboundQueue, records)
         mgr.startNodes()
         # This code is for test below
         import time

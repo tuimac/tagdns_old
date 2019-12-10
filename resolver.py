@@ -6,8 +6,7 @@ import sys
 # https://tools.ietf.org/html/rfc2929
 
 class Resolver:
-    def __init__(self, request, records):
-        self.records = records
+    def __init__(self, request, outboundQueue, records):
         self.ip = request[1][0]
         self.port = request[1][1]
         self.request = request[0]
@@ -21,6 +20,8 @@ class Resolver:
         self.__decodeHeader()
         self.hostname = self.__decodeQuestion()
         self.__printBit()
+        self.records = records
+        self.outboundQueue = outboundQueue
 
     #This method is only for test.
     def __printBit(self):
@@ -63,8 +64,8 @@ class Resolver:
         
     def resolve(self):
         if self.header["opcode"] == 0:
-            tmp = self.records.lookupIp(self.hostname)
-            print(tmp)
+            message = CreateMsg.stdQuery(self.records.lookupIp(self.hostname))
+            outboundQueue.put(message)
         elif self.header["opcode"] == 1:
             print("Inverse Query")
         else:
@@ -82,3 +83,7 @@ class Bitwiser:
             print("Argument error.", file=sys.stderr)
             return
         return (bits - ((bits >> (length - start)) << (length - start))) >> (length - end - 1)
+
+class CreateMsg:
+    def stdQuery(ip):
+        

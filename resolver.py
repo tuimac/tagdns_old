@@ -11,6 +11,7 @@ class Resolver:
         self.ip = request[1][0]
         self.port = request[1][1]
         self.request = request[0]
+        self.response = request[0]
         #print(len(self.request))
         print(self.request)
         self.header = {
@@ -66,7 +67,7 @@ class Resolver:
         
     def resolve(self):
         if self.header["opcode"] == 0:
-            message = CreateMsg.stdQuery(self.records.lookupIp(self.hostname), self.ip)
+            message = Response.stdQuery(self.records.lookupIp(self.hostname), self.ip)
             self.outboundQueue.put(message)
         elif self.header["opcode"] == 1:
             print("Inverse Query")
@@ -86,7 +87,9 @@ class Bitwiser:
             return
         return (bits - ((bits >> (length - start)) << (length - start))) >> (length - end - 1)
 
-class CreateMsg:
+    def replaceBit(bits, start, end, length=8):
+        pass
+        
+class Response:
     def stdQuery(response, dest_ip):
         address = (dest_ip, random.randrange(32768, 65535))
-        

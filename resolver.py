@@ -21,12 +21,21 @@ class Resolver:
         header[2] = Bitwiser.replaceBit(header[2], 0)
         qname = ""
         index = 13
-        for i in range(13, len(self.request)):
-            if self.request[i] < 32: break
-            qname += chr(self.request[i])
-            index += 1
-        print(index)
-        qname = self.records.lookupIp(qname)
+        for index in range(index, len(self.request)):
+            if self.request[index] < 32: break
+            qname += chr(self.request[index])
+        qname= self.records.lookupIp(qname)
+        
+        response = header
+        response.append(1)
+        for i in range(len(qname)):
+            if qname[i] == '.': response.append(1)
+            response.append(int(qname[i]) + 48)
+        for byte in list(self.request[index:]):
+            response.append(byte)
+        message = (bytes(response), (self.ip, self.port))
+        print(message)
+        self.outboundQueue.put(message)
 
 class Bitwiser:
     def trimBits(bits, start, end):

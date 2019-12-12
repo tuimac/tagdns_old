@@ -44,8 +44,7 @@ class Records:
         self.writeRecordsFile(self.records)
 
     def lookupIp(self, name):
-        print(name in self.records["Records"])
         if not name in self.records["Records"]:
             print("There is no such a records", file=sys.stderr)
-            return
+            return ""
         return self.records["Records"][name]["A"]

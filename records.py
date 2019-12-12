@@ -27,7 +27,7 @@ class Records:
     def addNewRecord(self, name, ipv4, ipv6="", cname="", mx="", ns="", ptr="", svr="", txt="", soa=""):
         if name in self.records["Records"]:
             print("You can't register same name.", file=sys.stderr)
-            return False
+            return
 
         record = dict()
         record["A"] = ipv4
@@ -42,8 +42,6 @@ class Records:
 
         self.records["Records"][name] = record
         self.writeRecordsFile(self.records)
-
-        return True
 
     def lookupIp(self, name):
         print(name in self.records["Records"])

@@ -14,32 +14,19 @@ class Resolver:
         print(request)
         self.records = records
         self.outboundQueue = outboundQueue
-        
-        self.resolveName = ""
-
-        self.opcode = Bitwiser.trimBit(request[2], 1, 4)
-
-    def __getQname(self):
-        #For skip delimiter of dns host name's flame, trim from 13.
-        question = self.request[13:]
-        index = 13
-        for byte in question:
-            if byte < 32: break
-            self.resolveName += chr(byte)
-            index += 1
-
-
-    def __getResourceRecord(self):
-        pass
 
     def resolve(self):
-        if self.opcode == 0:
-            message = Response.stdQuery(self.response, self.records.lookupIp(self.qname), self.ip)
-            self.outboundQueue.put(message)
-        elif self.opcode == 1:
-            print("Inverse Query")
-        else:
-            print("Othre Query")
+        header = list(self.request[:12])
+        #Value of qr in header section turn 0 to 1
+        header[2] = Bitwiser.replaceBit(header[2], 0)
+        qname = ""
+        index = 13
+        for i in range(13, len(self.request)):
+            if self.request[i] < 32: break
+            qname += chr(self.request[i])
+            index += 1
+        print(index)
+        qname = self.records.lookupIp(qname)
 
 class Bitwiser:
     def trimBits(bits, start, end):
@@ -56,14 +43,3 @@ class Bitwiser:
 
     def replaceBit(bits, position, length=8):
         return bits ^ (1 << position)
-        
-class Response:
-    def stdQuery(response, question, dest_ip):
-        response = list(response)
-        address = (dest_ip, random.randrange(32768, 65535))
-        response[2] = Bitwiser.replaceBit(response[2], 0)
-        return message
-
-    def createByteResponse():
-        pass
-

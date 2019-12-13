@@ -24,15 +24,24 @@ class Resolver:
         for index in range(index, len(self.request)):
             if self.request[index] < 32: break
             qname += chr(self.request[index])
+        print(qname)
         qname= self.records.lookupIp(qname)
-        
+        if qname == "": return
         response = header
         response.append(1)
+        tmp = ""
         for i in range(len(qname)):
-            if qname[i] == '.': response.append(1)
-            response.append(int(qname[i]) + 48)
+            if qname[i] == '.':
+                response.append(int(tmp.encode('ascii'), base=10) + 48)
+                response.append(1)
+                tmp = ""
+                continue
+            tmp += qname[i]
+        response.append(int(tmp.encode('ascii'), base=10) + 48)
+        response.append(0)
         for byte in list(self.request[index:]):
             response.append(byte)
+        print(response)
         message = (bytes(response), (self.ip, self.port))
         print(message)
         self.outboundQueue.put(message)

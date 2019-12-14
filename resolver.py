@@ -11,9 +11,22 @@ class Resolver:
         self.ip = request[1][0]
         self.port = request[1][1]
         self.request = request[0]
-        print(request)
+        print(type(self.request))
         self.records = records
         self.outboundQueue = outboundQueue
+
+    def __printBit(self):
+        binary = bin(int(binascii.hexlify(self.request.strip()), 16)).zfill(8)[2:]
+        i = 0
+        header_index = 0
+        length = len(binary)
+        print("[header]")
+        while i < length:
+            if header_index == 6: print("\n[Question]")
+            before = i
+            i = i + 16
+            print(binary[before:i])
+            header_index += 1
 
     def resolve(self):
         header = list(self.request[:12])
@@ -25,6 +38,8 @@ class Resolver:
             if self.request[index] < 32: break
             qname += chr(self.request[index])
         print(qname)
+        for index in range(index, len(self.request)):
+            if self.request[index] == 0: break
         qname= self.records.lookupIp(qname)
         if qname == "": return
         response = header

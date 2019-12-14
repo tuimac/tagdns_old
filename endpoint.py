@@ -25,8 +25,8 @@ class OutboundEndpoint(Thread):
     def __init__(self, queue, ip, port):
         Thread.__init__(self)
         self.queue = queue
-        self.ip = ip
-        self.port = port
+        #self.ip = ip
+        #self.port = port
         self.delete = False
 
     def run(self):

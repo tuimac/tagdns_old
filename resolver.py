@@ -3,6 +3,8 @@ import struct
 import sys
 import random
 
+from lab.packet import Packet
+
 #Look at this RFC article.
 # https://tools.ietf.org/html/rfc2929
 
@@ -11,22 +13,9 @@ class Resolver:
         self.ip = request[1][0]
         self.port = request[1][1]
         self.request = request[0]
-        print(type(self.request))
         self.records = records
         self.outboundQueue = outboundQueue
-
-    def __printBit(self):
-        binary = bin(int(binascii.hexlify(self.request.strip()), 16)).zfill(8)[2:]
-        i = 0
-        header_index = 0
-        length = len(binary)
-        print("[header]")
-        while i < length:
-            if header_index == 6: print("\n[Question]")
-            before = i
-            i = i + 16
-            print(binary[before:i])
-            header_index += 1
+        Packet.dumpAll(self.request)
 
     def resolve(self):
         header = list(self.request[:12])
@@ -37,10 +26,10 @@ class Resolver:
         for index in range(index, len(self.request)):
             if self.request[index] < 32: break
             qname += chr(self.request[index])
-        print(qname)
         for index in range(index, len(self.request)):
             if self.request[index] == 0: break
-        qname= self.records.lookupIp(qname)
+        qname = self.records.lookupIp(qname)
+        print(qname)
         if qname == "": return
         response = header
         response.append(1)
@@ -52,7 +41,9 @@ class Resolver:
                 tmp = ""
                 continue
             tmp += qname[i]
-        response.append(int(tmp.encode('ascii'), base=10) + 48)
+        test = int(tmp.encode('ascii'), base=10) + 48
+        print(test)
+        response.append(test)
         response.append(0)
         for byte in list(self.request[index:]):
             response.append(byte)

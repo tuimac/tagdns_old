@@ -23,7 +23,32 @@ class Resolver:
         packet.dumpPacket()
 
     def resolve(self):
-        header = list(self.request[:12])
+        header = self.request[:12]
+        opcode = Bitwiser.bitToDecimal(header[1], 1, 4)
+        if opcode == 0:
+            response = self.__standard(header, self.records)
+        elif opcode == 1:
+            response = self.__inverse(header, self.records)
+        elif opcode == 2:
+            response = self.__status(header, self.records)
+        else:
+            response = self.__error(header)
+        message = (response, (self.ip, self.port))
+        self.outboundQueue.put(message)
+
+    def __standard(self):
+        pass
+
+    def __inverse(self):
+        pass
+
+    def __status(self):
+        pass
+
+    def __error(self):
+        pass
+
+        '''
         #Value of qr in header section turn 0 to 1
         header[2] = Bitwiser.flipBit(header[2], 0)
         qname = ""
@@ -53,3 +78,4 @@ class Resolver:
         print(response)
         message = (bytes(response), (self.ip, self.port))
         self.outboundQueue.put(message)
+        '''

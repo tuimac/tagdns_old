@@ -48,3 +48,6 @@ class Records:
             print("There is no such a records", file=sys.stderr)
             return ""
         return self.records["Records"][name]["A"]
+
+    def lookupName(self, name):
+        return "test"

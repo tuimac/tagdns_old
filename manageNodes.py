@@ -7,7 +7,7 @@ class ManageNodes:
         self.records = records
         self.inboundQueue = inboundQueue
         self.outboundQueue = outboundQueue
-        self.numOfNodes = 4
+        self.numOfNodes = 1
         self.workerNodes = []
         self.interval = 0.001
 

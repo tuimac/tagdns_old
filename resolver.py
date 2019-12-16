@@ -21,31 +21,42 @@ class Resolver:
         packet = Packet(self.request)
         packet.dumpBits()
         packet.dumpPacket()
+        print(self.request)
 
     def resolve(self):
         header = self.request[:12]
-        opcode = Bitwiser.bitToDecimal(header[1], 1, 4)
+        opcode = Bitwiser.bitsToDecimal(header[2], 3, 6)
         if opcode == 0:
-            response = self.__standard(header, self.records)
+            response = self.__standard()
         elif opcode == 1:
-            response = self.__inverse(header, self.records)
+            response = self.__inverse(header)
         elif opcode == 2:
-            response = self.__status(header, self.records)
+            response = self.__status(header)
         else:
             response = self.__error(header)
         message = (response, (self.ip, self.port))
-        self.outboundQueue.put(message)
+        #self.outboundQueue.put(message)
 
     def __standard(self):
+        response = list(self.request)
+        #Change QR field to 1
+        response[2] = Bitwiser.flipBit(response[2], 7)
+        response[7] = 1
+        packet = Packet(bytes(response))
+        packet.dumpPacket()
+        qname = ""
+        index = 13
+        for index in range(index, len(self.request)):
+            if self.request[index] < 32: break
+            qname += chr(self.request[index])
+
+    def __inverse(self, header):
         pass
 
-    def __inverse(self):
+    def __status(self, header):
         pass
 
-    def __status(self):
-        pass
-
-    def __error(self):
+    def __error(self, header):
         pass
 
         '''

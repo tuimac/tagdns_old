@@ -17,6 +17,7 @@ class ManageNodes:
             node.daemon = True
             node.start()
             self.workerNodes.append(node)
+        [node.join() for node in self.workerNodes]
 
     def stopAllNodes(self):
         for node in self.workerNodes:

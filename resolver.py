@@ -1,10 +1,8 @@
-import binascii
-import struct
 import sys
 import random
 import re
 
-from dnslib.dns import *
+from dnslib.dns import DNSRecord, DNSHeader, DNSQuestion, RR
 from dnslib.label import DNSBuffer
 
 #Look at this RFC article.
@@ -25,8 +23,17 @@ class Resolver:
         question = DNSQuestion.parse(buffer)
         qname = str(question.get_qname())
         target = qname.split(".")[0]
+        dRecord = DNSRecord.parse(self.request)
+        ttl = "30"
+        response = qname + " " + ttl + " "
         if re.search(regex, qname) is None:
-            qname = self.records.lookupIp(target)
+            answer = self.records.lookupIp(target)
+            response = response + "A " +  answer
         else:
-            qname = self.records.lookupName(target)
-        
+            answer = self.records.lookupName(target)
+            response = response + "PTR " + answer
+        response = dRecord.replyZone(response)
+        response = response.pack()
+        print(self.ip)
+        print(self.port)
+        self.outboundQueue.put((response, (self.ip, self.port)))

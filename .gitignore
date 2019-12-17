@@ -8,4 +8,4 @@ records.json
 result.txt
 driver.py
 old/
-lab/__pycache__/
+lab/

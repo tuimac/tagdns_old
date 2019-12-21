@@ -19,12 +19,13 @@ class WorkerNode(Thread):
                 continue
             request = self.inboundQueue.get()
             self.inboundQueue.task_done()
+            if request == "": continue
             resolver = Resolver(request, self.outboundQueue, self.records)
             resolver.resolve()
         self.stopSignal = True
 
     def stop(self):
         self.flag = False
-
+        self.inboundQueue.put("")
         time.sleep(0.5)
         return self.stopSignal

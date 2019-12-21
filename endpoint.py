@@ -26,7 +26,6 @@ class Endpoint(Thread):
     def deleteAllSockets(self):
         self.inbound.deleteSocket()
         self.outbound.deleteSocket()
-        self.socket.close()
         print("All sockets had been deleted!")
 
 class InboundEndpoint(Thread):
@@ -40,14 +39,17 @@ class InboundEndpoint(Thread):
         self.__buffer = 512
 
     def run(self):
-        self.socket.bind((self.ip, self.port))
-        while not self.delete:
-            data = self.socket.recvfrom(self.__buffer)
-            self.queue.put(data)
-
+        try:
+            self.socket.bind((self.ip, self.port))
+            while not self.delete:
+                data = self.socket.recvfrom(self.__buffer)
+                self.queue.put(data)
+        except KeyboardInterrupt:
+            print("catch")
+        
     def deleteSocket(self):
         self.delete = True
-
+        self.socket.close()
 
 class OutboundEndpoint(Thread):
     def __init__(self, queue, socket):
@@ -64,3 +66,4 @@ class OutboundEndpoint(Thread):
 
     def deleteSocket(self):
         self.delete = True
+        self.socket.close()

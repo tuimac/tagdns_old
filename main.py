@@ -12,12 +12,8 @@ import sys
 import traceback
 import signal
 
-def signal_handler(resolver, signum, frame):
-    resolver.stopAllNodes()
-    endpoint.deleteAllSockets()
-    return
-
 if __name__ == '__main__':
+    initData = ""
     try:
         initPath = "tagdns.ini"
         if os.path.exists(initPath) is False:
@@ -31,17 +27,24 @@ if __name__ == '__main__':
         path = initialData.path
 
         initData = initialData.initialize()
-
+        
+        print("Initialization has been done.")
+        
         inboundQueue = initData["inboundQueue"]
         outboundQueue = initData["outboundQueue"]
-        endpoint = initData["Endpoint"]
+        endpoint = initData["endpoint"]
         records = initData["records"]
         resolver = initData["resolver"]
 
-        signal.signal(signal.SIGINT, partial(signal_handler, resolver))
+        resolver.startNodes()
 
     except FileNotFoundError:
         print("Maybe tagdns.ini is wrong...")
+
+    except KeyboardInterrupt:
+        print("Catch the exception.")
+        initData["resolver"].stopAllNodes()
+        initData["endpoint"].deleteAllSockets()
 
     except:
         traceback.print_exc()

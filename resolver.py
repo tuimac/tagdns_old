@@ -28,9 +28,11 @@ class Resolver:
         response = qname + " " + ttl + " "
         if re.search(regex, qname) is None:
             answer = self.records.lookupIp(target)
+            if answer == "": return
             response = response + "A " +  answer
         else:
             answer = self.records.lookupName(target)
+            if answer == "": return
             response = response + "PTR " + answer
         response = dRecord.replyZone(response)
         response = response.pack()

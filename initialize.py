@@ -24,14 +24,12 @@ class Initialize():
     def __resolveIP(self, ip):
         regex= "^(?:(?:25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(?:25[0-5]|2[0-4]\d|[01]?\d\d?)$"
         if re.search(regex, ip) is None: ip = socket.gethostbyname(ip)
-
         return ip
 
     def __createEndpoint(self):
         endpoint = Endpoint(self.inboundQueue, self.outboundQueue, self.ip, self.port)
         endpoint.daemon = True
         endpoint.start()
-
         return endpoint
 
     def __deployRecords(self):
@@ -39,17 +37,13 @@ class Initialize():
 
     def __createResolver(self, records):
         mgr = ManageNodes(self.inboundQueue, self.outboundQueue, records)
-        mgr.startNodes()
-        
         return mgr
 
     def initialize(self):
         initialData = dict()
         initialData["inboundQueue"] = self.inboundQueue
         initialData["outboundQueue"] = self.outboundQueue
-        initialData["Endpoint"] = self.__createEndpoint()
+        initialData["endpoint"] = self.__createEndpoint()
         initialData["records"] = self.__deployRecords()
         initialData["resolver"] = self.__createResolver(initialData["records"])
-
         return initialData
-

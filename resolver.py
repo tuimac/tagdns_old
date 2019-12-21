@@ -34,6 +34,4 @@ class Resolver:
             response = response + "PTR " + answer
         response = dRecord.replyZone(response)
         response = response.pack()
-        print(self.ip)
-        print(self.port)
         self.outboundQueue.put((response, (self.ip, self.port)))

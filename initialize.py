@@ -1,8 +1,7 @@
 from configparser import ConfigParser
 from queue import Queue
 
-from endpoint import InboundEndpoint
-from endpoint import OutboundEndpoint
+from endpoint import Endpoint
 from records import Records
 from manageNodes import ManageNodes
 
@@ -20,6 +19,7 @@ class Initialize():
         self.interval = config["Default"]["update_interval"]
         self.inboundQueue = Queue()
         self.outboundQueue = Queue()
+        self.socket = ""
 
     def __resolveIP(self, ip):
         regex= "^(?:(?:25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(?:25[0-5]|2[0-4]\d|[01]?\d\d?)$"
@@ -27,15 +27,8 @@ class Initialize():
 
         return ip
 
-    def __createInboundEndpoint(self):
-        endpoint = InboundEndpoint(self.inboundQueue, self.ip, self.port)
-        endpoint.daemon = True
-        endpoint.start()
-
-        return endpoint
-
-    def __createOutboundEndpoint(self):
-        endpoint = OutboundEndpoint(self.outboundQueue, self.ip, self.port)
+    def __createEndpoint(self):
+        endpoint = Endpoint(self.inboundQueue, self.outboundQueue, self.ip, self.port)
         endpoint.daemon = True
         endpoint.start()
 
@@ -47,18 +40,16 @@ class Initialize():
     def __createResolver(self, records):
         mgr = ManageNodes(self.inboundQueue, self.outboundQueue, records)
         mgr.startNodes()
-        # This code is for test below
-        import time
-        time.sleep(7)
-        mgr.stopAllNodes()
+        
+        return mgr
 
     def initialize(self):
         initialData = dict()
         initialData["inboundQueue"] = self.inboundQueue
         initialData["outboundQueue"] = self.outboundQueue
-        initialData["inboundEndpoint"] = self.__createInboundEndpoint()
-        initialData["outboundEndpoint"] = self.__createOutboundEndpoint()
+        initialData["Endpoint"] = self.__createEndpoint()
         initialData["records"] = self.__deployRecords()
         initialData["resolver"] = self.__createResolver(initialData["records"])
 
         return initialData
+

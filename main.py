@@ -14,6 +14,7 @@ import signal
 
 def signal_handler(resolver, signum, frame):
     resolver.stopAllNodes()
+    endpoint.deleteAllSockets()
     return
 
 if __name__ == '__main__':
@@ -33,8 +34,7 @@ if __name__ == '__main__':
 
         inboundQueue = initData["inboundQueue"]
         outboundQueue = initData["outboundQueue"]
-        inboundEndpoint = initData["inboundEndpoint"]
-        outboundEndpoint = initData["outboundEndpoint"]
+        endpoint = initData["Endpoint"]
         records = initData["records"]
         resolver = initData["resolver"]
 

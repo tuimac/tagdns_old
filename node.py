@@ -25,5 +25,6 @@ class WorkerNode(Thread):
 
     def stop(self):
         self.flag = False
+
         time.sleep(0.5)
         return self.stopSignal

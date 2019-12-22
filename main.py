@@ -12,6 +12,8 @@ import sys
 import traceback
 import signal
 
+
+
 if __name__ == '__main__':
     initData = ""
     try:
@@ -20,15 +22,8 @@ if __name__ == '__main__':
             print("There is no init file.", file=sys.stderr)
             exit(1)
 
-        initialData = Initialize(initPath)
-
-        ip = initialData.ip
-        port = initialData.port
-        path = initialData.path
-
-        initData = initialData.initialize()
-        
-        print("Initialization has been done.")
+        init = Initialize(initPath)
+        initData = init.initialize()
         
         inboundQueue = initData["inboundQueue"]
         outboundQueue = initData["outboundQueue"]

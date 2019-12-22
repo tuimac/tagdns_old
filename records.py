@@ -24,30 +24,86 @@ class Records:
         with open(self.path, 'r') as f:
             return json.load(f)
 
-    def addNewRecord(self, name, ipv4, ipv6="", cname="", mx="", ns="", ptr="", svr="", txt="", soa=""):
-        if name in self.records["Records"]:
-            print("You can't register same name.", file=sys.stderr)
-            return
+    def addRecord(self, rrtype, **args):
+        '''
+        # A and PTR
+        ipv4: IPv4 IPaddress
+        host: hostname within the Zone
+        '''
+        addrecord = AddRecord(rrtype, self.records, args)
+        record = addrecord.getRecord()
+        self.writeRecordsFile(record)
+        return
 
-        record = dict()
-        record["A"] = ipv4
-        record["AAAA"] = ipv6
-        record["CNAME"] = cname
-        record["MX"] = mx
-        record["NS"] = ns
-        record["PTR"] = ptr
-        record["SVR"] = svr
-        record["TXT"] = txt
-        record["SOA"] = soa
+    def lookupIp(self, qname):
+        hostname = qname.split(".")[0]
+        zone = qname.split(".")[1:]
+        if not hostname in self.records["A"]: return ""
+        return self.records["A"][hostname]
 
-        self.records["Records"][name] = record
-        self.writeRecordsFile(self.records)
-
-    def lookupIp(self, name):
-        if not name in self.records["Records"]:
-            print("There is no such a records", file=sys.stderr)
-            return ""
-        return self.records["Records"][name]["A"]
-
-    def lookupName(self, name):
+    def lookupName(self, qname):
+        print(qname)
         return "test"
+
+class AddRecord:
+    def __init__(self, rrtype, records, args):
+        self.rrtype = rrtype
+        self.records = records
+        for k,v in args.items():
+            if k.lower() == "ipv4":
+                self.ipv4 = v
+            elif k.lower() == "hostname"
+                self.hostname = v
+    def a(self):
+        return "hello"
+    def ns(self):
+        pass
+    def md(self):
+        pass
+    def mf(self):
+        pass
+    def cname(self):
+        pass
+    def soa(self):
+        pass
+    def mb(self):
+        pass
+    def mg(self):
+        pass
+    def mr(self):
+        pass
+    def null(self):
+        pass
+    def wks(self):
+        pass
+    def ptr(self):
+        pass
+    def hinfo(self):
+        pass
+    def minfo(self):
+        pass
+    def mx(self):
+        pass
+    def txt(self):
+        pass
+    def getRecord(self):
+        switcher = {
+            1: "a",
+            2: "ns",
+            3: "md",
+            4: "mf",
+            5: "cname",
+            6: "soa",
+            7: "mb",
+            8: "mg",
+            9: "mr",
+            10: "null",
+            11: "wks",
+            12: "ptr",
+            13: "hinfo",
+            14: "minfo",
+            15: "mx",
+            16: "txt" 
+        }
+        method = getattr(self, switcher[self.rrtype], lambda :'Invalid')
+        return method()

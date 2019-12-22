@@ -177,6 +177,27 @@ class DNSRecord(object):
                                    qr=1,ra=ra,aa=aa),
                          q=self.q)
 
+    def replyNameError(self,zone,ra=1,aa=1,rcode=3):
+        """
+            #Add this method for tuimac.
+            #I've just wanted 
+
+            Create reply with response data in zone-file format
+            >>> q = DNSRecord.question("abc.com")
+            >>> a = q.replyZone("abc.com 60 A 1.2.3.4")
+            >>> print(a)
+            ;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: ...
+            ;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 0
+            ;; QUESTION SECTION:
+            ;abc.com.                       IN      A
+            ;; ANSWER SECTION:
+            abc.com.                60      IN      A       1.2.3.4
+        """
+        return DNSRecord(DNSHeader(id=self.header.id,
+                                   bitmap=self.header.bitmap,
+                                   qr=1,ra=ra,aa=aa,rcode=rcode),
+                         q=self.q)
+
     def replyZone(self,zone,ra=1,aa=1):
         """
             Create reply with response data in zone-file format

@@ -1,0 +1,24 @@
+#!/bin/bash
+
+DNSNAME=(tuimac foo)
+IPADDR=(10.0.0.1)
+NAME=""
+IP=""
+
+function sendRequest(){
+    sleep 0.5
+    nslookup $NAME localhost
+}
+
+function sendInverseRequest(){
+    sleep 0.5
+    nslookup $IP localhost
+}
+
+#for NAME in "${DNSNAME[@]}"; do
+#    sendRequest &
+#done
+for IP in "${IPADDR[@]}"; do
+    sendInverseRequest &
+done
+sudo ./main.py

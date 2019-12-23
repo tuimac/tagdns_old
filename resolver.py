@@ -21,7 +21,7 @@ class Resolver:
         message += response
         record = DNSRecord.parse(self.request)
         if searchResult is False:
-            message = record.replyNameError(message)
+            message = record.replyWithRcode(message)
         else:
             message = record.replyZone(message)
         return message.pack()
@@ -33,7 +33,7 @@ class Resolver:
         question = DNSQuestion.parse(buffer)
         qname = str(question.get_qname())
         qtype = question.get_qtype()
-        if qtype < 1 or qtype > 16: return
+        #if qtype < 1 or qtype > 16: return
         response = self.records.getRecord(qtype, qname)
         message = self.__createMessage(qname, response[0], response[1])
         self.outboundQueue.put((message, (self.ip, self.port)))

@@ -52,6 +52,8 @@ class AddRecord:
         return self.records
     def txt(self):
         return self.records
+    def aaaa(self):
+        return self.records
     def addRecord(self):
         switcher = {
             1: "a",
@@ -69,7 +71,8 @@ class AddRecord:
             13: "hinfo",
             14: "minfo",
             15: "mx",
-            16: "txt" 
+            16: "txt",
+            28: "aaaa"
         }
         method = getattr(self, switcher[self.rrtype])
         return method()
@@ -134,6 +137,8 @@ class DeleteRecord:
         return self.records
     def txt(self):
         return self.records
+    def aaaa(self):
+        return self.records
     def deleteRecord(self):
         switcher = {
             1: "a",
@@ -151,7 +156,8 @@ class DeleteRecord:
             13: "hinfo",
             14: "minfo",
             15: "mx",
-            16: "txt" 
+            16: "txt",
+            28: "aaaa"
         }
         method = getattr(self, switcher[self.rrtype])
         return method()
@@ -181,28 +187,29 @@ class GetRecord:
         return result
 
     def ns(self):
-        return self.records
+        return " NS "
     def md(self):
-        return self.records
+        return " MD "
     def mf(self):
-        return self.records
+        return " MF "
     def cname(self):
-        return self.records
+        return " CNAME "
     def soa(self):
-        return self.records
+        return " SOA "
     def mb(self):
-        return self.records
+        return " MB "
     def mg(self):
-        return self.records
+        return " MG "
     def mr(self):
-        return self.records
+        return " MR "
     def null(self):
-        return self.records
+        return " NULL "
     def wks(self):
-        return self.records
+        return " WKS "
 
     def ptr(self, flag=True):
-        target = 
+        import re
+        target = re.sub("\.\D*\.", "", self.qname)
         if target not in self.records["PTR"]:
             self.searchResult = False
             return " PTR "
@@ -211,13 +218,23 @@ class GetRecord:
         return result
 
     def hinfo(self):
-        return self.records
+        return " HINFO "
     def minfo(self):
-        return self.records
+        return " MINFO "
     def mx(self):
-        return self.records
+        return " MX "
     def txt(self):
-        return self.records
+        return " TXT "
+    def aaaa(self):
+        if len(self.records["AAAA"]) == 0: return " AAAA "
+        target = self.qname.split(".")[0]
+        if target not in self.records["AAAA"]:
+            self.searchResult = False
+            return " AAAA "
+        result = self.records["AAAA"][target]
+        result = " AAAA " + result
+        return result
+
     def getRecord(self):
         switcher = {
             1: "a",
@@ -235,7 +252,8 @@ class GetRecord:
             13: "hinfo",
             14: "minfo",
             15: "mx",
-            16: "txt" 
+            16: "txt",
+            28: "aaaa"
         }
         method = getattr(self, switcher[self.rrtype])
         return method()

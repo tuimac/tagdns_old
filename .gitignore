@@ -2,9 +2,7 @@ add_remote_repo
 logs
 architechture.txt
 __pycache__/
-test
 *.swp
-records.json
 result.txt
 driver.py
 old/

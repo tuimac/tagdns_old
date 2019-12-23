@@ -717,6 +717,9 @@ class DNSQuestion(object):
     def get_qname(self):
         return self._qname
 
+    def get_qtype(self):
+        return self.qtype
+    
     qname = property(get_qname,set_qname)
 
     def pack(self,buffer):

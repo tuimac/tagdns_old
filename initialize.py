@@ -17,6 +17,7 @@ class Initialize():
         self.port = int(config["Default"]["port"])
         self.path = config["Default"]["recordsPath"]
         self.interval = config["Default"]["update_interval"]
+        self.numOfNodes = int(config["Default"]["worker_threads"])
         self.inboundQueue = Queue()
         self.outboundQueue = Queue()
         self.socket = ""
@@ -36,7 +37,7 @@ class Initialize():
         return Records(self.path)
 
     def __createResolver(self, records):
-        mgr = ManageNodes(self.inboundQueue, self.outboundQueue, records)
+        mgr = ManageNodes(self.inboundQueue, self.outboundQueue, records, self.numOfNodes)
         return mgr
 
     def initialize(self):

@@ -3,11 +3,11 @@ from node import WorkerNode
 import sys
 
 class ManageNodes:
-    def __init__(self, inboundQueue, outboundQueue, records):
-        self.records = records
+    def __init__(self, inboundQueue, outboundQueue, records, numOfNodes):
         self.inboundQueue = inboundQueue
         self.outboundQueue = outboundQueue
-        self.numOfNodes = 1
+        self.records = records
+        self.numOfNodes = numOfNodes
         self.workerNodes = []
         self.interval = 0.001
 

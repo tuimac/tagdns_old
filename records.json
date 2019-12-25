@@ -1,7 +1,7 @@
 {
     "A": {
-        "tuimac": "10.0.0.1",
-        "tuimac2": "10.0.0.2"
+        "tuimac.tuimac.private.": "10.0.0.1",
+        "tuimac2.tuimac.private.": "10.0.0.2"
     },
     "NS": {
     },
@@ -16,8 +16,8 @@
     "WKS": {
     },
     "PTR": {
-        "1.0.0.10": "tuimac",
-        "2.0.0.10": "tuimac2"
+        "1.0.0.10": "tuimac.tuimac.private.",
+        "2.0.0.10": "tuimac2.tuimac.private."
     },
     "HINIFO": {
     },

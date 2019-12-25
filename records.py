@@ -5,9 +5,9 @@ import sys
 from database import AddRecord, DeleteRecord, GetRecord
 
 class Records:
-    def __init__(self, path):
+    def __init__(self, path, zone):
         self.path = os.path.expanduser(path)
-        self.template = {"NameServer": {}, "Records": {}}
+        self.zone = zone
         if os.path.exists(self.path) is False:
             os.mknod(path)
             self.writeRecordsFile(self.template)
@@ -27,13 +27,13 @@ class Records:
             return json.load(f)
 
     def addRecord(self, rrtype, **args):
-        addrecord = AddRecord(rrtype, self.records, args)
+        addrecord = AddRecord(rrtype, self.records, self.zone, args)
         record = addrecord.addRecord()
         self.writeRecordsFile(record)
         return
 
     def deleteRecord(self, rrtype, **args):
-        deleterecord = DeleteRecord(rrtype, self.records, args)
+        deleterecord = DeleteRecord(rrtype, self.records, self.zone, args)
         record = deleterecord.deleteRecord()
         self.writeRecordsFile(record)
         return

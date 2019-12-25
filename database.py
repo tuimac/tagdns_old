@@ -1,13 +1,18 @@
+import re
+
 class AddRecord:
-    def __init__(self, rrtype, records, args):
+    def __init__(self, rrtype, records, zone, args):
         self.rrtype = rrtype
         self.records = records
+        self.zone = zone
         for k,v in args.items():
             if k.lower() == "ipv4":
                 self.ipv4 = v
             elif k.lower() == "hostname":
                 self.hostname = v
     def a(self, flag=True, reversedIp=""):
+        if re.match(self.zone, self.hostname) is None:
+            self.hostname = self.hostname + self.zone
         if flag is True:
             self.records["A"][self.hostname] = self.ipv4
             reversedIp = self.__reverseIp(self.ipv4)
@@ -86,15 +91,18 @@ class AddRecord:
         return result
 
 class DeleteRecord:
-    def __init__(self, rrtype, records, args):
+    def __init__(self, rrtype, records, zone, args):
         self.rrtype = rrtype
         self.records = records
+        self.zone = zone
         for k,v in args.items():
             if k.lower() == "ipv4":
                 self.ipv4 = v
             elif k.lower() == "hostname":
                 self.hostname = v
     def a(self, flag=True, hostname=""):
+        if re.match(self.zone, self.hostname) is None:
+            self.hostname = self.hostname + self.zone
         if flag is True:
             ipv4 = self.records["A"].pop(self.hostname)
             reversedIp = self.__reverseIp(ipv4)
@@ -178,7 +186,6 @@ class GetRecord:
         self.searchResult = True
 
     def a(self, flag=True):
-        target = self.qname.split(".")[0]
         if target not in self.records["A"]:
             self.searchResult = False
             return " A "
@@ -208,7 +215,6 @@ class GetRecord:
         return " WKS "
 
     def ptr(self, flag=True):
-        import re
         target = re.sub("\.\D*\.", "", self.qname)
         if target not in self.records["PTR"]:
             self.searchResult = False
@@ -227,7 +233,6 @@ class GetRecord:
         return " TXT "
     def aaaa(self):
         if len(self.records["AAAA"]) == 0: return " AAAA "
-        target = self.qname.split(".")[0]
         if target not in self.records["AAAA"]:
             self.searchResult = False
             return " AAAA "

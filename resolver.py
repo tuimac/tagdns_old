@@ -1,6 +1,4 @@
 import sys
-import random
-import re
 
 from dnslib.dns import DNSRecord, DNSHeader, DNSQuestion, RR
 from dnslib.label import DNSBuffer

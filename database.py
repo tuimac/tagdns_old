@@ -11,14 +11,12 @@ class AddRecord:
             elif k.lower() == "hostname":
                 self.hostname = v
     def a(self, flag=True, reversedIp=""):
-        if re.match(self.zone, self.hostname) is None:
-            self.hostname = self.hostname + self.zone
         if flag is True:
-            self.records["A"][self.hostname] = self.ipv4
+            self.records[self.zone]["A"][self.hostname] = self.ipv4
             reversedIp = self.__reverseIp(self.ipv4)
             self.ptr(False, reversedIp=reversedIp)
         else:
-            self.records["A"][self.hostname] = reversedIp
+            self.records[self.zone]["A"][self.hostname] = reversedIp
         return self.records
     def ns(self):
         return self.records
@@ -42,11 +40,11 @@ class AddRecord:
         return self.records
     def ptr(self, flag=True, reversedIp=""):
         if flag is True:
-            self.records["PTR"][self.ipv4] = self.hostname
-            reversedIp = self.__reversedIp(self.ipv4)           
+            self.records[self.zone]["PTR"][self.ipv4] = self.hostname
+            reversedIp = self.__reversedIp(self.ipv4)          
             self.a(False, reversedIp=reversedIp)
         else:
-            self.records["PTR"][reversedIp] = self.hostname
+            self.records[self.zone]["PTR"][reversedIp] = self.hostname
         return self.records
 
     def hinfo(self):
@@ -101,14 +99,12 @@ class DeleteRecord:
             elif k.lower() == "hostname":
                 self.hostname = v
     def a(self, flag=True, hostname=""):
-        if re.match(self.zone, self.hostname) is None:
-            self.hostname = self.hostname + self.zone
         if flag is True:
-            ipv4 = self.records["A"].pop(self.hostname)
+            ipv4 = self.records[self.zone]["A"].pop(self.hostname)
             reversedIp = self.__reverseIp(ipv4)
             self.ptr(False, reversedIp=reversedIp)
         else:
-            self.records["A"].pop(self.hostname)
+            self.records[self.zone]["A"].pop(self.hostname)
         return self.records
     def ns(self):
         return self.records
@@ -132,10 +128,10 @@ class DeleteRecord:
         return self.records
     def ptr(self, flag=True, reversedIp=""):
         if flag is True:
-            hostname = self.records["PTR"].pop(self.ipv4)
+            hostname = self.records[self.zone]["PTR"].pop(self.ipv4)
             self.a(False, hostname)
         else:
-            hostname = self.records["PTR"].pop(reversedIp)
+            hostname = self.records[self.zone]["PTR"].pop(reversedIp)
         return self.records
     def hinfo(self):
         return self.records
@@ -183,15 +179,18 @@ class GetRecord:
         self.rrtype = rrtype
         self.records = records
         self.qname = qname
-        self.searchResult = True
+        self.rcode = 16
 
     def a(self, flag=True):
-        if target not in self.records["A"]:
-            self.searchResult = False
+        hostname = self.qname.split(".")[0]
+        zone = '.'.join(self.qname.split(".")[1:])
+        try:
+            result = self.records[zone]["A"][hostname]
+            result = " A " + result
+            return result
+        except KeyError:
+            self.rcode = 3
             return " A "
-        result = self.records["A"][target]
-        result = " A " + result
-        return result
 
     def ns(self):
         return " NS "
@@ -216,12 +215,14 @@ class GetRecord:
 
     def ptr(self, flag=True):
         target = re.sub("\.\D*\.", "", self.qname)
-        if target not in self.records["PTR"]:
-            self.searchResult = False
-            return " PTR "
-        result = self.records["PTR"][target]
-        result = " PTR " + result
-        return result
+        for zone in self.records:
+            if not target in self.records[zone]["PTR"]: self.rcode = 3
+            else:
+                self.rcode = 0
+                result = self.records[zone]["PTR"][target]
+                result = " PTR " + result
+                return result
+        return " PTR "
 
     def hinfo(self):
         return " HINFO "
@@ -232,13 +233,18 @@ class GetRecord:
     def txt(self):
         return " TXT "
     def aaaa(self):
-        if len(self.records["AAAA"]) == 0: return " AAAA "
-        if target not in self.records["AAAA"]:
-            self.searchResult = False
+        hostname = self.qname.split(".")[0]
+        zone = '.'.join(self.qname.split(".")[1:])
+        if len(self.records[zone]["AAAA"]) == 0:
+            self.rcode = 0
             return " AAAA "
-        result = self.records["AAAA"][target]
-        result = " AAAA " + result
-        return result
+        try:
+            result = self.records[zone]["AAAA"][hostname]
+            result = " AAAA " + result
+            return result
+        except KeyError:
+            self.rcode = 3
+            return " AAAA "
 
     def getRecord(self):
         switcher = {
@@ -263,5 +269,5 @@ class GetRecord:
         method = getattr(self, switcher[self.rrtype])
         return method()
 
-    def getSearchResult(self):
-        return self.searchResult
+    def getRCode(self):
+        return self.rcode

@@ -13,15 +13,15 @@ class Resolver:
         self.outboundQueue = outboundQueue
         self.resultFlag = True
 
-    def __createMessage(self, message, response, searchResult):
+    def __createMessage(self, message, response, rcode):
         ttl = "30"
         message += " " + ttl
         message += response
         record = DNSRecord.parse(self.request)
-        if searchResult is False:
-            message = record.replyWithRcode(message)
-        else:
+        if rcode == 16:
             message = record.replyZone(message)
+        else:
+            message = record.replyWithRcode(message, rcode=rcode)
         return message.pack()
 
     def resolve(self):
@@ -29,9 +29,10 @@ class Resolver:
         buffer = DNSBuffer(self.request)
         header = DNSHeader.parse(buffer)
         question = DNSQuestion.parse(buffer)
+
         qname = str(question.get_qname())
         qtype = question.get_qtype()
-        #if qtype < 1 or qtype > 16: return
+
         response = self.records.getRecord(qtype, qname)
         message = self.__createMessage(qname, response[0], response[1])
         self.outboundQueue.put((message, (self.ip, self.port)))

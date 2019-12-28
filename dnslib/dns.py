@@ -186,7 +186,7 @@ class DNSRecord(object):
                                    bitmap=self.header.bitmap,
                                    qr=1,ra=ra,aa=aa,rcode=rcode),
                          q=self.q)
-
+        
     def replyZone(self,zone,ra=1,aa=1):
         """
             Create reply with response data in zone-file format

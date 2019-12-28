@@ -1,32 +1,34 @@
 {
-    "A": {
-        "tuimac.tuimac.private.": "10.0.0.1",
-        "tuimac2.tuimac.private.": "10.0.0.2"
-    },
-    "NS": {
-    },
-    "MD": {
-    },
-    "MF": {
-    },
-    "CNAME": {
-    },
-    "SOA": {
-    },
-    "WKS": {
-    },
-    "PTR": {
-        "1.0.0.10": "tuimac.tuimac.private.",
-        "2.0.0.10": "tuimac2.tuimac.private."
-    },
-    "HINIFO": {
-    },
-    "MINFO": {
-    },
-    "MX": {
-    },
-    "TXT": {
-    },
-    "AAAA": {
+    "tuimac.private.": {
+        "A": {
+            "tuimac": "10.0.0.1",
+            "tuimac2": "10.0.0.2"
+        },
+        "NS": {
+        },
+        "MD": {
+        },
+        "MF": {
+        },
+        "CNAME": {
+        },
+        "SOA": {
+        },
+        "WKS": {
+        },
+        "PTR": {
+            "1.0.0.10": "tuimac",
+            "2.0.0.10": "tuimac2"
+        },
+        "HINIFO": {
+        },
+        "MINFO": {
+        },
+        "MX": {
+        },
+        "TXT": {
+        },
+        "AAAA": {
+        }
     }
 }

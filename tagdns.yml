@@ -1,0 +1,9 @@
+default:
+    ip_address: "localhost"
+    port: 53
+    records_path: "~/github/tagdns/records.json"
+    update_interval: 10
+    worker_threads: 1
+    zones: [
+        "tuimac.private."
+    ]

@@ -1,8 +1,8 @@
 import json
 import os
 import sys
-
 from database import AddRecord, DeleteRecord, GetRecord
+from exception import ZoneNotFoundException
 
 class Records:
     def __init__(self, path, zone):
@@ -26,14 +26,16 @@ class Records:
         with open(self.path, 'r') as f:
             return json.load(f)
 
-    def addRecord(self, rrtype, **args):
-        addrecord = AddRecord(rrtype, self.records, self.zone, args)
+    def addRecord(self, rrtype, zone, **args):
+        if zone in self.zone: raise ZoneNotFoundException
+        addrecord = AddRecord(rrtype, self.records, zone, args)
         record = addrecord.addRecord()
         self.writeRecordsFile(record)
         return
 
-    def deleteRecord(self, rrtype, **args):
-        deleterecord = DeleteRecord(rrtype, self.records, self.zone, args)
+    def deleteRecord(self, rrtype, zone, **args):
+        if zone in self.zone: raise ZoneNotFoundException
+        deleterecord = DeleteRecord(rrtype, self.records, zone, args)
         record = deleterecord.deleteRecord()
         self.writeRecordsFile(record)
         return
@@ -41,5 +43,5 @@ class Records:
     def getRecord(self, rrtype, qname):
         getrecord = GetRecord(rrtype, self.records, qname)
         record = getrecord.getRecord()
-        result = getrecord.getSearchResult()
-        return (record, result)
+        rcode = getrecord.getRCode()
+        return (record, rcode)

@@ -1,27 +1,27 @@
-from configparser import ConfigParser
 from queue import Queue
-
 from endpoint import Endpoint
 from records import Records
 from manageNodes import ManageNodes
-
+from exception import ZoneFormatException
+from config import Config
 import re
-import socket
 import queue
+import socket
 
 class Initialize():
     def __init__(self, path):
-        config = ConfigParser()
-        config.read(path)
-        self.ip = self.__resolveIP(config["Default"]["ipaddress"])
-        self.port = int(config["Default"]["port"])
-        self.path = config["Default"]["recordsPath"]
-        self.interval = config["Default"]["update_interval"]
-        self.numOfNodes = int(config["Default"]["worker_threads"])
-        self.zone = config["Default"]["zone"]
+        conf = Config(path)
+        config = conf.read()
+        self.ip = self.__resolveIP(config["default"]["ip_address"])
+        self.port = config["default"]["port"]
+        self.path = config["default"]["records_path"]
+        self.interval = config["default"]["update_interval"]
+        self.numOfNodes = int(config["default"]["worker_threads"])
+        self.zone = config["default"]["zones"]
+        for zone in self.zone:
+            if re.match("\D*\.$", zone) is None: raise ZoneFormatException
         self.inboundQueue = Queue()
         self.outboundQueue = Queue()
-        self.socket = ""
 
     def __resolveIP(self, ip):
         regex= "^(?:(?:25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(?:25[0-5]|2[0-4]\d|[01]?\d\d?)$"

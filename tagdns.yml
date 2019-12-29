@@ -5,5 +5,3 @@ default:
     update_interval: 10
     worker_threads: 1
     zones: 
-        tuimac.private.:
-            

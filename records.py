@@ -26,6 +26,9 @@ class Records:
         with open(self.path, 'r') as f:
             return json.load(f)
 
+    def getDatabase(self):
+        return self.records
+
     def addRecord(self, rrtype, zone, **args):
         if zone in self.zone: raise ZoneNotFoundException
         addrecord = AddRecord(rrtype, self.records, zone, args)

@@ -218,9 +218,9 @@ class GetRecord:
         for zone in self.records:
             if not target in self.records[zone]["PTR"]: self.rcode = 3
             else:
-                self.rcode = 0
+                self.rcode = 16
                 result = self.records[zone]["PTR"][target]
-                result = " PTR " + result
+                result = " PTR " + result + '.' + zone
                 return result
         return " PTR "
 

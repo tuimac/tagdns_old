@@ -15,10 +15,10 @@ function sendInverseRequest(){
     nslookup $IP localhost
 }
 
-for NAME in "${DNSNAME[@]}"; do
-    sendRequest &
-done
-#for IP in "${IPADDR[@]}"; do
-#    sendInverseRequest &
+#for NAME in "${DNSNAME[@]}"; do
+#    sendRequest &
 #done
+for IP in "${IPADDR[@]}"; do
+    sendInverseRequest &
+done
 sudo ./main.py

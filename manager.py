@@ -2,14 +2,14 @@
 from node import WorkerNode
 import sys
 
-class ManageNodes:
+class ManageResolvNodes:
     def __init__(self, inboundQueue, outboundQueue, records, numOfNodes):
         self.inboundQueue = inboundQueue
         self.outboundQueue = outboundQueue
         self.records = records
         self.numOfNodes = numOfNodes
         self.workerNodes = []
-        self.interval = 0.001
+        self.interval = 0.01
 
     def startNodes(self):
         for x in range(self.numOfNodes):
@@ -25,3 +25,13 @@ class ManageNodes:
                 print("Fail to stop", file=sys.stderr)
                 return
             print("Stop node has been successed!")
+
+class ManageQueueTagsNodes:
+    def __init__(self):
+        pass
+
+    def startNodes(self):
+        pass
+
+    def stopNodes(self):
+        pass

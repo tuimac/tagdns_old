@@ -1,7 +1,7 @@
 from queue import Queue
 from endpoint import Endpoint
 from records import Records
-from manageNodes import ManageNodes
+from manager import ManageResolvNodes
 from exception import ZoneFormatException
 from config import Config
 import re
@@ -38,7 +38,7 @@ class Initialize():
         return Records(self.path, self.zone)
 
     def __createResolver(self, records):
-        mgr = ManageNodes(self.inboundQueue, self.outboundQueue, records, self.numOfNodes)
+        mgr = ManageResolvNodes(self.inboundQueue, self.outboundQueue, records, self.numOfNodes)
         return mgr
 
     def initialize(self):

@@ -1,4 +1,3 @@
-#from threading import Thread
 from node import WorkerNode, AutoRenewNode
 from exception import StopNodesError
 from threading import Thread

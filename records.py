@@ -43,6 +43,11 @@ class Records:
         self.writeRecordsFile(record)
         return
 
+    def renewRecord(self, newRecord):
+        self.records = newRecord
+        self.writeRecordsFile(self.records)
+        return
+
     def getRecord(self, rrtype, qname):
         getrecord = GetRecord(rrtype, self.records, qname)
         record = getrecord.getRecord()

@@ -4,9 +4,7 @@ from threading import Thread
 from queue import Queue
 from functools import partial
 from initialize import Initialize
-from exception import ZoneFormatException
-from exception import ZoneNotFoundException
-from exception import ConfigNotFoundException
+from exception import ZoneFormatException, ZoneNotFoundException, ConfigNotFoundException, TagKeyNotFoundException, StopNodesError
 import time
 import os
 import sys
@@ -25,15 +23,16 @@ if __name__ == '__main__':
         endpoint = initData["endpoint"]
         records = initData["records"]
         resolver = initData["resolver"]
-
-        resolver.startNodes()
+        autoRenew = initData["autoRenew"]
 
     except FileNotFoundError:
         print("Maybe tagdns.ini is wrong...")
 
     except KeyboardInterrupt:
-        initData["resolver"].stopAllNodes()
         initData["endpoint"].deleteAllSockets()
+        print("hello")
+        initData["resolver"].stopAllNodes()
+        initData["autoRenew"].stopNodes()
 
     except ZoneFormatException as e:
         print(e.message, file=sys.stderr)
@@ -42,6 +41,9 @@ if __name__ == '__main__':
         print(e.message, file=sys.stderr)
 
     except ZoneNotFoundException as e:
+        print(e.message, file=sys.stderr)
+
+    except StopNodesError as e:
         print(e.message, file=sys.stderr)
 
     except:

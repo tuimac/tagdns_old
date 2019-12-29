@@ -1,7 +1,7 @@
 from queue import Queue
 from endpoint import Endpoint
 from records import Records
-from manager import ManageResolvNodes
+from manager import ManageResolvNodes, ManageAutoRenewNodes
 from exception import ZoneFormatException
 from config import Config
 import re
@@ -37,9 +37,15 @@ class Initialize():
     def __deployRecords(self):
         return Records(self.path, self.zone)
 
-    def __createResolver(self, records):
+    def __createResolvNodes(self, records):
         mgr = ManageResolvNodes(self.inboundQueue, self.outboundQueue, records, self.numOfNodes)
+        mgr.start()
         return mgr
+
+    def __createAutoRenewNodes(self, records):
+        renew = ManageAutoRenewNodes(records, self.interval, self.zone)
+        renew.start()
+        return renew
 
     def initialize(self):
         initialData = dict()
@@ -47,5 +53,6 @@ class Initialize():
         initialData["outboundQueue"] = self.outboundQueue
         initialData["endpoint"] = self.__createEndpoint()
         initialData["records"] = self.__deployRecords()
-        initialData["resolver"] = self.__createResolver(initialData["records"])
+        initialData["resolver"] = self.__createResolvNodes(initialData["records"])
+        initialData["autoRenew"] = self.__createAutoRenewNodes(initialData["records"])
         return initialData

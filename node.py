@@ -1,8 +1,9 @@
 from threading import Thread
-from resolver import Resolver
 import time
+from resolver import Resolver
+from autoRenew import AutoRenew
 
-class WorkerNode(Thread):
+class WorkerNode(Thread):    
     def __init__(self, inboundQueue, outboundQueue, interval, records):
         Thread.__init__(self)
         self.inboundQueue = inboundQueue
@@ -26,6 +27,28 @@ class WorkerNode(Thread):
 
     def stop(self):
         self.flag = False
-        self.inboundQueue.put("")
-        time.sleep(0.5)
-        return self.stopSignal
+        while True:
+            if self.stopSignal is True: return self.stopSignal
+            time.sleep(self.interval)
+
+class AutoRenewNode(Thread):    
+    def __init__(self, records, interval, zone):
+        Thread.__init__(self)
+        self.records = records
+        self.interval = interval
+        self.zone = zone
+        self.flag = True
+        self.stopSignal = False
+
+    def run(self):
+        autoRenew = AutoRenew(self.records, self.zone)
+        while self.flag:
+            autoRenew.autoRenewRecords()
+            time.sleep(self.interval)
+        self.stopSignal = True
+        
+    def stop(self):
+        self.flag = False
+        while True:
+            if self.stopSignal is True: return self.stopSignal
+            time.sleep(1)

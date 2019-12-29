@@ -10,6 +10,7 @@ class AddRecord:
                 self.ipv4 = v
             elif k.lower() == "hostname":
                 self.hostname = v
+
     def a(self, flag=True, reversedIp=""):
         if flag is True:
             self.records[self.zone]["A"][self.hostname] = self.ipv4
@@ -18,26 +19,7 @@ class AddRecord:
         else:
             self.records[self.zone]["A"][self.hostname] = reversedIp
         return self.records
-    def ns(self):
-        return self.records
-    def md(self):
-        return self.records
-    def mf(self):
-        return self.records
-    def cname(self):
-        return self.records
-    def soa(self):
-        return self.records
-    def mb(self):
-        return self.records
-    def mg(self):
-        return self.records
-    def mr(self):
-        return self.records
-    def null(self):
-        return self.records
-    def wks(self):
-        return self.records
+
     def ptr(self, flag=True, reversedIp=""):
         if flag is True:
             self.records[self.zone]["PTR"][self.ipv4] = self.hostname
@@ -47,34 +29,13 @@ class AddRecord:
             self.records[self.zone]["PTR"][reversedIp] = self.hostname
         return self.records
 
-    def hinfo(self):
-        return self.records
-    def minfo(self):
-        return self.records
-    def mx(self):
-        return self.records
-    def txt(self):
-        return self.records
     def aaaa(self):
         return self.records
+
     def addRecord(self):
         switcher = {
             1: "a",
-            2: "ns",
-            3: "md",
-            4: "mf",
-            5: "cname",
-            6: "soa",
-            7: "mb",
-            8: "mg",
-            9: "mr",
-            10: "null",
-            11: "wks",
             12: "ptr",
-            13: "hinfo",
-            14: "minfo",
-            15: "mx",
-            16: "txt",
             28: "aaaa"
         }
         method = getattr(self, switcher[self.rrtype])
@@ -98,6 +59,7 @@ class DeleteRecord:
                 self.ipv4 = v
             elif k.lower() == "hostname":
                 self.hostname = v
+
     def a(self, flag=True, hostname=""):
         if flag is True:
             ipv4 = self.records[self.zone]["A"].pop(self.hostname)
@@ -106,26 +68,7 @@ class DeleteRecord:
         else:
             self.records[self.zone]["A"].pop(self.hostname)
         return self.records
-    def ns(self):
-        return self.records
-    def md(self):
-        return self.records
-    def mf(self):
-        return self.records
-    def cname(self):
-        return self.records
-    def soa(self):
-        return self.records
-    def mb(self):
-        return self.records
-    def mg(self):
-        return self.records
-    def mr(self):
-        return self.records
-    def null(self):
-        return self.records
-    def wks(self):
-        return self.records
+
     def ptr(self, flag=True, reversedIp=""):
         if flag is True:
             hostname = self.records[self.zone]["PTR"].pop(self.ipv4)
@@ -133,34 +76,14 @@ class DeleteRecord:
         else:
             hostname = self.records[self.zone]["PTR"].pop(reversedIp)
         return self.records
-    def hinfo(self):
-        return self.records
-    def minfo(self):
-        return self.records
-    def mx(self):
-        return self.records
-    def txt(self):
-        return self.records
+
     def aaaa(self):
         return self.records
+
     def deleteRecord(self):
         switcher = {
             1: "a",
-            2: "ns",
-            3: "md",
-            4: "mf",
-            5: "cname",
-            6: "soa",
-            7: "mb",
-            8: "mg",
-            9: "mr",
-            10: "null",
-            11: "wks",
             12: "ptr",
-            13: "hinfo",
-            14: "minfo",
-            15: "mx",
-            16: "txt",
             28: "aaaa"
         }
         method = getattr(self, switcher[self.rrtype])
@@ -192,27 +115,6 @@ class GetRecord:
             self.rcode = 3
             return " A "
 
-    def ns(self):
-        return " NS "
-    def md(self):
-        return " MD "
-    def mf(self):
-        return " MF "
-    def cname(self):
-        return " CNAME "
-    def soa(self):
-        return " SOA "
-    def mb(self):
-        return " MB "
-    def mg(self):
-        return " MG "
-    def mr(self):
-        return " MR "
-    def null(self):
-        return " NULL "
-    def wks(self):
-        return " WKS "
-
     def ptr(self, flag=True):
         target = re.sub("\.\D*\.", "", self.qname)
         for zone in self.records:
@@ -224,14 +126,6 @@ class GetRecord:
                 return result
         return " PTR "
 
-    def hinfo(self):
-        return " HINFO "
-    def minfo(self):
-        return " MINFO "
-    def mx(self):
-        return " MX "
-    def txt(self):
-        return " TXT "
     def aaaa(self):
         hostname = self.qname.split(".")[0]
         zone = '.'.join(self.qname.split(".")[1:])
@@ -249,21 +143,7 @@ class GetRecord:
     def getRecord(self):
         switcher = {
             1: "a",
-            2: "ns",
-            3: "md",
-            4: "mf",
-            5: "cname",
-            6: "soa",
-            7: "mb",
-            8: "mg",
-            9: "mr",
-            10: "null",
-            11: "wks",
             12: "ptr",
-            13: "hinfo",
-            14: "minfo",
-            15: "mx",
-            16: "txt",
             28: "aaaa"
         }
         method = getattr(self, switcher[self.rrtype])

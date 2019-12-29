@@ -9,3 +9,11 @@ class ConfigNotFoundException(Exception):
 class ZoneNotFoundException(Exception):
     def __init__(self):
         self.message = "There is no such a zone in database."
+
+class StopNodesError(Exception):
+    def __init__(self):
+        self.message = "Stoping nodes is failed."
+
+class TagKeyNotFoundException(Exception):
+    def __init__(self):
+        self.message = "There is no such a EC2's Tag key."

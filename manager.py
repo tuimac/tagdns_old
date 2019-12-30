@@ -24,6 +24,7 @@ class ManageResolvNodes(Thread):
     def stopAllNodes(self):
         for node in self.workerNodes:
             if node.stop() is False: raise StopNodesError
+        print("resolve stop")
 
 class ManageAutoRenewNodes(Thread):
     def __init__(self, records, interval, zone):
@@ -41,3 +42,4 @@ class ManageAutoRenewNodes(Thread):
 
     def stopNodes(self):
         if self.node.stop() is False: raise StopNodesError
+        print("auto stop")

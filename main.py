@@ -1,19 +1,25 @@
 #!/usr/bin/env python3
 
-from threading import Thread
 from queue import Queue
+from threading import Thread
 from functools import partial
 from initialize import Initialize
-from exception import ZoneFormatException, ZoneNotFoundException, ConfigNotFoundException, TagKeyNotFoundException, StopNodesError
+from exception import ZoneFormatException, ZoneNotFoundException, \
+        ConfigNotFoundException, TagKeyNotFoundException, StopNodesError
 import time
 import os
 import sys
 import traceback
 
+def stopWholeServices(initData):
+    initData["endpoint"].deleteAllSockets()
+    initData["resolver"].stopAllNodes()
+    initData["autoRenew"].stopNodes()
+
 if __name__ == '__main__':
     initData = ""
     try:
-        confPath = "tagdns.yml"
+        confPath = "/etc/tagdns.yml"
 
         init = Initialize(confPath)
         initData = init.initialize()
@@ -25,26 +31,21 @@ if __name__ == '__main__':
         resolver = initData["resolver"]
         autoRenew = initData["autoRenew"]
 
-    except FileNotFoundError:
-        print("Maybe tagdns.ini is wrong...")
-
     except KeyboardInterrupt:
-        initData["endpoint"].deleteAllSockets()
-        print("hello")
-        initData["resolver"].stopAllNodes()
-        initData["autoRenew"].stopNodes()
+        stopWholeServices(initData)
 
     except ZoneFormatException as e:
         print(e.message, file=sys.stderr)
+        stopWholeServices(initData)
 
     except ConfigNotFoundException as e:
         print(e.message, file=sys.stderr)
+        stopWholeServices(initData)
 
     except ZoneNotFoundException as e:
         print(e.message, file=sys.stderr)
+        stopWholeServices(initData)
 
     except StopNodesError as e:
         print(e.message, file=sys.stderr)
-
-    except:
-        traceback.print_exc()
+        stopWholeServices(initData)

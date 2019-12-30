@@ -5,7 +5,6 @@ from manager import ManageResolvNodes, ManageAutoRenewNodes
 from exception import ZoneFormatException
 from config import Config
 import re
-import queue
 import socket
 
 class Initialize():

@@ -3,7 +3,7 @@ default:
     port: 53
     records_path: "~/github/tagdns/records.json"
     update_interval: 10
-    worker_threads: 1
+    worker_threads: 4
     zones:
         tuimac.private.:
             key: "Name"

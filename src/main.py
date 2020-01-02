@@ -33,11 +33,10 @@ if __name__ == '__main__':
         logger = initData["logger"]
 
     except ZoneFormatException as e:
-        syslog(syslog.LOG_ERR, e.message)
-        stopWholeServices(initData)
+        syslog.syslog(syslog.LOG_ERR, e.message)
 
     except ConfigNotFoundException as e:
-        syslog(syslog.LOG_ERR, e.message)
+        syslog.syslog(syslog.LOG_ERR, e.message)
         stopWholeServices(initData)
 
     except ZoneNotFoundException as e:
@@ -48,6 +47,6 @@ if __name__ == '__main__':
         logger.errorLog(e.message, 1)
         stopWholeServices(initData)
 
-    except:
-        logger.errorLog(traceback.format_exc().splitlines()[-1], 3)
+    except Exception as e:
+        syslog.syslog(syslog.LOG_ERR, traceback.format_exc().splitlines()[-1])
         stopWholeServices(initData)

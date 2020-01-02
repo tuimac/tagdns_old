@@ -4,7 +4,7 @@ class ZoneFormatException(Exception):
 
 class ConfigNotFoundException(Exception):
     def __init__(self):
-        self.message = "There is no Configure file"
+        self.message = "There is no config file[tagdns.yml]."
 
 class ZoneNotFoundException(Exception):
     def __init__(self):

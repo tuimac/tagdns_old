@@ -7,6 +7,8 @@ from utils.exception import ZoneFormatException, ZoneNotFoundException, \
         ConfigNotFoundException, TagKeyNotFoundException, StopNodesError
 import time
 import os
+import syslog
+import traceback
 
 def stopWholeServices(initData):
     initData["endpoint"].deleteAllSockets()
@@ -15,13 +17,13 @@ def stopWholeServices(initData):
 
 if __name__ == '__main__':
     initData = ""
-    logger = ""
     try:
         confPath = "/home/tuimac/github/tagdns/tagdns.yml"
 
         initialize = Init(confPath)
         initData = initialize.init()
-        
+         
+        logger = initData["logger"]       
         inboundQueue = initData["inboundQueue"]
         outboundQueue = initData["outboundQueue"]
         endpoint = initData["endpoint"]
@@ -30,20 +32,22 @@ if __name__ == '__main__':
         autoRenew = initData["autoRenew"]
         logger = initData["logger"]
 
-    except KeyboardInterrupt:
-        stopWholeServices(initData)
-
     except ZoneFormatException as e:
-        logger.errorLog(e.message, 3)
+        syslog(syslog.LOG_ERR, e.message)
         stopWholeServices(initData)
 
     except ConfigNotFoundException as e:
+        syslog(syslog.LOG_ERR, e.message)
         stopWholeServices(initData)
 
     except ZoneNotFoundException as e:
-        print(e.message, file=sys.stderr)
+        logger.errorLog(e.message, 2)
         stopWholeServices(initData)
 
     except StopNodesError as e:
-        print(e.message, file=sys.stderr)
+        logger.errorLog(e.message, 1)
+        stopWholeServices(initData)
+
+    except:
+        logger.errorLog(traceback.format_exc().splitlines()[-1], 3)
         stopWholeServices(initData)

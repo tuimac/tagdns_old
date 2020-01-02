@@ -8,11 +8,11 @@ import socket
 
 class Init():
     def __init__(self, path, logger):
-        self.logger = logger
         conf = Config(path)
         self.config = conf.read()
         self.inboundQueue = Queue()
         self.outboundQueue = Queue()
+        self.logger = Log(self.config)
 
     def __createEndpoint(self):
         endpoint = Endpoint(self.inboundQueue, self.outboundQueue, self.config)
@@ -24,7 +24,8 @@ class Init():
         return Records(self.config)
 
     def __createResolvNodes(self, records):
-        mgr = ManageResolvNodes(self.inboundQueue, self.outboundQueue, \
+        mgr = ManageResolvNodes(self.inboundQueue, \
+                                self.outboundQueue, \
                                 records, self.logger, self.config)
         mgr.start()
         return mgr
@@ -42,4 +43,5 @@ class Init():
         initialData["records"] = self.__deployRecords()
         initialData["resolver"] = self.__createResolvNodes(initialData["records"])
         initialData["autoRenew"] = self.__createAutoRenewNodes(initialData["records"])
+        initialData["logger"] = self.logger
         return initialData

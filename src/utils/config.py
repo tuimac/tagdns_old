@@ -24,7 +24,7 @@ class Config:
         self.config["ipaddress"] = ip
         return
 
-    def __zoneValidate(self):
+    def zoneValidate(self):
         for zone in self.config["zones"]:
             if re.match("\D*\.$", zone) is None: raise ZoneFormatException
         return
@@ -34,6 +34,9 @@ class Config:
         accessLog = self.config["log"]["access_log"]
         errorLog = self.config["log"]["error_log"]
 
-        self.config["records_path"] = os.path.expanduser(recordsPath)
-        self.config["log"]["access_log"] = os.path.expanduser(accessLog)
-        self.config["log"]["error_log"] = os.path.expanduser(errorLog)
+        if recordsPath == "": self.config["records_path"] = "/etc/tagdns/records.json"
+        else: self.config["records_path"] = os.path.expanduser(recordsPath)
+        if accessLog == "": self.config["log"]["access_log"] = "/var/log/tagdns/access.log"
+        else: self.config["log"]["access_log"] = os.path.expanduser(accessLog)
+        if errorLog == "": self.config["log"]["error_log"] = "/var/log/tagdns/error.log"
+        else: self.config["log"]["error_log"] = os.path.expanduser(errorLog)

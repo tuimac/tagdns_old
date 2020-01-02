@@ -9,5 +9,4 @@ utils/driver.py
 *.swp
 src/utils/driver.py
 records.json
-tagdns.yml
 old/

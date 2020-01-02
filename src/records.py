@@ -1,13 +1,13 @@
 import json
 import os
 import sys
-from database import AddRecord, DeleteRecord, GetRecord
-from exception import ZoneNotFoundException
+from getRecord import GetRecord
+from utils.exception import ZoneNotFoundException
 
 class Records:
-    def __init__(self, path, zone):
-        self.path = os.path.expanduser(path)
-        self.zone = zone
+    def __init__(self, config):
+        self.path = os.path.expanduser(config["records_path"])
+        self.zone = config["zones"]
         if os.path.exists(self.path) is False:
             os.mknod(path)
             self.writeRecordsFile(self.template)
@@ -28,20 +28,6 @@ class Records:
 
     def getDatabase(self):
         return self.records
-
-    def addRecord(self, rrtype, zone, **args):
-        if zone in self.zone: raise ZoneNotFoundException
-        addrecord = AddRecord(rrtype, self.records, zone, args)
-        record = addrecord.addRecord()
-        self.writeRecordsFile(record)
-        return
-
-    def deleteRecord(self, rrtype, zone, **args):
-        if zone in self.zone: raise ZoneNotFoundException
-        deleterecord = DeleteRecord(rrtype, self.records, zone, args)
-        record = deleterecord.deleteRecord()
-        self.writeRecordsFile(record)
-        return
 
     def renewRecord(self, newRecord):
         self.records = newRecord

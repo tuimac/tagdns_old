@@ -1,0 +1,39 @@
+import yaml
+import os
+import re
+import socket
+from utils.exception import ConfigNotFoundException
+from utils.exception import ZoneFormatException
+
+class Config:
+    def __init__(self, path):
+        if os.path.exists(path) is False: raise ConfigNotFoundException
+        confFile = open(path, "r")
+        self.config = yaml.load(confFile)
+        confFile.close()
+        self.__resolveIP(self.config["ipaddress"])
+        self.__zoneValidate()
+        self.__pathValidate()
+    
+    def read(self):
+        return self.config
+
+    def __resolveIP(self, ip):
+        regex= "^(?:(?:25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(?:25[0-5]|2[0-4]\d|[01]?\d\d?)$"
+        if re.search(regex, ip) is None: ip = socket.gethostbyname(ip)
+        self.config["ipaddress"] = ip
+        return
+
+    def __zoneValidate(self):
+        for zone in self.config["zones"]:
+            if re.match("\D*\.$", zone) is None: raise ZoneFormatException
+        return
+
+    def __pathValidate(self):
+        recordsPath = self.config["records_path"]
+        accessLog = self.config["log"]["access_log"]
+        errorLog = self.config["log"]["error_log"]
+
+        self.config["records_path"] = os.path.expanduser(recordsPath)
+        self.config["log"]["access_log"] = os.path.expanduser(accessLog)
+        self.config["log"]["error_log"] = os.path.expanduser(errorLog)

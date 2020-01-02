@@ -1,21 +1,25 @@
 from node import WorkerNode, AutoRenewNode
-from exception import StopNodesError
+from utils.exception import StopNodesError
 from threading import Thread
 import sys
 
 class ManageResolvNodes(Thread):
-    def __init__(self, inboundQueue, outboundQueue, records, numOfNodes):
+    def __init__(self, inboundQueue, outboundQueue, records, logger, config):
         Thread.__init__(self)
         self.inboundQueue = inboundQueue
         self.outboundQueue = outboundQueue
         self.records = records
-        self.numOfNodes = numOfNodes
+        self.logger = logger
+        self.config = config
+        self.numOfNodes = config["worker_threads"]
+        self.acl = config["acl"]
         self.workerNodes = []
         self.interval = 0.01
 
     def run(self):
         for x in range(self.numOfNodes):
-            node = WorkerNode(self.inboundQueue, self.outboundQueue, self.interval, self.records)
+            node = WorkerNode(self.inboundQueue, self.outboundQueue, self.interval, \
+                            self.records, self.logger, self.config)
             node.daemon = True
             node.start()
             self.workerNodes.append(node)
@@ -27,15 +31,14 @@ class ManageResolvNodes(Thread):
         print("resolve stop")
 
 class ManageAutoRenewNodes(Thread):
-    def __init__(self, records, interval, zone):
+    def __init__(self, records, config):
         Thread.__init__(self)
         self.records = records
-        self.interval = interval
-        self.zone = zone
+        self.config = config
         self.node = ""
 
     def run(self):
-        self.node = AutoRenewNode(self.records, self.interval, self.zone)
+        self.node = AutoRenewNode(self.records, self.config)
         self.node.daemon = True
         self.node.start()
         self.node.join()

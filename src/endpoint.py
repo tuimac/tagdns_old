@@ -2,12 +2,12 @@ import socket
 from threading import Thread
 
 class Endpoint(Thread):
-    def __init__(self, inboundQueue, outboundQueue, ip, port):
+    def __init__(self, inboundQueue, outboundQueue, config):
         Thread.__init__(self)
         self.inboundQueue = inboundQueue
         self.outboundQueue = outboundQueue
-        self.ip = ip
-        self.port = port
+        self.ip = config["ipaddress"]
+        self.port = config["port"]
         self.socket = ""
         self.inboundEndpoint = ""
         self.outboundEndpoint = ""

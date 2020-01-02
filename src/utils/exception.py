@@ -1,6 +1,6 @@
 class ZoneFormatException(Exception):
     def __init__(self):
-        self.message = "Zone format in tagdns.ini is wrong."
+        message = "'zones' value format in tagdns.yml is wrong."
 
 class ConfigNotFoundException(Exception):
     def __init__(self):

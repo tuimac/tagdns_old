@@ -4,11 +4,13 @@ from resolver import Resolver
 from autoRenew import AutoRenew
 
 class WorkerNode(Thread):    
-    def __init__(self, inboundQueue, outboundQueue, interval, records):
+    def __init__(self, inboundQueue, outboundQueue, interval, records, logger, config):
         Thread.__init__(self)
         self.inboundQueue = inboundQueue
         self.outboundQueue = outboundQueue
         self.records = records
+        self.logger = logger
+        self.config = config
         self.interval = interval
         self.flag = True
         self.stopSignal = False
@@ -21,7 +23,7 @@ class WorkerNode(Thread):
             request = self.inboundQueue.get()
             self.inboundQueue.task_done()
             if request == "": continue
-            resolver = Resolver(request, self.outboundQueue, self.records)
+            resolver = Resolver(request, self.outboundQueue, self.records, self.logger, self.config)
             resolver.resolve()
         self.stopSignal = True
 
@@ -32,16 +34,16 @@ class WorkerNode(Thread):
             time.sleep(self.interval)
 
 class AutoRenewNode(Thread):    
-    def __init__(self, records, interval, zone):
+    def __init__(self, records, config):
         Thread.__init__(self)
         self.records = records
-        self.interval = interval
-        self.zone = zone
+        self.interval = config["update_interval"]
+        self.config = config
         self.flag = True
         self.stopSignal = False
 
     def run(self):
-        autoRenew = AutoRenew(self.records, self.zone)
+        autoRenew = AutoRenew(self.records, self.config)
         while self.flag:
             autoRenew.autoRenewRecords()
             time.sleep(self.interval)

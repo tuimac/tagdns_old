@@ -2,14 +2,11 @@
 
 from queue import Queue
 from threading import Thread
-from functools import partial
-from initialize import Initialize
-from exception import ZoneFormatException, ZoneNotFoundException, \
+from init import Init
+from utils.exception import ZoneFormatException, ZoneNotFoundException, \
         ConfigNotFoundException, TagKeyNotFoundException, StopNodesError
 import time
 import os
-import sys
-import traceback
 
 def stopWholeServices(initData):
     initData["endpoint"].deleteAllSockets()
@@ -18,11 +15,12 @@ def stopWholeServices(initData):
 
 if __name__ == '__main__':
     initData = ""
+    logger = ""
     try:
-        confPath = "/etc/tagdns.yml"
+        confPath = "/home/tuimac/github/tagdns/tagdns.yml"
 
-        init = Initialize(confPath)
-        initData = init.initialize()
+        initialize = Init(confPath)
+        initData = initialize.init()
         
         inboundQueue = initData["inboundQueue"]
         outboundQueue = initData["outboundQueue"]
@@ -30,16 +28,16 @@ if __name__ == '__main__':
         records = initData["records"]
         resolver = initData["resolver"]
         autoRenew = initData["autoRenew"]
+        logger = initData["logger"]
 
     except KeyboardInterrupt:
         stopWholeServices(initData)
 
     except ZoneFormatException as e:
-        print(e.message, file=sys.stderr)
+        logger.errorLog(e.message, 3)
         stopWholeServices(initData)
 
     except ConfigNotFoundException as e:
-        print(e.message, file=sys.stderr)
         stopWholeServices(initData)
 
     except ZoneNotFoundException as e:

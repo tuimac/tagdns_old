@@ -1,10 +1,10 @@
 import boto3
-from exception import TagKeyNotFoundException
+from utils.exception import TagKeyNotFoundException
 
 class AutoRenew:
-    def __init__(self, records, zone):
+    def __init__(self, records, config):
         self.records = records
-        self.zone = zone
+        self.zone = config["zones"]
         self.ec2 = boto3.client('ec2')
         self.newRecords = records.getDatabase()
 

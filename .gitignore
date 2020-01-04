@@ -1,10 +1,7 @@
 add_remote_repo
 log/
 architechture.txt
-src/__pycache__/
-src/utils/__pycache__/
-src/dnslib/__pycache__/
-utils/__pycache__/
+__pycache__
 utils/driver.py
 *.swp
 src/utils/driver.py

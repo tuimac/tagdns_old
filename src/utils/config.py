@@ -24,7 +24,7 @@ class Config:
         self.config["ipaddress"] = ip
         return
 
-    def zoneValidate(self):
+    def __zoneValidate(self):
         for zone in self.config["zones"]:
             if re.match("\D*\.$", zone) is None: raise ZoneFormatException
         return

@@ -3,11 +3,12 @@ from endpoint import Endpoint
 from records import Records
 from manager import ManageResolvNodes, ManageAutoRenewNodes
 from utils.config import Config
+from utils.log import Log
 import re
 import socket
 
 class Init():
-    def __init__(self, path, logger):
+    def __init__(self, path):
         conf = Config(path)
         self.config = conf.read()
         self.inboundQueue = Queue()

@@ -7,7 +7,7 @@ log:
     access_log: "~/github/tagdns/log/access.log"
     error_log: "~/github/tagdns/log/error.log"
 zones:
-    tuimac.private:
+    tuimac.private.:
         key: "Name"
 acl: [
     "127.0.0.0/24"

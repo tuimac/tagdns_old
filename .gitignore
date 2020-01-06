@@ -1,13 +1,14 @@
 add_remote_repo
 log/
 architechture.txt
-src/__pycache__/
-src/utils/__pycache__/
-src/dnslib/__pycache__/
-utils/__pycache__/
+__pycache__
 utils/driver.py
 *.swp
 src/utils/driver.py
 records.json
 old/
+<<<<<<< HEAD
 sample.py
+=======
+test/test
+>>>>>>> b45252593affbdd3c36c84815b63c1aa843eeb54

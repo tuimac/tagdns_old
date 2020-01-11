@@ -7,10 +7,18 @@ import traceback
 import logging
 import os
 import sys
+import yaml
 
 from test_ddos import Ddos
 
 FORMAT = "%(levelname)s : %(asctime)s : %(message)s"
+
+class Config:
+    def __init__(self):
+        configPath = os.path.expanduser("test.yml")
+        confFile = open(configPath, "r")
+        self.config = yaml.load(confFile)
+        confFile.close()
 
 def execMain(path):
     def execute(path): subprocess.call(["python3", path])
@@ -22,17 +30,19 @@ def execMain(path):
 if __name__ == '__main__':
     try:
         logging.basicConfig(format=FORMAT)
+        config = Config()
 
         #Start Main Program
         programPath = os.path.expanduser("../src/main.py")
         execMain(prograPath)
         
         #Start Tests
-        ddos = Ddos("192.168.10.3", 53, "1992.168.10.5")
+        ## DNS request ddos attack duration test
+        ddos = Ddos(config["ddos"])
         ddos.attack()
 
     except FileNotFoundException:
-        logging.error("Can't find main.py...")
+        logging.error("Can't find files...")
         sys.exit(1)
 
     except:

@@ -1,0 +1,4 @@
+ddos:
+    target_ip: ""
+    target_port: 53
+    host_ip: ""

@@ -3,22 +3,26 @@ import time
 from threading import Thread
 
 class Ddos:
-    def __init__(self, targetip, targetport, ip, testList):
+    class ResultList(list):
+        def __init__(self): pass
+
+    def __init__(self, targetip, targetport, ip):
         self.nodes = []
         self.portRange = 65535
         self.args = dict()
         self.args["targetip"] = targetip
         self.args["targetport"] = int(targetport)
         self.args["ip"] = ip
-        self.args["testList"] = testList
         self.args["numOfPacket"] = 3
 
     def attack(self):
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        resultList = ResultList()
         resultList = [None] * self.portRange
         analyzer = Analyzer()
         self.args["message"] = analyzer.sendMsg()
         for port in range(self.portRange):
+            self.args["port"] = port
             sock.bind((self.args["ip"], port))
             self.args["socket"] = sock
             attacker = Attcker(self.args, resultList)
@@ -26,7 +30,7 @@ class Ddos:
             attacker.start()
             self.nodes.append(attacker)
         [node.join() for node in self.nodes]
-        for 
+        analyzer = Analyzer(resultList)
 
 class Attacker(Thread):
     def __init__(self, args, resultList):
@@ -37,10 +41,10 @@ class Attacker(Thread):
 
     def run(self):
         socket = self.args["socket"]
-        analyzer = Analyzer()
-        self.sendPacket(socket, analyzer)
+        self.sendPacket(socket)
+        self.resultList.insert(self.result, self.args["port"])
    
-    def sendPacket(self, socket, analyzer):
+    def sendPacket(self, socket):
         execTime = [0] * self.args["numOfPacket"]
         results = [None] * self.args["numOfPacket"]
         for i in range(self.args["numOfPacket"])):
@@ -50,11 +54,16 @@ class Attacker(Thread):
             end = time.time()
             execTime = end - start
             results.append(result)
-        analyzer
+        self.result["execTime"] = execTime
+        self.result["packet"] = results
 
 class Analyzer:
-    def __init__(self):
-        self.result = dict()
+    def __init__(self, results):
+        self.results = results
 
-    @staticmethod
-    def 
+    def checkPacket(self):
+        for result in self.results:
+            print(result["packet"])
+        
+    def calcMeanExecTime(self):
+        pass

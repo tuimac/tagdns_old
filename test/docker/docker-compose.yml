@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+    tagdns:
+        build: ./tagdns
+        container_name: tagdns
+        volumes:
+            - "./tagdns/volume:/tmp"
+        tty: true
+        stdin_open: true
+    test:
+        build: ./test
+        container_name: test
+        volumes:
+            - "./test/volume:/tmp"
+        tty: true
+        stdin_open: true
+
+networks:
+    default:
+        external:
+            name: br0

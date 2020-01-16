@@ -19,7 +19,7 @@ def stopWholeServices(initData):
 if __name__ == '__main__':
     initData = ""
     try:
-        confPath = "/home/tuimac/github/tagdns/tagdns.yml"
+        confPath = os.path.expanduser("~/github/tagdns/tagdns.yml")
 
         initialize = Init(confPath)
         initData = initialize.init()

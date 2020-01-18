@@ -19,7 +19,7 @@ def stopWholeServices(initData):
 if __name__ == '__main__':
     initData = ""
     try:
-        confPath = os.path.expanduser("/etc/tagdns/tagdns.yml")
+        confPath = os.path.expanduser("/root/tagdns/etc/tagdns.yml")
 
         initialize = Init(confPath)
         initData = initialize.init()

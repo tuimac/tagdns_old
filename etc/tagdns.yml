@@ -1,14 +1,14 @@
-ipaddress: "localhost"
+ipaddress: "tagdns"
 port: 53
-records_path: "~/github/tagdns/records.json"
-update_interval: 10
+records_path: "/root/tagdns/etc/records.json"
+update_interval: 3
 worker_threads: 4
 log:
-    access_log: "~/github/tagdns/log/access.log"
-    error_log: "~/github/tagdns/log/error.log"
+    access_log: "/root/tagdns/log/access.log"
+    error_log: "/root/tagdns/log/error.log"
 zones:
     tuimac.private.:
         key: "Name"
 acl: [
-    "127.0.0.0/24"
+    "10.0.240.0/24"
 ]

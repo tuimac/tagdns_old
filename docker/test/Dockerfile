@@ -13,8 +13,7 @@ ADD requirements.txt /root/requirements.txt
 
 RUN yum update -y && \
     yum install -y https://centos7.iuscommunity.org/ius-release.rpm && \
+    yum remove -y vi && \
     yum install -y python36u python36u-libs python36u-devel python36u-pip \
                     vim* iproute curl iputils-ping net-tools git && \
-    yum remove -y vi && \
-    git clone $url && \
-    alias vi='vim'
+    git clone $url

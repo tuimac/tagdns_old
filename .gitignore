@@ -1,5 +1,4 @@
 add_remote_repo
-log/
 __pycache__
 *.swp
 records.json

@@ -8,9 +8,9 @@ class Records:
     def __init__(self, config):
         self.path = os.path.expanduser(config["records_path"])
         self.zone = config["zones"]
-        if os.path.exists(self.path) is False:
-            os.mknod(path)
-            self.writeRecordsFile(self.template)
+        if os.path.exists(self.path) is False or self.readRecordsFile() == "":
+            os.mknod(self.path)
+            self.writeRecordsFile(dict())
         self.records = self.readRecordsFile()
 
     def writeRecordsFile(self, records):

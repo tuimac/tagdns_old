@@ -23,13 +23,11 @@ class AutoRenew:
         return tempRecord
 
     def __renewA(self, tempRecord, zone):
-        self.newRecords[zone].pop("A")
         self.newRecords[zone]["A"] = dict()
         for hostname, ipaddress in tempRecord.items():
             self.newRecords[zone]["A"][hostname] = ipaddress
 
     def __renewPTR(self, tempRecord, zone):
-        self.newRecords[zone].pop("PTR")
         self.newRecords[zone]["PTR"] = dict()
         def reverseIp(ipaddr):
             result = ""
@@ -45,6 +43,7 @@ class AutoRenew:
     def autoRenewRecords(self):
         for target in self.zone:
             tempRecord = self.__getAllTags(self.zone[target]["key"])
+            self.newRecords[target] = dict()
             self.__renewA(tempRecord, target)
             self.__renewPTR(tempRecord, target)
             self.records.renewRecord(self.newRecords)

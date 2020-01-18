@@ -1,14 +1,7 @@
 add_remote_repo
 log/
-architechture.txt
 __pycache__
-utils/driver.py
 *.swp
-src/utils/driver.py
 records.json
 old/
-<<<<<<< HEAD
-sample.py
-=======
-test/test
->>>>>>> b45252593affbdd3c36c84815b63c1aa843eeb54
+docker/tagdns/.aws

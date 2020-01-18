@@ -6,8 +6,6 @@ services:
         container_name: tagdns
         volumes:
             - "./tagdns/volume:/tmp"
-        depends_on:
-            - test
         tty: true
         stdin_open: true
     test:

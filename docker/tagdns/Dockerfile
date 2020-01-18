@@ -11,7 +11,7 @@ ADD env/bashrc /root/.bashrc
 ADD env/login_screen /root/.login_screen
 ADD env/centos/vim.sh /etc/profile.d/vim.sh
 ADD requirements.txt /root/requirements.txt
-ADD ~/.aws /root/.aws
+ADD .aws /root/.aws
 
 RUN yum update -y && \
     yum install -y https://centos7.iuscommunity.org/ius-release.rpm && \
@@ -19,7 +19,7 @@ RUN yum update -y && \
     yum install -y python36u python36u-libs python36u-devel python36u-pip \
                     vim* iproute curl iputils-ping net-tools unzip git && \
     git clone $url && \
-    pip3 install -r requirements.txt
-    #python3 tagdns/src/main.py
+    pip3 install -r requirements.txt && \
+    python3 tagdns/src/main.py &
 
 ADD env/add_remote_repo /root/tagdns/add_remote_repo

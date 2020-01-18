@@ -9,7 +9,7 @@ class Config:
     def __init__(self, path):
         if os.path.exists(path) is False: raise ConfigNotFoundException
         confFile = open(path, "r")
-        self.config = yaml.load(confFile)
+        self.config = yaml.load(confFile, Loader=yaml.SafeLoader)
         confFile.close()
         self.__resolveIP(self.config["ipaddress"])
         self.__zoneValidate()

@@ -20,6 +20,7 @@ RUN yum update -y && \
                     vim* iproute curl iputils-ping net-tools unzip git && \
     pip3 install -r requirements.txt && \
     git clone $url
-    #python3 /root/tagdns/src/main.py &
-
+    
 ADD env/add_remote_repo /root/tagdns/add_remote_repo
+
+ENTRYPOINT ["python3", "/root/tagdns/src/main.py", "&"]

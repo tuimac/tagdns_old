@@ -53,6 +53,7 @@ if __name__ == '__main__':
         sys.exit(1)
 
     except Exception as e:
+        logger.errorLog(traceback.format_exc().splitlines()[-1], 1)
         syslog.syslog(syslog.LOG_ERR, traceback.format_exc().splitlines()[-1])
         stopWholeServices(initData)
         sys.exit(1)

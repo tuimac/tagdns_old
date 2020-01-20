@@ -9,6 +9,8 @@ log:
 zones:
     tuimac.private.:
         key: "Name"
+    .:
+        key: "Name"
 acl: [
     "10.0.240.0/24"
 ]

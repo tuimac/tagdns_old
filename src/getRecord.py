@@ -10,38 +10,58 @@ class GetRecord:
     def a(self, flag=True):
         hostname = self.qname.split(".")[0]
         zone = '.'.join(self.qname.split(".")[1:])
+        empty = " A "
         try:
+            if len(self.records[zone]["A"]) == 0:
+                self.rcode = 0
+                return empty
             result = self.records[zone]["A"][hostname]
-            result = " A " + result
+            result = empty + result
             return result
         except KeyError:
+            if not "A" in self.records[zone]:
+                self.rcode = 0
+                return empty
             self.rcode = 3
-            return " A "
+            return empty
 
     def ptr(self, flag=True):
+        print(self.qname)
         target = re.sub("\.\D*\.", "", self.qname)
-        for zone in self.records:
-            if not target in self.records[zone]["PTR"]: self.rcode = 3
-            else:
-                self.rcode = 16
-                result = self.records[zone]["PTR"][target]
-                result = " PTR " + result + '.' + zone
-                return result
-        return " PTR "
+        empty = " PTR "
+        try:
+            for zone in self.records:
+                if not target in self.records[zone]["PTR"]: self.rcode = 3
+                else:
+                    self.rcode = 16
+                    result = self.records[zone]["PTR"][target]
+                    result = empty + result + '.' + zone
+                    return result
+            return empty
+        except KeyError:
+            if not "PTR" in self.records[zone]:
+                self.rcode = 0
+                return empty
+            self.rcode = 3
+            return empty
 
     def aaaa(self):
         hostname = self.qname.split(".")[0]
         zone = '.'.join(self.qname.split(".")[1:])
-        if len(self.records[zone]["AAAA"]) == 0:
-            self.rcode = 0
-            return " AAAA "
+        empty = " AAAA "
         try:
+            if len(self.records[zone]["AAAA"]) == 0:
+                self.rcode = 0
+                return empty
             result = self.records[zone]["AAAA"][hostname]
-            result = " AAAA " + result
+            result = empty + result
             return result
         except KeyError:
+            if not "AAAA" in self.records[zone]:
+                self.rcode = 0
+                return empty
             self.rcode = 3
-            return " AAAA "
+            return empty
 
     def getRecord(self):
         switcher = {

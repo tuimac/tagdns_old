@@ -31,7 +31,8 @@ setup(
         "boto3>=1.9.0",
     ],
     entry_points={
-        'console_scripts'=[
+        'console_scripts': [
             'tagdns = src.main:run'
+        ]
     }
 )

@@ -23,4 +23,4 @@ RUN yum update -y && \
     
 ADD env/add_remote_repo /root/tagdns/add_remote_repo
 
-ENTRYPOINT ["python3", "/root/tagdns/src/main.py", "&"]
+#ENTRYPOINT ["python3", "/root/tagdns/src/main.py", "&"]

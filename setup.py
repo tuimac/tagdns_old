@@ -7,7 +7,7 @@ CONFIG = "/etc/tagdns/"
 if os.path.exists(CONFIG) is False:
     os.mkdir(CONFIG)
     confFile = os.getcwd() + "/etc/tagdns.yml"
-    shutil.move(confFile, CONFIG + "tagdns.yml")
+    shutil.copyfile(confFile, CONFIG + "tagdns.yml")
 
 setup(
     name="tagdns",
@@ -31,10 +31,11 @@ setup(
     package_dir={"": "src"},
     install_requires=[
         "boto3>=1.9.0",
+        "setuptools"
     ],
     entry_points={
         "console_scripts": [
-            "tagdns = tagdns.src.main:run"
+            "tagdns = tagdns.tagdns.main:run"
         ]
     }
 )

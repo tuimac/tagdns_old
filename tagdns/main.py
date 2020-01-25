@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 from queue import Queue
 from threading import Thread
 from init import Init
@@ -14,7 +16,7 @@ def stopWholeServices(initData):
     initData["resolver"].stopAllNodes()
     initData["autoRenew"].stopNodes()
 
-def run():
+if __name__ == '__main__':
     initData = ""
     try:
         confPath = os.path.expanduser("/root/tagdns/etc/tagdns.yml")
@@ -55,6 +57,3 @@ def run():
         syslog.syslog(syslog.LOG_ERR, traceback.format_exc().splitlines()[-1])
         stopWholeServices(initData)
         sys.exit(1)
-
-if __name__ == '__main__':
-    run()

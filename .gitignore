@@ -7,3 +7,5 @@ docker/tagdns/.aws
 build/*
 dist/*
 src/tagdns.egg-info/*
+docker/tagdns/volume/*
+docker/tagdns/volume/*

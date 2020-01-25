@@ -5,3 +5,5 @@ records.json
 old/
 docker/tagdns/.aws
 build/*
+dist/*
+src/tagdns.egg-info/*

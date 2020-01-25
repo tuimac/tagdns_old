@@ -1,10 +1,22 @@
 import logging
+import pathlib
 
 class Log:
     def __init__(self, config):
+        #Take each log path from tagdns.yml
         self.accessLogPath = config["log"]["access_log"]
         self.errorLogPath = config["log"]["error_log"]
-  
+        
+        #Validate the directory path
+        self.__isExists(self.accessLogPath)
+        self.__isExists(self.errorLogPath)
+
+    def __isExits(self, path):
+        path = path.split("/")
+        path = path[:len(path) - 1]
+        path = "/".join(path)
+        pathlib.Path(path).mkdir(parents=True, exist_ok=True)
+
     def critical(self, logger, message):
         logger.setLevel(logging.CRITICAL)
         logger.critical(message)

@@ -1,12 +1,13 @@
 from setuptools import setup, find_packages
-import sys
 import os
+import shutil
 
 CONFIG = "/etc/tagdns"
 
 if os.path.exists(CONFIG) is False:
     os.mkdir(CONFIG)
-    print(os.getcwd())
+    confFile = os.getcwd() + "/etc/tagdns.yml"
+    shutil.move(confFile, CONFIG)
 
 setup(
     name="tagdns",
@@ -32,7 +33,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'tagdns = src.main:run'
+            'tagdns = tagdns.main:run'
         ]
     }
 )

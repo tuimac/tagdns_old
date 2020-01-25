@@ -1,11 +1,11 @@
 ipaddress: "tagdns"
 port: 53
-records_path: "/root/tagdns/etc/records.json"
+records_path: "/etc/tagdns/records.json"
 update_interval: 3
 worker_threads: 4
 log:
-    access_log: "/root/tagdns/log/access.log"
-    error_log: "/root/tagdns/log/error.log"
+    access_log: "/var/log/tagdns/access.log"
+    error_log: "/var/log/tagdns//error.log"
 zones:
     tuimac.private.:
         key: "Name"

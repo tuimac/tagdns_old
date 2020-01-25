@@ -2,12 +2,12 @@ from setuptools import setup, find_packages
 import os
 import shutil
 
-CONFIG = "/etc/tagdns/tagdns.yml"
+CONFIG = "/etc/tagdns/"
 
 if os.path.exists(CONFIG) is False:
     os.mkdir(CONFIG)
     confFile = os.getcwd() + "/etc/tagdns.yml"
-    shutil.move(confFile, CONFIG)
+    shutil.move(confFile, CONFIG + "tagdns.yml")
 
 setup(
     name="tagdns",

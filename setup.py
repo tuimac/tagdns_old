@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 import os
 import shutil
 
-CONFIG = "/etc/tagdns"
+CONFIG = "/etc/tagdns/tagdns.yml"
 
 if os.path.exists(CONFIG) is False:
     os.mkdir(CONFIG)
@@ -12,9 +12,10 @@ if os.path.exists(CONFIG) is False:
 setup(
     name="tagdns",
     version="1.0.0",
-    url="https://github.com/tuimac/tagdns.git",
+    url="https://github.com/tuimac/tagdns",
     author="tuimac",
     author_email="tuimac.devadm01@gmail.com",
+    license="LICENSE.md",
     classifiers=[
         'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
@@ -25,15 +26,16 @@ setup(
         'Programming Language :: Python :: 3.8'
     ],
     description="Dynamic DNS for Amazon EC2",
-    python_requires='>=3.6.0',
-    packages=find_packages(where='tagdns'),
-    package_dir={'': 'tagdns'},
+    python_requires=">=3.6.0",
+    #packages=find_packages(where="src"),
+    packages=["tagdns"],
+    package_dir={"": "src"},
     install_requires=[
         "boto3>=1.9.0",
     ],
     entry_points={
-        'console_scripts': [
-            'tagdns = tagdns.main:run'
+        "console_scripts": [
+            "tagdns = tagdns.src.main:run"
         ]
     }
 )

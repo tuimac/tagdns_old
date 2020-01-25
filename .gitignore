@@ -4,3 +4,4 @@ __pycache__
 records.json
 old/
 docker/tagdns/.aws
+build/*

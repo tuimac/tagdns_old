@@ -1,8 +1,9 @@
+from .getRecord import GetRecord
+from .utils.exception import ZoneNotFoundException
+
 import json
 import os
 import sys
-from getRecord import GetRecord
-from utils.exception import ZoneNotFoundException
 
 class Records:
     def __init__(self, config):

@@ -360,7 +360,7 @@ Master Repository/Issues:
 
 """
 
-from dnslib.dns import *
+from .dns import *
 
 version = "0.9.10"
 

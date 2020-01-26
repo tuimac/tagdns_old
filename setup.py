@@ -17,17 +17,19 @@ setup(
     author_email="tuimac.devadm01@gmail.com",
     license="LICENSE.md",
     classifiers=[
-        'Development Status :: 4 - Beta',
-        'Intended Audience :: Developers',
-        'License :: OSI Approved :: MIT License',
-        'Operating System :: POSIX :: Linux',
-        'Programming Language :: Python :: 3.6',
-        'Programming Language :: Python :: 3.7',
-        'Programming Language :: Python :: 3.8'
+        "Development Status :: 4 - Beta",
+        "Intended Audience :: Developers",
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: POSIX :: Linux",
+        "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
+        "Topic :: System :: Installation/Setup",
+        "Topic :: System :: Software Distribution"
     ],
     description="Dynamic DNS for Amazon EC2",
     python_requires=">=3.6.0",
-    packages=["tagdns"],
+    packages=find_packages(),
     #package_dir={"tagdns": "tagdns"},
     include_package_data=True,
     install_requires=[

@@ -7,7 +7,7 @@ from utils.log import Log
 import re
 import socket
 
-class Init():
+class Initial():
     def __init__(self, path):
         conf = Config(path)
         self.config = conf.read()

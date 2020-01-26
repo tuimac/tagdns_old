@@ -2,7 +2,7 @@
 
 from queue import Queue
 from threading import Thread
-from init import Init
+from initial import Initial
 from utils.exception import ZoneFormatException, ZoneNotFoundException, \
         ConfigNotFoundException, TagKeyNotFoundException, StopNodesError
 import time
@@ -31,7 +31,6 @@ if __name__ == '__main__':
         records = initData["records"]
         resolver = initData["resolver"]
         autoRenew = initData["autoRenew"]
-        logger = initData["logger"]
 
     except ZoneFormatException as e:
         syslog.syslog(syslog.LOG_ERR, e.message)

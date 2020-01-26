@@ -1,5 +1,6 @@
+from .utils.exception import TagKeyNotFoundException
+
 import boto3
-from utils.exception import TagKeyNotFoundException
 
 class AutoRenew:
     def __init__(self, records, config):

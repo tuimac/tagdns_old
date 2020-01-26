@@ -1,7 +1,9 @@
+from .resolver import Resolver
+from .autoRenew import AutoRenew
+
 from threading import Thread
+
 import time
-from resolver import Resolver
-from autoRenew import AutoRenew
 
 class WorkerNode(Thread):    
     def __init__(self, inboundQueue, outboundQueue, interval, records, logger, config):

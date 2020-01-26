@@ -1,9 +1,9 @@
-import sys
+from .dnslib.dns import DNSRecord, DNSHeader, DNSQuestion, RR
+from .dnslib.label import DNSBuffer
+from .getRecord import GetRecord
+from .utils.acl import Acl
 
-from dnslib.dns import DNSRecord, DNSHeader, DNSQuestion, RR
-from dnslib.label import DNSBuffer
-from getRecord import GetRecord
-from utils.acl import Acl
+import sys
 
 class Resolver:
     def __init__(self, request, outboundQueue, records, logger, config):

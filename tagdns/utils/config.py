@@ -2,8 +2,8 @@ import yaml
 import os
 import re
 import socket
-from utils.exception import ConfigNotFoundException
-from utils.exception import ZoneFormatException
+from .exception import ConfigNotFoundException
+from .exception import ZoneFormatException
 
 class Config:
     def __init__(self, path):

@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 
+from .initial import Initial
+from .utils.exception import ZoneFormatException, ZoneNotFoundException, \
+        ConfigNotFoundException, TagKeyNotFoundException, StopNodesError
+
 from queue import Queue
 from threading import Thread
-from .initial import Initial
-from utils.exception import ZoneFormatException, ZoneNotFoundException, \
-        ConfigNotFoundException, TagKeyNotFoundException, StopNodesError
+
 import time
 import os
 import sys

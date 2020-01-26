@@ -1,6 +1,8 @@
-from node import WorkerNode, AutoRenewNode
-from utils.exception import StopNodesError
+from .node import WorkerNode, AutoRenewNode
+from .utils.exception import StopNodesError
+
 from threading import Thread
+
 import sys
 
 class ManageResolvNodes(Thread):

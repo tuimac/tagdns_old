@@ -1,9 +1,11 @@
+from .endpoint import Endpoint
+from .records import Records
+from .manager import ManageResolvNodes, ManageAutoRenewNodes
+from .utils.config import Config
+from .utils.log import Log
+
 from queue import Queue
-from endpoint import Endpoint
-from records import Records
-from manager import ManageResolvNodes, ManageAutoRenewNodes
-from utils.config import Config
-from utils.log import Log
+
 import re
 import socket
 

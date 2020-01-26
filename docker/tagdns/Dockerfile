@@ -18,9 +18,9 @@ RUN yum update -y && \
     yum remove -y vi && \
     yum install -y python36u python36u-libs python36u-devel python36u-pip \
                     vim* iproute curl iputils-ping net-tools unzip git && \
-    pip3 install -r requirements.txt
-    #git clone $url
+    pip3 install -r requirements.txt && \
+    pip3 install git+$url
     
-ADD env/add_remote_repo /root/tagdns/add_remote_repo
+ADD env/add_remote_repo /root/add_remote_repo
 
-#ENTRYPOINT ["python3", "/root/tagdns/src/main.py", "&"]
+#ENTRYPOINT ["tagdns", "&"]

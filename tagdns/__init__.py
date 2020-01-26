@@ -1,1 +1,1 @@
-import tagdns
+from tagdns import *

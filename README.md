@@ -19,6 +19,7 @@ Then you'll be much easier than now.
 pip3 install git+https://github.com/tuimac/tagdns.git
 ```
 
+### Running
 There is configure file where is `/etc/tagdns/tagdns.yml` to configure tagdns's parameters
 (You can change polling interval on this configuration file.)
 

@@ -30,8 +30,8 @@ setup(
     description="Dynamic DNS for Amazon EC2",
     python_requires=">=3.6.0",
     packages=find_packages(),
-    #package_dir={"tagdns": "tagdns"},
     include_package_data=True,
+    zip_safe=False,
     install_requires=[
         "boto3>=1.9.0",
         "setuptools"

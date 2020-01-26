@@ -2,7 +2,7 @@
 
 from queue import Queue
 from threading import Thread
-from initial import Initial
+from .initial import Initial
 from utils.exception import ZoneFormatException, ZoneNotFoundException, \
         ConfigNotFoundException, TagKeyNotFoundException, StopNodesError
 import time

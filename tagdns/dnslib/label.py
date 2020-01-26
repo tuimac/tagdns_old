@@ -8,8 +8,8 @@ from __future__ import print_function
 
 import fnmatch,re,string
 
-from dnslib.bit import get_bits,set_bits
-from dnslib.buffer import Buffer, BufferError
+from .bit import get_bits,set_bits
+from .buffer import Buffer, BufferError
 
 # In theory valid label characters should be letters,digits,hyphen,underscore (LDH) 
 # LDH = set(bytearray(b'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_'))

@@ -11,11 +11,12 @@ class Log:
         self.__isExists(self.accessLogPath)
         self.__isExists(self.errorLogPath)
 
-    def __isExits(self, path):
-        path = path.split("/")
-        path = path[:len(path) - 1]
-        path = "/".join(path)
-        pathlib.Path(path).mkdir(parents=True, exist_ok=True)
+    def __isExists(self, path):
+        if pathlib.Path(path).exists() is False:
+            path = path.split("/")
+            path = path[:len(path) - 1]
+            path = "/".join(path)
+            pathlib.Path(path).mkdir(parents=True, exist_ok=True)
 
     def critical(self, logger, message):
         logger.setLevel(logging.CRITICAL)

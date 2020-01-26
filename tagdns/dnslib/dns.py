@@ -17,12 +17,12 @@ try:
 except ImportError:
     from itertools import izip_longest as zip_longest
 
-from dnslib.bit import get_bits,set_bits
-from dnslib.bimap import Bimap,BimapError
-from dnslib.buffer import Buffer,BufferError
-from dnslib.label import DNSLabel,DNSLabelError,DNSBuffer
-from dnslib.lex import WordLexer
-from dnslib.ranges import BYTES,B,H,I,IP4,IP6,ntuple_range,check_range,\
+from .bit import get_bits,set_bits
+from .bimap import Bimap,BimapError
+from .buffer import Buffer,BufferError
+from .label import DNSLabel,DNSLabelError,DNSBuffer
+from .lex import WordLexer
+from .ranges import BYTES,B,H,I,IP4,IP6,ntuple_range,check_range,\
                           check_bytes
 
 class DNSError(Exception):

@@ -21,9 +21,9 @@ def stopWholeServices(initData):
 if __name__ == '__main__':
     initData = ""
     try:
-        confPath = os.path.expanduser("/root/tagdns/etc/tagdns.yml")
+        confPath = os.path.expanduser("/etc/tagdns/tagdns.yml")
 
-        initialize = Init(confPath)
+        initialize = Initial(confPath)
         initData = initialize.init()
          
         logger = initData["logger"]       
@@ -40,6 +40,11 @@ if __name__ == '__main__':
 
     except ConfigNotFoundException as e:
         syslog.syslog(syslog.LOG_ERR, e.message)
+        stopWholeServices(initData)
+        sys.exit(1)
+
+    except socket.gaierror as e:
+        syslog.syslog(syslog.LOG_ERR, e.messsage)
         stopWholeServices(initData)
         sys.exit(1)
 

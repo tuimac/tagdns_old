@@ -16,7 +16,7 @@ Installing tagdns by `pip3` command. In future, I try to upload this program to 
 Then you'll be much easier to install than now.
 
 ```
-pip3 install git+https://github.com/tuimac/tagdns.git
+$ pip3 install git+https://github.com/tuimac/tagdns.git
 ```
 
 ### Running

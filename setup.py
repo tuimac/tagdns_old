@@ -38,7 +38,7 @@ setup(
     ],
     entry_points={
         "console_scripts": [
-            "tagdns = tagdns:main:main"
+            "tagdns=tagdns.main:main"
         ]
     }
 )

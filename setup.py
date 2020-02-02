@@ -3,22 +3,23 @@ import os
 import shutil
 import socket
 
-CONFIG = "/etc/tagdns/"
+path = "/etc/tagdns/tagdns.yml"
 
 # Deploy configuration filt to default directory.
-if os.path.exists(CONFIG) is False:
-    os.mkdir(CONFIG)
+if os.path.exists(path) is False:
+    directory = path.split("/")
+    path = "/".join(directory[:len(directory) - 1])
+    os.mkdir(path)
     confFile = os.getcwd() + "/etc/tagdns.yml"
-    CONFIG = CONFIG + "tagdns.yml"
-    shutil.copyfile(confFile, CONFIG)
+    shutil.copyfile(confFile, path)
 
 # Insert IP address to configration file.
 ipaddr = socket.gethostbyname(socket.gethostname())
 confFile = ""
-with open(CONFIG, 'r') as f:
+with open(path, 'r') as f:
 	confFile = yaml.load(f, Loader=yaml.SafeLoader)
 confFile["ipaddress"] = ipaddr
-with open(CONFIG, 'w') as f:
+with open(path, 'w') as f:
 	yaml.dump(confFile, f)
 
 # Setuptools

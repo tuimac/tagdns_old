@@ -9,6 +9,11 @@ if os.path.exists(CONFIG) is False:
     confFile = os.getcwd() + "/etc/tagdns.yml"
     shutil.copyfile(confFile, CONFIG + "tagdns.yml")
 
+if 
+    ipaddr = socket.gethostbyname(socket.gethostname())
+
+
+
 setup(
     name="tagdns",
     version="1.0.0",

@@ -4,13 +4,13 @@ records_path: "/etc/tagdns/records.json"
 update_interval: 3
 worker_threads: 4
 log:
-    access_log: "/var/log/tagdns/access.log"
-    error_log: "/var/log/tagdns/error.log"   
+  access_log: "/var/log/tagdns/access.log"
+  error_log: "/var/log/tagdns/error.log"   
 zones:
-    tuimac.private.:
-        key: "Name"
-    .:
-        key: "Name"
-acl: [
-    "10.0.240.0/24"
-]
+  tuimac.private.:
+    key: "Name"
+  .:
+    key: "Name"
+acl:
+  - "10.0.240.0/24"
+

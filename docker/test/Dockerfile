@@ -19,6 +19,6 @@ RUN yum update -y && \
     yum install -y python36u python36u-libs python36u-devel python36u-pip \
                     vim* iproute curl iputils-ping net-tools git bind-utils && \
     git clone $url && \
-    mkdir ~/.vim/backup && \
-    mkdir ~/.vim/undo && \
-    mkdir ~/.vim/swap
+    mkdir -p ~/.vim/backup && \
+    mkdir -p ~/.vim/undo && \
+    mkdir -p ~/.vim/swap

@@ -22,9 +22,9 @@ RUN yum update -y && \
                     vim* iproute curl iputils-ping net-tools unzip git && \
     pip3 install -r requirements.txt && \
     pip3 install git+$url && \
-    mkdir ~/.vim/backup && \
-    mkdir ~/.vim/undo && \
-    mkdir ~/.vim/swap
+    mkdir -p ~/.vim/backup && \
+    mkdir -p ~/.vim/undo && \
+    mkdir -p ~/.vim/swap
     
 ADD env/add_remote_repo /root/add_remote_repo
 

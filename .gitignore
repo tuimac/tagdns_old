@@ -10,3 +10,4 @@ src/tagdns.egg-info/*
 docker/tagdns/volume/*
 docker/tagdns/volume/*
 docker/build_tagdns.sh
+driver.py

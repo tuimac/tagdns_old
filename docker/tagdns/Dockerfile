@@ -10,6 +10,7 @@ ADD env/vimrc /root/.vimrc
 ADD env/bashrc /root/.bashrc
 ADD env/login_screen /root/.login_screen
 ADD env/centos/vim.sh /etc/profile.d/vim.sh
+ADD env/tmux.conf /root/.tmux.conf
 ADD requirements.txt /root/requirements.txt
 ADD .aws /root/.aws
 

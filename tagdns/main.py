@@ -18,7 +18,7 @@ def stopWholeServices(initData):
     initData["resolver"].stopAllNodes()
     initData["autoRenew"].stopNodes()
 
-if __name__ == '__main__':
+def main():
     initData = ""
     try:
         confPath = os.path.expanduser("/etc/tagdns/tagdns.yml")
@@ -63,3 +63,6 @@ if __name__ == '__main__':
         syslog.syslog(syslog.LOG_ERR, traceback.format_exc().splitlines()[-1])
         stopWholeServices(initData)
         sys.exit(1)
+
+if __name__ == '__main__':
+    main()

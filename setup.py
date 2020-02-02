@@ -1,14 +1,29 @@
 from setuptools import setup, find_packages
 import os
 import shutil
+import socket
+import yaml
 
-CONFIG = "/etc/tagdns/"
+path = "/etc/tagdns/tagdns.yml"
 
-if os.path.exists(CONFIG) is False:
-    os.mkdir(CONFIG)
+# Deploy configuration filt to default directory.
+if os.path.exists(path) is False:
+    directory = path.split("/")
+    directory = "/".join(directory[:len(directory) - 1])
+    os.mkdir(directory)
     confFile = os.getcwd() + "/etc/tagdns.yml"
-    shutil.copyfile(confFile, CONFIG + "tagdns.yml")
+    shutil.copyfile(confFile, path)
 
+# Insert IP address to configration file.
+ipaddr = socket.gethostbyname(socket.gethostname())
+confFile = ""
+with open(path, 'r') as f:
+	confFile = yaml.load(f, Loader=yaml.SafeLoader)
+confFile["ipaddress"] = ipaddr
+with open(path, 'w') as f:
+	yaml.dump(confFile, f)
+
+# Setuptools
 setup(
     name="tagdns",
     version="1.0.0",
@@ -38,7 +53,7 @@ setup(
     ],
     entry_points={
         "console_scripts": [
-            "tagdns = tagdns.main:main"
+            "tagdns=tagdns.main:main"
         ]
     }
 )

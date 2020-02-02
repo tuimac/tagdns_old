@@ -108,3 +108,4 @@ fi
 cat /root/.login_screen
 uptime
 alias vi='vim'
+tmux > /dev/null 2&>1

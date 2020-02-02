@@ -22,7 +22,6 @@ with open(path, 'w') as f:
 
 # Setuptools
 setup(
-    hostname = socket.gethostname()
     name="tagdns",
     version="1.0.0",
     url="https://github.com/tuimac/tagdns",

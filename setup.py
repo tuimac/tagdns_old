@@ -8,7 +8,7 @@ CONFIG = "/etc/tagdns/"
 if os.path.exists(CONFIG) is False:
     os.mkdir(CONFIG)
     confFile = os.getcwd() + "/etc/tagdns.yml"
-	CONFIG = CONFIG + "tagdns.yml"
+    CONFIG = CONFIG + "tagdns.yml"
     shutil.copyfile(confFile, CONFIG)
 
 # Insert IP address to configration file.

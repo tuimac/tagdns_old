@@ -8,8 +8,8 @@ path = "/etc/tagdns/tagdns.yml"
 # Deploy configuration filt to default directory.
 if os.path.exists(path) is False:
     directory = path.split("/")
-    path = "/".join(directory[:len(directory) - 1])
-    os.mkdir(path)
+    directory = "/".join(directory[:len(directory) - 1])
+    os.mkdir(directory)
     confFile = os.getcwd() + "/etc/tagdns.yml"
     shutil.copyfile(confFile, path)
 

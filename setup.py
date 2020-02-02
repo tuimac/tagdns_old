@@ -15,10 +15,10 @@ if os.path.exists(CONFIG) is False:
 # Insert IP address to configration file.
 ipaddr = socket.gethostbyname(socket.gethostname())
 confFile = ""
-with open(path, 'r') as f:
+with open(CONFIG, 'r') as f:
 	confFile = yaml.load(f, Loader=yaml.SafeLoader)
 confFile["ipaddress"] = ipaddr
-with open(path, 'w') as f:
+with open(CONFIG, 'w') as f:
 	yaml.dump(confFile, f)
 
 # Setuptools

@@ -10,6 +10,7 @@ ADD env/bashrc /root/.bashrc
 ADD env/login_screen /root/.login_screen
 ADD env/centos/vim.sh /etc/profile.d/vim.sh
 ADD env/tmux.conf /root/.tmux.conf
+
 ADD requirements.txt /root/requirements.txt
 
 RUN yum update -y && \
@@ -17,4 +18,7 @@ RUN yum update -y && \
     yum remove -y vi && \
     yum install -y python36u python36u-libs python36u-devel python36u-pip \
                     vim* iproute curl iputils-ping net-tools git bind-utils && \
-    git clone $url
+    git clone $url && \
+    mkdir ~/.vim/backup && \
+    mkdir ~/.vim/undo && \
+    mkdir ~/.vim/swap

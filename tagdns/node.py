@@ -10,10 +10,10 @@ class WorkerNode(Thread):
         Thread.__init__(self)
         self.inboundQueue = inboundQueue
         self.outboundQueue = outboundQueue
+        self.interval = interval
         self.records = records
         self.logger = logger
         self.config = config
-        self.interval = interval
         self.flag = True
         self.stopSignal = False
 

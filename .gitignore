@@ -6,8 +6,6 @@ old/
 docker/tagdns/.aws
 build/*
 dist/*
-src/tagdns.egg-info/*
 docker/tagdns/volume/*
-docker/tagdns/volume/*
+docker/jenkins/volume/*
 docker/build_tagdns.sh
-driver.py

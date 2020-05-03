@@ -1,22 +1,36 @@
 version: '3'
 
 services:
-    tagdns:
-        build: ./tagdns
-        container_name: tagdns
-        volumes:
-            - "./tagdns/volume:/tmp"
-        tty: true
-        stdin_open: true
-    test:
-        build: ./test
-        container_name: test
-        volumes:
-            - "./test/volume:/tmp"
-        tty: true
-        stdin_open: true
+  tagdns:
+    build: ./tagdns
+    container_name: tagdns
+    ports:
+      - "5353:53"
+    volumes:
+      - "./tagdns/volume:/tmp"
+    tty: true
+    stdin_open: true
+
+  test:
+    build: ./test
+    container_name: test
+    volumes:
+      - "./test/volume:/tmp"
+    tty: true
+    stdin_open: true
+
+  jenkins:
+    build: ./jenkins
+    container_name: jenkins
+    ports:
+      - "8000:8080"
+      - "50000:50000"
+    volumes:
+      - "./jenkins/volume:/tmp"
+    tty: true
+    stdin_open: true
 
 networks:
-    default:
-        external:
-            name: br0
+  default:
+    external:
+      name: br0

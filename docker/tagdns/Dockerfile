@@ -1,7 +1,6 @@
 FROM centos:7
 
 ARG url=https://github.com/tuimac/tagdns.git
-ENV LANG C.UTF-8
 
 EXPOSE 53
 WORKDIR /root

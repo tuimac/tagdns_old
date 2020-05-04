@@ -4,8 +4,7 @@ __pycache__
 records.json
 old/
 docker/tagdns/.aws
-build/*
-dist/*
+test/
 docker/tagdns/volume/*
 docker/jenkins/volume/*
 docker/build_tagdns.sh

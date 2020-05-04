@@ -11,14 +11,6 @@ services:
     tty: true
     stdin_open: true
 
-  test:
-    build: ./test
-    container_name: test
-    volumes:
-      - "./test/volume:/tmp"
-    tty: true
-    stdin_open: true
-
   jenkins:
     build: ./jenkins
     container_name: jenkins
@@ -26,7 +18,8 @@ services:
       - "8000:8080"
       - "50000:50000"
     volumes:
-      - "./jenkins/volume:/tmp"
+      - "./jenkins/volume:/var/jenkins_home"
+      - "/var/run/docker.sock:/var/run/docker.sock"
     tty: true
     stdin_open: true
 

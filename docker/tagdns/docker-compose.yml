@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  tagdns:
+    build: .
+    container_name: tagdns
+    ports:
+      - "53:53"
+    tty: true
+    stdin_open: true
+
+networks:
+  default:
+    external:
+      name: br0

@@ -1,16 +1,6 @@
 version: '3'
 
 services:
-  tagdns:
-    build: ./tagdns
-    container_name: tagdns
-    ports:
-      - "5353:53"
-    volumes:
-      - "./tagdns/volume:/tmp"
-    tty: true
-    stdin_open: true
-
   jenkins:
     build: ./jenkins
     container_name: jenkins
@@ -20,6 +10,7 @@ services:
     volumes:
       - "./jenkins/volume:/var/jenkins_home"
       - "/var/run/docker.sock:/var/run/docker.sock"
+      - "/usr/bin/docker:/usr/bin/docker"
     tty: true
     stdin_open: true
 

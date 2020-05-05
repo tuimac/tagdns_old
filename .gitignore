@@ -3,8 +3,7 @@ __pycache__
 *.swp
 records.json
 old/
-docker/tagdns/.aws
+docker/jenkins/.aws
 test/
-docker/tagdns/volume/*
 docker/jenkins/volume/*
 docker/build_tagdns.sh

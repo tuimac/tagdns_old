@@ -3,9 +3,7 @@ FROM centos:7
 ARG url=https://github.com/tuimac/tagdns.git
 
 EXPOSE 53
-WORKDIR /root
 
-ADD env/vimrc /root/.vimrc
 ADD env/bashrc /root/.bashrc
 ADD env/login_screen /root/.login_screen
 ADD env/centos/vim.sh /etc/profile.d/vim.sh
@@ -13,7 +11,7 @@ ADD env/tmux.conf /root/.tmux.conf
 
 ADD docker-compose.yml /root/docker-compose.yml
 ADD requirements.txt /root/requirements.txt
-ADD .aws /root/.aws
+ADD /root/.aws /root/.aws
 
 RUN yum update -y && \
     yum install -y https://centos7.iuscommunity.org/ius-release.rpm && \
@@ -26,5 +24,6 @@ RUN yum update -y && \
     mkdir -p /etc/vim/undo
     
 ADD env/add_remote_repo /root/add_remote_repo
+ADD env/vimrc /etc/vim/vimrc
 
 #ENTRYPOINT ["tagdns", "&"]

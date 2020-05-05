@@ -3,7 +3,7 @@
 target="tagdns"
 
 docker build -t $target ${HOME}/tagdns/docker/${target}
-docker run -itd \
+docker create -itd \
     --publish 53:53 \
     --name $target \
     --network=br0 \

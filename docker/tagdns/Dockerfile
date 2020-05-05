@@ -2,7 +2,7 @@ FROM centos:7
 
 ARG url=https://github.com/tuimac/tagdns.git
 
-EXPOSE 53
+EXPOSE 53/udp
 
 WORKDIR /root
 

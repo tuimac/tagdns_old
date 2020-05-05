@@ -25,7 +25,6 @@ RUN yum update -y && \
     mkdir -p /etc/vim/backup && \
     mkdir -p /etc/vim/undo
     
-ADD env/add_remote_repo /root/add_remote_repo
 ADD env/vimrc /etc/vim/vimrc
 
 #ENTRYPOINT ["tagdns", "&"]

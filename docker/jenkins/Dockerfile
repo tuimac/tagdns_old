@@ -14,7 +14,6 @@ ADD env/bashrc /root/.bashrc
 ADD env/login_screen /root/.login_screen
 ADD requirements.txt /root/requirements.txt
 ADD plugins.txt /usr/share/jenkins/ref/plugins.txt
-ADD .aws /root/.aws
 
 RUN apt update && \
     apt upgrade -y && \
@@ -28,3 +27,4 @@ RUN apt update && \
    
 ADD env/vimrc /etc/vim/vimrc
 ADD jenkins.yaml /usr/share/jenkins/ref/casc_configs/jenkins.yaml
+ADD .aws /root/tagdns/docker/tagdns/.aws

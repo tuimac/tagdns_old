@@ -43,7 +43,7 @@ setup(
         "Topic :: System :: Software Distribution"
     ],
     description="Dynamic DNS for Amazon EC2",
-    python_requires=">=3.6.0",
+    python_requires=">=3.4.0",
     packages=find_packages(),
     include_package_data=True,
     zip_safe=False,

@@ -1,7 +1,7 @@
 pipeline {
     agent none
     stages {
-        stage("Start Process")
+        stage("Start Process"){
             agent {
                 dockerfile {
                     filename "tagdns/Dockerfile"

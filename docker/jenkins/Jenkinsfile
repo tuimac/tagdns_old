@@ -1,16 +1,15 @@
 pipeline {
-    agent none
-    stages {
-        stage("Start Process"){
-            agent {
-                dockerfile {
-                    filename "tagdns/Dockerfile"
-                    label "tagdns"
-                    args "--network=br0"
-                }
-            }
+    agent {
+        dockerfile {
+            filename "/root/tagdns/docker/tagdns/Dockerfile"
+            label "tagdns"
+            args "--network=br0"
+        }
+    }
+    stages("test") {
+        stage("start process") {
             steps {
-                tagdns
+                sh tagdns
             }
         }
     }

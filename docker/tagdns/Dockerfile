@@ -27,4 +27,4 @@ RUN yum update -y && \
     
 ADD env/vimrc /etc/vim/vimrc
 
-#ENTRYPOINT ["tagdns", "&"]
+ENTRYPOINT ["tagdns", "&"]

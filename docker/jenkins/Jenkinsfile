@@ -15,6 +15,7 @@ pipeline {
                 failure {
                     sh "docker container prune -f"
                     sh "docker rmi ${NAME}"
+                    echo "Failed to build image!"
                 }
             }
         }
@@ -30,13 +31,22 @@ pipeline {
                     sh "docker rmi ${NAME}"
                     sh "docker container prune -f"
                     sh "docker image prune -f"
+                    echo "Failed to start container!"
                 }
             }
         }
     }
     post {
-        success {         
+        success {
+            sh "docker stop ${NAME}"
+            sh "docker rm ${NAME}"
+            sh "docker rmi ${NAME}"
+            sh "docker container prune -f"
+            sh "docker image prune -f"
             echo "Successed!"
+        }
+        failure {
+            echo "Failed to delete!"
         }
     }
 }

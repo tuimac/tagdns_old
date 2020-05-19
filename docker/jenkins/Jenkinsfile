@@ -1,16 +1,42 @@
 pipeline {
-    agent {
-        dockerfile {
-            filename "/root/tagdns/docker/tagdns/Dockerfile"
-            label "tagdns"
-            args "--network=br0"
+    agent any
+    environment {
+        NAME = "tagdns"
+        DOCKERFILE = "/root/tagdns/docker/tagdns"
+    }
+    stages("Test Tagdns") {
+        stage("Build Image") {
+            steps {
+                dir("${DOCKERFILE}") {
+                    sh "docker build -t ${NAME} ."
+                }
+            }
+            post {
+                failure {
+                    sh "docker container prune -f"
+                    sh "docker rmi ${NAME}"
+                }
+            }
+        }
+        stage("Start Container") {
+            steps {
+                sh "docker container create -it --name ${NAME} --network=br0 ${NAME} /bin/bash"
+                sh "docker start ${NAME}"
+            }
+            post {
+                failure {
+                    sh "docker stop ${NAME}"
+                    sh "docker rm ${NAME}"
+                    sh "docker rmi ${NAME}"
+                    sh "docker container prune -f"
+                    sh "docker image prune -f"
+                }
+            }
         }
     }
-    stages("test") {
-        stage("start process") {
-            steps {
-                sh tagdns
-            }
+    post {
+        success {         
+            echo "Successed!"
         }
     }
 }

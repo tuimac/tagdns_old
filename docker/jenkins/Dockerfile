@@ -25,10 +25,11 @@ RUN apt update && \
     mkdir -p /etc/vim/backup && \
     mkdir -p /usr/share/jenkins/ref/casc_configs && \
     git clone ${url} && \
-    pip3 install -r ${defaultDir}/requirements.txt
+    pip3 install -r ${defaultDir}/requirements.txt && \
+    chmod +x ${defaultDir}/entrypoint.sh
    
 ADD env/vimrc /etc/vim/vimrc
 ADD jenkins.yaml /usr/share/jenkins/ref/casc_configs/jenkins.yaml
-ADD .aws ${defaultDir}/.aws
+ADD .aws /root/tagdns/docker/tagdns/.aws
 
-ENTRYPOINT /root/tagdns/docker/jenkins/entrypoint.sh
+ENTRYPOINT ["/root/tagdns/docker/jenkins/entrypoint.sh", "&"]

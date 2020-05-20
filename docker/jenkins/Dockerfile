@@ -14,6 +14,7 @@ ADD env/bashrc /root/.bashrc
 ADD env/login_screen /root/.login_screen
 ADD requirements.txt /root/requirements.txt
 ADD plugins.txt /usr/share/jenkins/ref/plugins.txt
+ADD jenkins-cli.jar /root/jenkins-cli.jar
 
 RUN apt update && \
     apt upgrade -y && \

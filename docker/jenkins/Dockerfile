@@ -31,5 +31,3 @@ RUN apt update && \
 ADD env/vimrc /etc/vim/vimrc
 ADD jenkins.yaml /usr/share/jenkins/ref/casc_configs/jenkins.yaml
 ADD .aws /root/tagdns/docker/tagdns/.aws
-
-ENTRYPOINT ["/root/tagdns/docker/jenkins/entrypoint.sh", "&"]

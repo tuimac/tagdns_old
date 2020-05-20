@@ -3,8 +3,6 @@ FROM jenkins/jenkins
 MAINTAINER tuimac
 
 ARG url=https://github.com/tuimac/tagdns.git
-ARG port=8080
-ARG name=tagdns
 ARG defaultDir=/root/tagdns/docker/jenkins
 
 ENV JAVA_OPTS -Djenkins.install.runSetupWizard=false
@@ -12,7 +10,7 @@ ENV JAVA_OPTS -Djenkins.install.runSetupWizard=false
 USER root
 WORKDIR /root
 
-EXPOSE ${port}
+EXPOSE 8080
 EXPOSE 50000
 
 ADD env/bashrc /root/.bashrc
@@ -33,4 +31,4 @@ ADD env/vimrc /etc/vim/vimrc
 ADD jenkins.yaml /usr/share/jenkins/ref/casc_configs/jenkins.yaml
 ADD .aws ${defaultDir}/.aws
 
-RUN cat ${defaultDir}/tagdns-config.xml | java -jar ${defaultDir}/jenkins-cli.jar -s http://localhost:${port} create-job ${name}
+ENTRYPOINT cat /root/tagdns/docker/jenkins/tagdns-config.xml | java -jar /root/tagdns/docker/tagdns/jenkins-cli.jar -s http://localhost:8080 create-job tagdns

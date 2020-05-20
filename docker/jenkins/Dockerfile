@@ -32,6 +32,6 @@ RUN apt update && \
    
 ADD env/vimrc /etc/vim/vimrc
 ADD jenkins.yaml /usr/share/jenkins/ref/casc_configs/jenkins.yaml
-ADD .aws /root/.aws
+ADD .aws ${defaultDir}/.aws
 
 ENTRYPOINT cat ${defaultDir}/tagdns-config.xml | java -jar jenkins-cli.jar -s http://localhost:${port} create-job ${name}

@@ -33,4 +33,4 @@ ADD env/vimrc /etc/vim/vimrc
 ADD jenkins.yaml /usr/share/jenkins/ref/casc_configs/jenkins.yaml
 ADD .aws ${defaultDir}/.aws
 
-#RUN cat ${defaultDir}/tagdns-config.xml | java -jar ${defaultDir}/jenkins-cli.jar -s http://localhost:${port} create-job ${name}
+RUN cat ${defaultDir}/tagdns-config.xml | java -jar ${defaultDir}/jenkins-cli.jar -s http://localhost:${port} create-job ${name}

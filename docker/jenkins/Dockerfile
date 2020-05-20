@@ -31,4 +31,4 @@ ADD env/vimrc /etc/vim/vimrc
 ADD jenkins.yaml /usr/share/jenkins/ref/casc_configs/jenkins.yaml
 ADD .aws ${defaultDir}/.aws
 
-ENTRYPOINT cat /root/tagdns/docker/jenkins/tagdns-config.xml | java -jar /root/tagdns/docker/tagdns/jenkins-cli.jar -s http://localhost:8080 create-job tagdns
+ENTRYPOINT /root/tagdns/docker/jenkins/entrypoint.sh

@@ -5,5 +5,5 @@ records.json
 old/
 .aws
 test/
-docker/jenkins/volume/*
+volume
 docker/build_tagdns.sh

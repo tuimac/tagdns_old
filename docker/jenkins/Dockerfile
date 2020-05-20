@@ -18,7 +18,6 @@ EXPOSE 50000
 ADD env/bashrc /root/.bashrc
 ADD env/login_screen /root/.login_screen
 ADD plugins.txt /usr/share/jenkins/ref/plugins.txt
-ADD jenkins-cli.jar /root/jenkins-cli.jar
 
 RUN apt update && \
     apt upgrade -y && \
@@ -34,4 +33,4 @@ ADD env/vimrc /etc/vim/vimrc
 ADD jenkins.yaml /usr/share/jenkins/ref/casc_configs/jenkins.yaml
 ADD .aws ${defaultDir}/.aws
 
-RUN cat ${defaultDir}/tagdns-config.xml | java -jar jenkins-cli.jar -s http://localhost:${port} create-job ${name}
+#RUN cat ${defaultDir}/tagdns-config.xml | java -jar ${defaultDir}/jenkins-cli.jar -s http://localhost:${port} create-job ${name}

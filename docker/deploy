@@ -9,7 +9,7 @@ function main(){
     [[ -z $1 ]] && { usage; }
     if [ $1 == "create" ]; then
         docker-compose up -d
-        sleep 6
+        sleep 15
         cat jenkins/tagdns-config.xml | java -jar jenkins/jenkins-cli.jar -s http://node-master:8000 create-job tagdns
     elif [ $1 == "delete" ]; then
         docker stop jenkins

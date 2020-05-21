@@ -49,7 +49,7 @@ pipeline {
                 failure {
                     sh "docker stop ${NAME}"
                     sh "docker rm ${NAME}"
-                    sh "docker rmi ${NAME}"
+                    sh "docker rmi docker_${NAME}"
                     sh "docker container prune -f"
                     sh "docker image prune -f"
                     echo "Failed to start container!"

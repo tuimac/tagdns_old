@@ -1,4 +1,4 @@
-FROM jenkins/jenkins
+FROM jenkins/jenkins:lts
 
 MAINTAINER tuimac
 
@@ -27,7 +27,7 @@ RUN apt update && \
     git clone ${url} && \
     pip3 install -r ${defaultDir}/requirements.txt && \
     chmod +x ${defaultDir}/entrypoint.sh
-   
+  
 ADD env/vimrc /etc/vim/vimrc
 ADD jenkins.yaml /usr/share/jenkins/ref/casc_configs/jenkins.yaml
 ADD .aws /root/tagdns/docker/tagdns/.aws

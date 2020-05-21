@@ -15,10 +15,9 @@ ADD requirements.txt /root/requirements.txt
 ADD .aws /root/.aws
 
 RUN yum update -y && \
-    yum install -y https://centos7.iuscommunity.org/ius-release.rpm && \
+    yum install -y epel-release && \
     yum remove -y vi && \
-    yum install -y python36u python36u-libs python36u-devel python36u-pip \
-                    vim* iproute curl iputils-ping net-tools unzip git && \
+    yum install -y python3 python-pip vim* iproute curl iputils-ping net-tools unzip git tree && \
     pip3 install -r requirements.txt && \
     pip3 install git+$url && \
     mkdir -p /etc/vim/backup && \

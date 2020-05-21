@@ -5,7 +5,7 @@
   <keepDependencies>false</keepDependencies>
   <properties>
     <com.coravy.hudson.plugins.github.GithubProjectProperty plugin="github@1.30.0">
-      <projectUrl>https://github.com/tuimac/tagdns/</projectUrl>
+      <projectUrl>https://github.com/tuimac/tagdns</projectUrl>
       <displayName></displayName>
     </com.coravy.hudson.plugins.github.GithubProjectProperty>
     <org.jenkinsci.plugins.workflow.job.properties.PipelineTriggersJobProperty>
@@ -34,7 +34,6 @@ pipeline {
             }
             post {
                 failure {
-                    sh "docker container prune -f"
                     sh "docker rmi ${NAME}"
                     echo "Failed to build image!"
                 }

@@ -3,7 +3,6 @@ FROM jenkins/jenkins:lts
 MAINTAINER tuimac
 
 ARG url=https://github.com/tuimac/tagdns.git
-ARG defaultDir=/root/tagdns/docker/jenkins
 
 ENV JAVA_OPTS -Djenkins.install.runSetupWizard=false
 
@@ -16,6 +15,8 @@ EXPOSE 50000
 ADD env/bashrc /root/.bashrc
 ADD env/login_screen /root/.login_screen
 ADD plugins.txt /usr/share/jenkins/ref/plugins.txt
+ADD Jenkinsfile /root/Jenkinsfile
+ADD requirements.txt /root/requirements.txt
 
 RUN apt update && \
     apt upgrade -y && \
@@ -24,9 +25,8 @@ RUN apt update && \
     mkdir -p /etc/vim/undo && \
     mkdir -p /etc/vim/backup && \
     mkdir -p /usr/share/jenkins/ref/casc_configs && \
-    git clone ${url} && \
-    pip3 install -r ${defaultDir}/requirements.txt
+    mkdir -p /root/deploy && \
+    pip3 install -r requirements.txt
 
-ADD env/vimrc /etc/vim/vimrc
+ADD env/vimrc /etc/vim/vimrc.local
 ADD jenkins.yaml /usr/share/jenkins/ref/casc_configs/jenkins.yaml
-ADD .aws /root/tagdns/docker/tagdns/.aws

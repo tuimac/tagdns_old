@@ -2,9 +2,18 @@ pipeline {
     agent any
     environment {
         NAME = "tagdns"
-        DOCKERFILE = "/root/tagdns/docker/tagdns"
+        REPOSITORY = "https://github.com/tuimac/tagdns.git"
+        DEPLOY = "/root/deploy"
+        DOCKERFILE = "/root/deploy/tagdns/docker/tagdns"
     }
     stages("Test Tagdns") {
+        stage("Clone tagdns project") {
+            steps {
+                dir("${DEPLOY}") {
+                    sh "git clone ${REPOSITORY}"
+                }
+            }
+        }
         stage("Build Image") {
             steps {
                 dir("${DOCKERFILE}") {

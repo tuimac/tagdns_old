@@ -1,6 +1,5 @@
 import socket
 from threading import Thread
-import time
 
 class Endpoint(Thread):
     def __init__(self, inboundQueue, outboundQueue, config):

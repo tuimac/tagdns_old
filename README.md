@@ -54,5 +54,5 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 * Add query forward option.
 * Associate with Route53.
 * Saving CPU utilization.
-* Add comments on the code.
+* Add comments on these codes.
 * Upload to PyPI.

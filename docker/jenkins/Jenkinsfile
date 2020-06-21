@@ -1,0 +1,60 @@
+pipeline {
+    agent any
+    environment {
+        NAME = "tagdns"
+        REPOSITORY = "https://github.com/tuimac/tagdns.git"
+        DEPLOY = "/root/deploy"
+        DOCKERFILE = "/root/deploy/tagdns/docker/tagdns"
+    }
+    stages("Test Tagdns") {
+        stage("Clone tagdns project") {
+            steps {
+                dir("${DEPLOY}") {
+                    sh "git clone ${REPOSITORY}"
+                }
+            }
+        }
+        stage("Build Image") {
+            steps {
+                dir("${DOCKERFILE}") {
+                    sh "docker build -t ${NAME} ."
+                }
+            }
+            post {
+                failure {
+                    sh "docker rmi ${NAME}"
+                    echo "Failed to build image!"
+                }
+            }
+        }
+        stage("Start Container") {
+            steps {
+                sh "docker container create -it --name ${NAME} --network=br0 ${NAME} /bin/bash"
+                sh "docker start ${NAME}"
+            }
+            post {
+                failure {
+                    sh "docker stop ${NAME}"
+                    sh "docker rm ${NAME}"
+                    sh "docker rmi docker_${NAME}"
+                    sh "docker container prune -f"
+                    sh "docker image prune -f"
+                    echo "Failed to start container!"
+                }
+            }
+        }
+    }
+    post {
+        success {
+            sh "docker stop ${NAME}"
+            sh "docker rm ${NAME}"
+            sh "docker rmi ${NAME}"
+            sh "docker container prune -f"
+            sh "docker image prune -f"
+            echo "Successed!"
+        }
+        failure {
+            echo "Failed to delete!"
+        }
+    }
+}

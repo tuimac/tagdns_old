@@ -49,6 +49,7 @@ setup(
     zip_safe=False,
     install_requires=[
         "boto3>=1.9.0",
+        "pyyaml",
         "setuptools"
     ],
     entry_points={

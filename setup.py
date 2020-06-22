@@ -1,27 +1,5 @@
 from setuptools import setup, find_packages
 import os
-import shutil
-import socket
-import yaml
-
-path = "/etc/tagdns/tagdns.yml"
-
-# Deploy configuration filt to default directory.
-if os.path.exists(path) is False:
-    directory = path.split("/")
-    directory = "/".join(directory[:len(directory) - 1])
-    os.mkdir(directory)
-    confFile = os.getcwd() + "/etc/tagdns.yml"
-    shutil.copyfile(confFile, path)
-
-# Insert IP address to configration file.
-ipaddr = socket.gethostbyname(socket.gethostname())
-confFile = ""
-with open(path, 'r') as f:
-	confFile = yaml.load(f, Loader=yaml.SafeLoader)
-confFile["ipaddress"] = ipaddr
-with open(path, 'w') as f:
-	yaml.dump(confFile, f)
 
 # Setuptools
 setup(
@@ -57,3 +35,26 @@ setup(
         ]
     }
 )
+
+import shutil
+import socket
+import yaml
+
+path = "/etc/tagdns/tagdns.yml"
+
+# Deploy configuration filt to default directory.
+if os.path.exists(path) is False:
+    directory = path.split("/")
+    directory = "/".join(directory[:len(directory) - 1])
+    os.mkdir(directory)
+    confFile = os.getcwd() + "/etc/tagdns.yml"
+    shutil.copyfile(confFile, path)
+
+# Insert IP address to configration file.
+ipaddr = socket.gethostbyname(socket.gethostname())
+confFile = ""
+with open(path, 'r') as f:
+	confFile = yaml.load(f, Loader=yaml.SafeLoader)
+confFile["ipaddress"] = ipaddr
+with open(path, 'w') as f:
+	yaml.dump(confFile, f)

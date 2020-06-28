@@ -55,7 +55,7 @@ if os.path.exists(path) is False:
 ipaddr = socket.gethostbyname(socket.gethostname())
 confFile = ""
 with open(path, 'r') as f:
-	confFile = yaml.load(f, Loader=yaml.SafeLoader)
+    confFile = yaml.load(f, Loader=yaml.SafeLoader)
 confFile["ipaddress"] = ipaddr
 with open(path, 'w') as f:
-	yaml.dump(confFile, f)
+    yaml.dump(confFile, f)

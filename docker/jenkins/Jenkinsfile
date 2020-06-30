@@ -32,9 +32,9 @@ pipeline {
             steps {
                 sh "docker run -itd --name ${NAME} \
                                     -h ${NAME} \
-                                    -v "/etc/localtime:/etc/localtime:ro" \
-                                    -p "53:53" \
-                                    --network="bridge" \
+                                    -v /etc/localtime:/etc/localtime:ro \
+                                    -p 53:53 \
+                                    --network=bridge \
                                     ${NAME}"
             }
             post {

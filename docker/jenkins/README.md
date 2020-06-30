@@ -16,6 +16,9 @@ Run `run.sh` to build and run docker script.
 ```
 $ ./run.sh create
 ```
+
+And there is `./run.sh help` to help you understand how to use `run.sh`.
+
 #### Set items through Jenkins CLI
 
 Bash user can execute like below but other users couldn't. 

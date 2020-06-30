@@ -4,7 +4,7 @@
 ##############################
 NAME="jenkins"
 VOLUME="${PWD}/volume"
-DOCKERHUBUSER="tuimac"
+DOCKERHUBUSER=""
 IMAGE=${DOCKERHUBUSER}/${NAME}
 ##############################
 

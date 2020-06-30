@@ -34,6 +34,7 @@ pipeline {
                 sh "docker run -itd --name ${NAME} \
                                     -h ${NAME} \
                                     -v /etc/localtime:/etc/localtime:ro \
+                                    -v volume:/tmp \
                                     -p 53:53 \
                                     --network=bridge \
                                     ${NAME}"

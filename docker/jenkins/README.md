@@ -24,7 +24,7 @@ Bash user can execute like below but other users couldn't.
 $ ./createPipeline.sh
 ```
 
-#####Other user do following procedure.
+Other user do following procedure.
 
 * **Download API Client**
 

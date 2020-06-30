@@ -6,4 +6,3 @@ old/
 .aws
 test/
 volume
-docker/build_tagdns.sh

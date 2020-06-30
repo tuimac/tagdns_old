@@ -17,7 +17,7 @@ function runContainer(){
                 -v "/usr/bin/docker:/usr/bin/docker" \
                 -p "8080:8080" \
                 -p "50000:50000" \
-                --network="br0" \
+                --network="bridge" \
                 ${NAME}
 }
 

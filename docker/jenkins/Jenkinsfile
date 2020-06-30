@@ -10,6 +10,7 @@ pipeline {
         stage("Clone tagdns project") {
             steps {
                 dir("${DEPLOY}") {
+                    sh "rm -rf ${NAME}"
                     sh "git clone ${REPOSITORY}"
                 }
             }

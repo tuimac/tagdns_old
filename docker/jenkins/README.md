@@ -52,7 +52,7 @@ So you can change the port within Dockerfilr or `run.sh` to config container por
 
 ## Support
 
-Support `createPipeline.sh` is most Linux Distributions.
+Support `createPipeline.sh` to work on most Linux Distributions.
 `Redhat`, `CentOS`, `Ubuntu`, `Debian`, `Amazon Linux`
 
 You can build image along with Dockerfile on any platform is supported by Docker.

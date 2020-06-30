@@ -50,13 +50,6 @@ $ cat Anyfilename.yaml | java -jar jenkins-cli.jar -s http://localhost:8080 crea
 Access `http://localhost:8080` is default.
 So you can change the port within Dockerfilr or `run.sh` to config container port or deploy which network.
 
-## Support
-
-Support `createPipeline.sh` to work on most Linux Distributions.
-`Redhat`, `CentOS`, `Ubuntu`, `Debian`, `Amazon Linux`
-
-You can build image along with Dockerfile on any platform is supported by Docker.
-
 ## Authors
 
 * **Kento Kashiwagi** - [tuimac](https://github.com/tuimac)

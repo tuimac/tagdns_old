@@ -2,7 +2,7 @@ FROM jenkins/jenkins:lts
 
 MAINTAINER tuimac
 
-ENV JAVA_OPTS -Djenkins.install.runSetupWizard=false
+ENV JAVA_OPTS '-Djenkins.install.runSetupWizard=false -Duser.timezone=Asia/Tokyo -Dfile.encoding=UTF-8 -Dsun.jnu.encoding=UTF-8'
 
 USER root
 WORKDIR /root
@@ -13,11 +13,8 @@ EXPOSE 50000
 ADD env/bashrc /root/.bashrc
 ADD env/login_screen /root/.login_screen
 ADD env/vimrc /etc/vim/vimrc.local
-ADD plugins.txt /usr/share/jenkins/ref/plugins.txt
-ADD requirements.txt /root/requirements.txt
-ADD jenkins-cli.jar /root/jenkins-cli.jar
-ADD tagdns-config.xml /root/tagdns-config.xml
-ADD createPipeline.sh /root/createPipeline.sh
+ADD config/plugins.txt /usr/share/jenkins/ref/plugins.txt
+ADD config/requirements.txt /root/requirements.txt
 
 RUN apt update && \
     apt upgrade -y && \
@@ -29,4 +26,4 @@ RUN apt update && \
     pip3 install -r requirements.txt
 
 ADD env/vimrc /etc/vim/vimrc.local
-ADD jenkins.yaml /usr/share/jenkins/ref/casc_configs/jenkins.yaml
+ADD config/jenkins.yaml /usr/share/jenkins/ref/casc_configs/jenkins.yaml

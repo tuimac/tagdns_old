@@ -11,10 +11,11 @@ IMAGE=${DOCKERHUBUSER}/${NAME}
 function runContainer(){
     docker run -itd --name ${NAME} \
                 -h ${NAME} \
+                -v "volume:/tmp" \
                 -v "/var/run/docker.sock:/var/run/docker.sock" \
                 -v "/etc/localtime:/etc/localtime:ro" \
                 -v "/usr/bin/docker:/usr/bin/docker" \
-                -p "8000:8080" \
+                -p "8080:8080" \
                 -p "50000:50000" \
                 --network="br0" \
                 ${NAME}

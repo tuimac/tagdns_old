@@ -1,3 +1,3 @@
 #!/bin/bash
 
-cat tagdns-config.xml | java -jar jenkins-cli.jar -s http://node-master:8000 create-job tagdns
+cat config/tagdns-config.xml | java -jar lib/jenkins-cli.jar -s http://localhost:8000 create-job tagdns

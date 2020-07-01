@@ -64,7 +64,7 @@ pipeline {
         }
     }
     post {
-        always {
+        cleanup {
             sh "docker stop ${NAME}"
             sh "docker rm ${NAME}"
             sh "docker rmi ${NAME}"

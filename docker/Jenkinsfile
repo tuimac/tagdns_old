@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        NAME = "tagdns"
+        NAME = "tagdns_test"
         REPOSITORY = "https://github.com/tuimac/tagdns.git"
         DEPLOY = "/root/deploy"
         DOCKERFILE = "/root/deploy/tagdns/docker"
@@ -64,13 +64,15 @@ pipeline {
         }
     }
     post {
-        success {
+        always {
             sh "docker stop ${NAME}"
             sh "docker rm ${NAME}"
             sh "docker rmi ${NAME}"
             sh "docker container prune -f"
             sh "docker image prune -f"
-            echo "Successed!"
+        }
+        success {
+            echo "No problem!!"
         }
         failure {
             echo "Failed to delete!"

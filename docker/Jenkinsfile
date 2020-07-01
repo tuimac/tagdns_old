@@ -5,7 +5,7 @@ pipeline {
         REPOSITORY = "https://github.com/tuimac/tagdns.git"
         DEPLOY = "/root/deploy"
         DOCKERFILE = "/root/deploy/tagdns/docker"
-        TESTDIR="/opt/test/tagdns"
+        TESTDIR="/opt/tagdns"
     }
     stages("Tagdns Pipeline") {
         stage("Clone tagdns project") {

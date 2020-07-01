@@ -53,7 +53,7 @@ pipeline {
         stage("Network Test") {
             steps {
                 dir("${TESTDIR}") {
-                    python3 main_test.py
+                    sh "python3 main_test.py"
                 }
             }
             post {

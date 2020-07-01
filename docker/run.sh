@@ -13,7 +13,7 @@ function runContainer(){
                 -h ${NAME} \
                 -v "${VOLUME}:/tmp" \
                 -v "/etc/localtime:/etc/localtime:ro" \
-                -p "5353:53" \
+                -p "5000:53" \
                 --network="bridge" \
                 ${NAME}
 }

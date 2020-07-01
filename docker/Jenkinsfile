@@ -50,15 +50,15 @@ pipeline {
                 }
             }
         }
-        stage("Network Test") {
+        stage("DNS Query Test") {
             steps {
-                dir("${TESTDIR}") {
-                    sh "python3 main_test.py"
+                dir("${TESTDIR}/dnsquery") {
+                    sh "python3 dnsQuery.py -v"
                 }
             }
             post {
                 failure {
-                    echo "Network Test has been failed...!"
+                    echo "Query name resolving was failed..."
                 }
             }
         }

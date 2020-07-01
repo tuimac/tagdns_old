@@ -1,4 +1,4 @@
-FROM centos:7
+FROM centos:latest
 
 ARG url=https://github.com/tuimac/tagdns.git
 
@@ -13,11 +13,10 @@ ADD env/centos/vim.sh /etc/profile.d/vim.sh
 ADD requirements.txt /root/requirements.txt
 
 RUN yum update -y && \
-    yum install -y epel-release && \
-    yum remove -y vi && \
-    yum install -y python3 python-pip vim* iproute curl iputils-ping net-tools unzip git tree && \
+    yum install -y python3 vim* iproute curl net-tools bind-utils unzip git tree tcpdump && \
     pip3 install -r requirements.txt && \
     pip3 install git+$url && \
+    rm -rf anaconda-ks.cfg anaconda-post.log original-ks.cfg requirements.txt && \
     mkdir -p /etc/vim/backup && \
     mkdir -p /etc/vim/undo
     

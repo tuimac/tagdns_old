@@ -5,6 +5,7 @@ pipeline {
         REPOSITORY = "https://github.com/tuimac/tagdns.git"
         DEPLOY = "/root/deploy"
         DOCKERFILE = "/root/deploy/tagdns/docker/tagdns"
+        TESTDIR="/opt/test/tagdns"
     }
     stages("Tagdns Pipeline") {
         stage("Clone tagdns project") {
@@ -46,6 +47,18 @@ pipeline {
                     sh "docker container prune -f"
                     sh "docker image prune -f"
                     echo "Failed to start container!"
+                }
+            }
+        }
+        stage("Network Test") {
+            steps {
+                dir("${TESTDIR}") {
+                    python3 main_test.py
+                }
+            }
+            post {
+                failure {
+                    echo "Network Test has been failed...!"
                 }
             }
         }

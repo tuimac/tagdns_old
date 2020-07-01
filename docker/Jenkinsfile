@@ -6,7 +6,7 @@ pipeline {
         DEPLOY = "/root/deploy"
         DOCKERFILE = "/root/deploy/tagdns/docker/tagdns"
     }
-    stages("Test Tagdns") {
+    stages("Tagdns Pipeline") {
         stage("Clone tagdns project") {
             steps {
                 dir("${DEPLOY}") {
@@ -23,7 +23,6 @@ pipeline {
             }
             post {
                 failure {
-                    sh "docker rmi centos:7"
                     sh "docker image prune -f"
                     echo "Failed to build image!"
                 }

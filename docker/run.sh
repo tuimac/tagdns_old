@@ -11,9 +11,10 @@ IMAGE=${DOCKERHUBUSER}/${NAME}
 function runContainer(){
     docker run -itd --name ${NAME} \
                 -h ${NAME} \
+                -v "${VOLUME}:/tmp" \
                 -v "/etc/localtime:/etc/localtime:ro" \
-                -p "53:53" \
-                --network="br0" \
+                -p "5353:53" \
+                --network="bridge" \
                 ${NAME}
 }
 

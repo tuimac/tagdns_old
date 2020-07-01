@@ -4,7 +4,7 @@ pipeline {
         NAME = "tagdns"
         REPOSITORY = "https://github.com/tuimac/tagdns.git"
         DEPLOY = "/root/deploy"
-        DOCKERFILE = "/root/deploy/tagdns/docker/tagdns"
+        DOCKERFILE = "/root/deploy/tagdns/docker"
         TESTDIR="/opt/test/tagdns"
     }
     stages("Tagdns Pipeline") {

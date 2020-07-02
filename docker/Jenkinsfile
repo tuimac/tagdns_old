@@ -50,15 +50,27 @@ pipeline {
                 }
             }
         }
-        stage("DNS Query Test") {
+        stage("Connection Test") {
             steps {
-                dir("${TESTDIR}/dnsquery") {
-                    sh "python3 dnsQuery.py -v"
+                dir("${TESTDIR}/connection") {
+                    sh "python3 test_connection.py -v"
                 }
             }
             post {
                 failure {
-                    echo "Query name resolving was failed..."
+                    echo "There is no connection."
+                }
+            }
+        }
+        stage("DNS Query Test") {
+            steps {
+                dir("${TESTDIR}/dnsquery") {
+                    sh "python3 test_dnsQuery.py -v"
+                }
+            }
+            post {
+                failure {
+                    echo "Query name resolving was failed."
                 }
             }
         }

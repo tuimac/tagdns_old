@@ -14,7 +14,7 @@ ADD requirements.txt /root/requirements.txt
 
 RUN apt update && \
     apt upgrade -y
-    apt install -y python3 vim* iproute curl net-tools bind-utils unzip git tree tcpdump && \
+    apt install -y python3 vim* iproute curl net-tools dnsutils unzip git tree tcpdump && \
     pip3 install -r requirements.txt && \
     pip3 install git+$url && \
     git clone $url && \

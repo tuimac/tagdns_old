@@ -12,6 +12,7 @@ function runContainer(){
     docker run -itd --name ${NAME} \
                 -h ${NAME} \
                 -v "${VOLUME}:/tmp" \
+                -v "${HOME}/github/tagdns/test:/root/tagdns/test" \
                 -v "/etc/localtime:/etc/localtime:ro" \
                 -p "5000:53" \
                 --network="bridge" \

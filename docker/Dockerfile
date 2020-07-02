@@ -16,6 +16,7 @@ RUN yum update -y && \
     yum install -y python3 vim* iproute curl net-tools bind-utils unzip git tree tcpdump && \
     pip3 install -r requirements.txt && \
     pip3 install git+$url && \
+    git clone $url && \
     rm -rf anaconda-ks.cfg anaconda-post.log original-ks.cfg requirements.txt && \
     mkdir -p /etc/vim/backup && \
     mkdir -p /etc/vim/undo

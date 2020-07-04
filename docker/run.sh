@@ -14,7 +14,6 @@ function runContainer(){
                 -v "${VOLUME}:/tmp" \
                 -v "${HOME}/github/tagdns/test:/root/tagdns/test" \
                 -v "/etc/localtime:/etc/localtime:ro" \
-                --ip "172.17.0.10" \
                 --network="bridge" \
                 ${NAME}
 }

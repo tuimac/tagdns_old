@@ -3,9 +3,10 @@ pipeline {
     environment {
         NAME = "tagdns_test"
         REPOSITORY = "https://github.com/tuimac/tagdns.git"
-        DEPLOY = "/root/deploy"
-        DOCKERFILE = "/root/deploy/tagdns/docker"
-        TESTDIR="/opt/tagdns"
+        DEPLOY = "/root/workplace"
+        DOCKERFILE = "/root/workplace/tagdns/docker"
+        TESTDIR = "/opt/tagdns"
+        IPADDR = "10.255.0.2"
     }
     stages("Tagdns Pipeline") {
         stage("Clone tagdns project") {
@@ -13,6 +14,7 @@ pipeline {
                 dir("${DEPLOY}") {
                     sh "rm -rf tagdns"
                     sh "git clone ${REPOSITORY}"
+                    sh "cp -r ${HOME}/.aws ${DOCKERFILE}"
                 }
             }
         }
@@ -29,20 +31,65 @@ pipeline {
                 }
             }
         }
-        stage("Start Container") {
+        stage("Create Docker Bridge Network") {
             steps {
-                sh "docker run -itd --name ${NAME} \
-                                    -h ${NAME} \
-                                    -v /etc/localtime:/etc/localtime:ro \
-                                    -v volume:/tmp \
-                                    -p 5353:53 \
-                                    --network=bridge \
-                                    ${NAME}"
+                sh "docker network create \
+                        --driver=bridge \
+                        --subnet=10.255.0.0/28 \
+                        --gateway=10.255.0.1 \
+                        ${NAME}"
+            }
+            post {
+                failure {
+                    sh "docker network rm ${NAME}"
+                    echo "Failed to create bridge network!"
+                }
+            }
+        }
+        stage("Container Unit Test") {
+            agent {
+                docker {
+                    image "${NAME}"
+                    args "-itd --name ${NAME} \
+                                -h ${NAME} \
+                                -v /etc/localtime:/etc/localtime:ro \
+                                -v volume:/tmp \
+                                --ip ${IPADDR} \
+                                --network ${NAME}"
+                }
+            }
+            steps {
+                sh "pip3 install git+${REPOSITORY}"
+                sh "cat /etc/tagdns/tagdns.yml"
+                sh "tagdns &"
+                sh "ls /var/log/tagdns"
             }
             post {
                 failure {
                     sh "docker stop ${NAME}"
                     sh "docker rm ${NAME}"
+                    sh "docker network rm ${NAME}"
+                    sh "docker rmi ${NAME}"
+                    sh "docker container prune -f"
+                    sh "docker image prune -f"
+                    echo "Failed to test within Container!"
+                }
+            }
+        }
+        stage("Start Container") {
+            steps {
+                sh "docker run -itd \
+                                --name ${NAME} \
+                                -h ${NAME} \
+                                -v /etc/localtime:/etc/localtime:ro \
+                                -v volume:/tmp \
+                                --ip ${IPADDR} \
+                                --network ${NAME}"
+            }
+            post {
+                failure {
+                    sh "docker rm ${NAME}"
+                    sh "docker network rm ${NAME}"
                     sh "docker rmi ${NAME}"
                     sh "docker container prune -f"
                     sh "docker image prune -f"
@@ -76,9 +123,10 @@ pipeline {
         }
     }
     post {
-        cleanup {
+        always {
             sh "docker stop ${NAME}"
             sh "docker rm ${NAME}"
+            sh "docker network rm ${NAME}"
             sh "docker rmi ${NAME}"
             sh "docker container prune -f"
             sh "docker image prune -f"

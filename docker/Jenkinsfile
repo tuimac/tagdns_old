@@ -59,6 +59,8 @@ pipeline {
             }
             post {
                 failure {
+                    sh "docker rm ${NAME}"
+                    sh "docker network rm ${NAME}"
                     sh "docker container prune -f"
                     sh "docker image prune -f"
                     echo "Failed to start container!"

@@ -46,7 +46,7 @@ pipeline {
                 }
             }
         }
-        stage("Start Container") {
+        stage("Container Unit Test") {
             agent {
                 docker {
                     image "${NAME}"
@@ -67,6 +67,27 @@ pipeline {
             post {
                 failure {
                     sh "docker stop ${NAME}"
+                    sh "docker rm ${NAME}"
+                    sh "docker network rm ${NAME}"
+                    sh "docker rmi ${NAME}"
+                    sh "docker container prune -f"
+                    sh "docker image prune -f"
+                    echo "Failed to test within Container!"
+                }
+            }
+        }
+        stage("Start Container") {
+            steps {
+                sh "docker run -itd \
+                                --name ${NAME} \
+                                -h ${NAME} \
+                                -v /etc/localtime:/etc/localtime:ro \
+                                -v volume:/tmp \
+                                --ip ${IPADDR} \
+                                --network ${NAME}"
+            }
+            post {
+                failure {
                     sh "docker rm ${NAME}"
                     sh "docker network rm ${NAME}"
                     sh "docker rmi ${NAME}"

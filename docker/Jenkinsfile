@@ -48,7 +48,6 @@ pipeline {
             agent {
                 docker {
                     image "${NAME}"
-                    label "${NAME}"
                     args "-itd --name ${NAME} -h ${NAME} -v /etc/localtime:/etc/localtime:ro -v volume:/tmp --network ${NAME}"
                 }
             }

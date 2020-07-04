@@ -51,6 +51,9 @@ pipeline {
                     args "-itd --name ${NAME} -h ${NAME} -v /etc/localtime:/etc/localtime:ro -v volume:/tmp --network ${NAME}"
                 }
             }
+            options {
+                timeout(time: 15, activity: false, unit: MINUTES)
+            }
             steps {
                 sh "pip3 install git+${REPOSITORY}"
                 sh "cat /etc/tagdns/tagdns.yaml"

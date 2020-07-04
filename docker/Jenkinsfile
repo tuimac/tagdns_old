@@ -97,9 +97,9 @@ pipeline {
                 }
             }
         }
-        stage("Connection Test") {
+        stage("UDP connection Test") {
             steps {
-                dir("${TESTDIR}/connection") {
+                dir("${TESTDIR}/integration/connection") {
                     sh "python3 test_connection.py -v"
                 }
             }
@@ -111,7 +111,7 @@ pipeline {
         }
         stage("DNS Query Test") {
             steps {
-                dir("${TESTDIR}/dnsquery") {
+                dir("${TESTDIR}/integration/dnsquery") {
                     sh "python3 test_dnsQuery.py -v"
                 }
             }

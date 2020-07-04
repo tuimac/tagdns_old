@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="TestEndpoint-20200704191656" tests="1" file=".py" time="1.006" timestamp="2020-07-04T19:16:57" failures="0" errors="0" skipped="0">
+	<testcase classname="TestEndpoint" name="test_closeEndpoint" time="1.006" timestamp="2020-07-04T19:16:57" file="test_endpoint.py" line="16">
+		<system-out><![CDATA[]]></system-out>
+		<system-err><![CDATA[Traceback (most recent call last):
+  File "/root/tagdns/tagdns/endpoint.py", line 40, in closeAllEndpoint
+    self.inbound.closeEndpoint()
+AttributeError: 'NoneType' object has no attribute 'closeEndpoint'
+]]></system-err>
+	</testcase>
+</testsuite>

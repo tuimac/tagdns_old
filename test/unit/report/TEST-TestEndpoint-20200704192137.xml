@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="TestEndpoint-20200704192137" tests="1" file=".py" time="0.006" timestamp="2020-07-04T19:21:37" failures="0" errors="0" skipped="0">
+	<testcase classname="TestEndpoint" name="test_closeEndpoint" time="0.006" timestamp="2020-07-04T19:21:37" file="test_endpoint.py" line="16">
+		<system-out><![CDATA[]]></system-out>
+		<system-err><![CDATA[Exception in thread Thread-2:
+Traceback (most recent call last):
+  File "/usr/lib/python3.8/threading.py", line 932, in _bootstrap_inner
+Traceback (most recent call last):
+    self.run()  File "/root/tagdns/tagdns/endpoint.py", line 41, in closeAllEndpoint
+    self.inbound.closeEndpoint()
+
+  File "/root/tagdns/tagdns/endpoint.py", line 78, in closeEndpoint
+    raise e
+  File "/root/tagdns/tagdns/endpoint.py", line 66, in run
+  File "/root/tagdns/tagdns/endpoint.py", line 73, in closeEndpoint
+    self.__socket.sendto((self.__secret, (self.__ip, self.__port)))
+TypeError: sendto() takes 2 or 3 arguments (1 given)
+]]></system-err>
+	</testcase>
+</testsuite>

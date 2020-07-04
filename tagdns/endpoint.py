@@ -1,6 +1,9 @@
 import socket
 import logging
 import traceback
+import random
+import string
+import time
 from queue import Queue
 from threading import Thread
 
@@ -8,27 +11,38 @@ logger = logging.getLogger("tagdns")
 
 class Endpoint(Thread):
     def __init__(self, ip=socket.gethostbyname(socket.gethostname()), port=53):
-        self,ip = ip
-        self.port = port
+        Thread.__init__(self)
+        self.__ip = ip
+        self.__port = port
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
+        self.inbound = None
+        self.outbound = None
 
     def run(self):
         try:
-            self.inbound = Inbound(self.ip, self.port, self.socket)
+            self.inbound = Inbound(self.__ip, self.__port, self.socket)
             self.inbound.daemon = True
             self.inbound.start()
             self.outbound = Outbound(self.socket)
             self.outbound.daemon = True
             self.outbound.start()
         except:
-            logger.error(traceback.format_exc())
-            return self.response
+            traceback.print_exc()
+            #logger.error(traceback.format_exc())
     
     def getInboundQueue(self):
         return self.inbound.queue
 
     def getOutboundQueue(self):
         return self.outbound.queue
+
+    def closeAllEndpoint(self):
+        try:
+            self.inbound.closeEndpoint()
+            self.outbound.closeEndpoint()
+        except:
+            traceback.print_exc()
+            #logger.error(traceback.format_exc())
 
 class Inbound(Thread):
     def __init__(self, ip, port, socket):
@@ -37,14 +51,15 @@ class Inbound(Thread):
         self.__ip = ip
         self.__port = port
         self.__socket = socket
-        self.__delete = False
+        self.__secret = ""
 
     def run(self):
         try:
             self.__socket.__bind((self.__ip, self.__port))
-            while not self.__delete:
-				data = self.__socket.recvfrom(0xffff)
-				self.__queue.put(data)
+            while True:
+                data = self.__socket.recvfrom(0xffff)
+                if data[0] == self.__secret: break
+                self.__queue.put(data)
         except KeyboardInterrupt:
             self.closeEndpoint()
         except Exception as e:
@@ -53,8 +68,12 @@ class Inbound(Thread):
     def closeEndpoint(self):
         try:
             self.__delete = True
-            self.__queue.put((b"", ("0.0.0.0", 0)))
+            all = string.ascii_letters + string.digits + string.punctuation
+            self.__secret = ''.join(random.choice(all) for i in range(10)).encode('utf-8')
+            self.__socket.sendto(self.__secret, (self.__ip, self.__port))
             self.__socket.close()
+        except OSError as e:
+            raise e
         except Exception as e:
             raise e
 
@@ -63,22 +82,25 @@ class Outbound(Thread):
         Thread.__init__(self)
         self.queue = Queue()
         self.__socket = socket
-        self.__delete = False
+        self.__secret = 0
 
     def run(self):
         try:
-            while not self.__delete:
+            while True:
                 packet = self.queue.get()
+                if packet == self.__secret: break
                 self.__socket.sendto(packet)
-        except KeyboardInterrupt:
-            self.closeEndpoint()
         except Exception as e:
             raise e
 
     def closeEndpoint(self):
         try:
             self.__delete = True
-            self.__queue.put((b"", ("0.0.0.0", 0)))
+            self.__secret = random.random()
+            self.queue.put(self.__secret)
+            self.__queue.put()
             self.__socket.close()
+        except OSError as e:
+            raise e
         except Exception as e:
             raise e

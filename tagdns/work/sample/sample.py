@@ -6,10 +6,16 @@ from threading import Thread
 from queue import Queue
 import time
 
+class Sample:
+    def __init__(self):
+        pass
+    
+    def sample(self, a, b):
+        return a + b
+
 """
 logger = logging.getLogger("tagdns")
 logger.setLevel(level=logging.INFO)
-"""
 queue = Queue()
 delete = False
 
@@ -27,7 +33,6 @@ if __name__ == "__main__":
     time.sleep(1)
     delete = True
 
-    """
     formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
     fh = logging.FileHandler('test.log')
     fh.setLevel(level=logging.INFO)

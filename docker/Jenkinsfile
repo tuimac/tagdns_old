@@ -1,62 +1,62 @@
 pipeline {
     agent any
     environment {
-        NAME = 'tagdns_test'
-        REPOSITORY = 'https://github.com/tuimac/tagdns.git'
-        DEPLOY = '/root/deploy'
-        DOCKERFILE = '/root/deploy/tagdns/docker'
-        TESTDIR='/opt/tagdns'
+        NAME = "tagdns_test"
+        REPOSITORY = "https://github.com/tuimac/tagdns.git"
+        DEPLOY = "/root/deploy"
+        DOCKERFILE = "/root/deploy/tagdns/docker"
+        TESTDIR="/opt/tagdns"
     }
-    stages('Tagdns Pipeline') {
-        stage('Clone tagdns project') {
+    stages("Tagdns Pipeline") {
+        stage("Clone tagdns project") {
             steps {
-                dir('${DEPLOY}') {
-                    sh 'rm -rf tagdns'
-                    sh 'git clone ${REPOSITORY}'
+                dir("${DEPLOY}") {
+                    sh "rm -rf tagdns"
+                    sh "git clone ${REPOSITORY}"
                 }
             }
         }
-        stage('Build Image') {
+        stage("Build Image") {
             steps {
-                dir('${DOCKERFILE}') {
-                    sh 'docker build -t ${NAME} .'
+                dir("${DOCKERFILE}") {
+                    sh "docker build -t ${NAME} ."
                 }
             }
             post {
                 failure {
-                    sh 'docker image prune -f'
-                    echo 'Failed to build image!'
+                    sh "docker image prune -f"
+                    echo "Failed to build image!"
                 }
             }
         }
-        stage('Create Docker Bridge Network') {
+        stage("Create Docker Bridge Network") {
             steps {
-                sh 'docker network create \
+                sh "docker network create \
                         --driver=bridge \
                         --subnet=10.255.0.0/28 \
                         --gateway=10.255.0.1 \
-                        ${NAME}'
+                        ${NAME}"
             }
             post {
                 failure {
-                    sh 'docker network rm ${NAME}'
-                    echo 'Failed to create bridge network!'
+                    sh "docker network rm ${NAME}"
+                    echo "Failed to create bridge network!"
                 }
             }
         }
-        stage('Start Container') {
+        stage("Start Container") {
             agent {
                 docker {
-                    image '${NAME}'
-                    label '${NAME}'
-                    args '-itd --name ${NAME} -h ${NAME} -v /etc/localtime:/etc/localtime:ro -v volume:/tmp --network ${NAME}'
+                    image "${NAME}"
+                    label "${NAME}"
+                    args "-itd --name ${NAME} -h ${NAME} -v /etc/localtime:/etc/localtime:ro -v volume:/tmp --network ${NAME}"
                 }
             }
             steps {
-                sh 'pip3 install git+${REPOSITORY}'
-                sh 'cat /etc/tagdns/tagdns.yaml'
-                sh 'ls /var/log/tagdns'
-                sh 'tagdns'
+                sh "pip3 install git+${REPOSITORY}"
+                sh "cat /etc/tagdns/tagdns.yaml"
+                sh "ls /var/log/tagdns"
+                sh "tagdns"
             }
             post {
                 failure {
@@ -69,44 +69,44 @@ pipeline {
                 }
             }
         }
-        stage('Connection Test') {
+        stage("Connection Test") {
             steps {
-                dir('${TESTDIR}/connection') {
-                    sh 'python3 test_connection.py -v'
+                dir("${TESTDIR}/connection") {
+                    sh "python3 test_connection.py -v"
                 }
             }
             post {
                 failure {
-                    echo 'There is no connection.'
+                    echo "There is no connection."
                 }
             }
         }
-        stage('DNS Query Test') {
+        stage("DNS Query Test") {
             steps {
-                dir('${TESTDIR}/dnsquery') {
-                    sh 'python3 test_dnsQuery.py -v'
+                dir("${TESTDIR}/dnsquery") {
+                    sh "python3 test_dnsQuery.py -v"
                 }
             }
             post {
                 failure {
-                    echo 'Query name resolving was failed.'
+                    echo "Query name resolving was failed."
                 }
             }
         }
     }
     post {
         cleanup {
-            sh 'docker stop ${NAME}'
-            sh 'docker rm ${NAME}'
-            sh 'docker rmi ${NAME}'
-            sh 'docker container prune -f'
-            sh 'docker image prune -f'
+            sh "docker stop ${NAME}"
+            sh "docker rm ${NAME}"
+            sh "docker rmi ${NAME}"
+            sh "docker container prune -f"
+            sh "docker image prune -f"
         }
         success {
-            echo 'No problem!!'
+            echo "No problem!!"
         }
         failure {
-            echo 'Failed to delete!'
+            echo "Failed to delete!"
         }
     }
 }

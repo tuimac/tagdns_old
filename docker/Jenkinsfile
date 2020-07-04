@@ -6,6 +6,7 @@ pipeline {
         DEPLOY = "/root/deploy"
         DOCKERFILE = "/root/deploy/tagdns/docker"
         TESTDIR="/opt/tagdns"
+        IPADDR="10.255.0.2"
     }
     stages("Tagdns Pipeline") {
         stage("Clone tagdns project") {
@@ -48,7 +49,13 @@ pipeline {
             agent {
                 docker {
                     image "${NAME}"
-                    args "-itd --name ${NAME} -h ${NAME} -v /etc/localtime:/etc/localtime:ro -v volume:/tmp --network ${NAME}"
+                    args "-itd --name ${NAME} \
+                                -h ${NAME} \
+                                -v /etc/localtime:/etc/localtime:ro \
+                                -v volume:/tmp \
+                                --ip ${IPADDR} \
+                                --network ${NAME}
+                                "
                 }
             }
             steps {

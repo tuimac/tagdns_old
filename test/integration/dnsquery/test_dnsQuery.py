@@ -5,7 +5,7 @@ import unittest
 import socket
 from dns import resolver, reversename
 
-NAMESERVER = '172.17.0.10'
+NAMESERVER = '10.255.0.2'
 
 class TestDnsQuery(unittest.TestCase):
     def test_queryA(self):

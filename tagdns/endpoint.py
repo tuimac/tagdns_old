@@ -1,69 +1,84 @@
 import socket
+import logging
+import traceback
+from queue import Queue
 from threading import Thread
 
+logger = logging.getLogger("tagdns")
+
 class Endpoint(Thread):
-    def __init__(self, inboundQueue, outboundQueue, config):
-        Thread.__init__(self)
-        self.inboundQueue = inboundQueue
-        self.outboundQueue = outboundQueue
-        self.ip = config["ipaddress"]
-        self.port = config["port"]
-        self.socket = ""
-        self.inboundEndpoint = ""
-        self.outboundEndpoint = ""
-
-    def run(self):
-        self.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        self.inbound = InboundEndpoint(self.inboundQueue, self.ip, self.port, self.socket)
-        self.inbound.daemon = True
-        self.inbound.start()
-        self.outbound = OutboundEndpoint(self.outboundQueue, self.socket)
-        self.outbound.daemon = True
-        self.outbound.start()
-        self.inbound.join()
-        self.outbound.join()
-
-    def deleteAllSockets(self):
-        self.inbound.deleteSocket()
-        self.outbound.deleteSocket()
-        print("All sockets had been deleted!")
-
-class InboundEndpoint(Thread):
-    def __init__(self, queue, ip, port, socket):
-        Thread.__init__(self)
-        self.queue = queue
-        self.ip = ip
+    def __init__(self, ip=socket.gethostbyname(socket.gethostname()), port=53):
+        self,ip = ip
         self.port = port
-        self.socket = socket
-        self.delete = False
-        self.__buffer = 512
+        self.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
 
     def run(self):
         try:
-            self.socket.bind((self.ip, self.port))
-            while not self.delete:
-                data = self.socket.recvfrom(self.__buffer)
-                self.queue.put(data)
-        except KeyboardInterrupt:
-            print("catch")
-        
-    def deleteSocket(self):
-        self.delete = True
-        self.socket.close()
+            self.inbound = Inbound(self.ip, self.port, self.socket)
+            self.inbound.daemon = True
+            self.inbound.start()
+            self.outbound = Outbound(self.socket)
+            self.outbound.daemon = True
+            self.outbound.start()
+        except:
+            logger.error(traceback.format_exc())
+            return self.response
+    
+    def getInboundQueue(self):
+        return self.inbound.queue
 
-class OutboundEndpoint(Thread):
-    def __init__(self, queue, socket):
+    def getOutboundQueue(self):
+        return self.outbound.queue
+
+class Inbound(Thread):
+    def __init__(self, ip, port, socket):
         Thread.__init__(self)
-        self.queue = queue
-        self.socket = socket
-        self.delete = False
+        self.queue = Queue()
+        self.__ip = ip
+        self.__port = port
+        self.__socket = socket
+        self.__delete = False
 
     def run(self):
-        while not self.delete:
-            message = self.queue.get()
-            if message == "": continue
-            self.socket.sendto(message[0], message[1])
+        try:
+            self.__socket.__bind((self.__ip, self.__port))
+            while not self.__delete:
+				data = self.__socket.recvfrom(0xffff)
+				self.__queue.put(data)
+        except KeyboardInterrupt:
+            self.closeEndpoint()
+        except Exception as e:
+            raise e
 
-    def deleteSocket(self):
-        self.delete = True
-        self.socket.close()
+    def closeEndpoint(self):
+        try:
+            self.__delete = True
+            self.__queue.put((b"", ("0.0.0.0", 0)))
+            self.__socket.close()
+        except Exception as e:
+            raise e
+
+class Outbound(Thread):
+    def __init__(self, socket):
+        Thread.__init__(self)
+        self.queue = Queue()
+        self.__socket = socket
+        self.__delete = False
+
+    def run(self):
+        try:
+            while not self.__delete:
+                packet = self.queue.get()
+                self.__socket.sendto(packet)
+        except KeyboardInterrupt:
+            self.closeEndpoint()
+        except Exception as e:
+            raise e
+
+    def closeEndpoint(self):
+        try:
+            self.__delete = True
+            self.__queue.put((b"", ("0.0.0.0", 0)))
+            self.__socket.close()
+        except Exception as e:
+            raise e

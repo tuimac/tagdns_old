@@ -53,7 +53,7 @@ pipeline {
             }
             steps {
                 sh "pip3 install git+${REPOSITORY}"
-                sh "cat /etc/tagdns/tagdns.yaml"
+                sh "cat /etc/tagdns/tagdns.yml"
                 sh "ls /var/log/tagdns"
                 sh "tagdns"
             }

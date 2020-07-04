@@ -59,6 +59,7 @@ pipeline {
             }
             post {
                 failure {
+                    sh "docker stop ${NAME}"
                     sh "docker rm ${NAME}"
                     sh "docker network rm ${NAME}"
                     sh "docker container prune -f"

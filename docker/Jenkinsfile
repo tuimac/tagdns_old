@@ -54,8 +54,8 @@ pipeline {
             steps {
                 sh "pip3 install git+${REPOSITORY}"
                 sh "cat /etc/tagdns/tagdns.yml"
-                sh "ls /var/log/tagdns"
                 sh "tagdns"
+                sh "ls /var/log/tagdns"
             }
             post {
                 failure {

@@ -3,10 +3,10 @@ pipeline {
     environment {
         NAME = "tagdns_test"
         REPOSITORY = "https://github.com/tuimac/tagdns.git"
-        DEPLOY = "/root/deploy"
-        DOCKERFILE = "/root/deploy/tagdns/docker"
-        TESTDIR="/opt/tagdns"
-        IPADDR="10.255.0.2"
+        DEPLOY = "/root/workplace"
+        DOCKERFILE = "/root/workplace/tagdns/docker"
+        TESTDIR = "/opt/tagdns"
+        IPADDR = "10.255.0.2"
     }
     stages("Tagdns Pipeline") {
         stage("Clone tagdns project") {
@@ -14,6 +14,7 @@ pipeline {
                 dir("${DEPLOY}") {
                     sh "rm -rf tagdns"
                     sh "git clone ${REPOSITORY}"
+                    sh "cp -r ${HOME}/.aws ${DOCKERFILE}"
                 }
             }
         }
@@ -54,8 +55,7 @@ pipeline {
                                 -v /etc/localtime:/etc/localtime:ro \
                                 -v volume:/tmp \
                                 --ip ${IPADDR} \
-                                --network ${NAME}
-                                "
+                                --network ${NAME}"
                 }
             }
             steps {

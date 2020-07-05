@@ -79,11 +79,7 @@ pipeline {
             }
             post {
                 failure {
-                    sh "docker rm ${NAME}"
-                    sh "docker network rm ${NAME}"
-                    sh "docker rmi ${NAME}"
-                    sh "docker container prune -f"
-                    sh "docker image prune -f"
+                    sh "python3 /root/deletedockerenv.py ${name}"
                     echo "Failed to start container!"
                 }
             }
@@ -115,10 +111,7 @@ pipeline {
     }
     post {
         always {
-            sh "docker network rm ${NAME}"
-            sh "docker rmi ${NAME}"
-            sh "docker container prune -f"
-            sh "docker image prune -f"
+            sh "python3 /root/deletedockerenv.py ${NAME}"
         }
         success {
             echo "No problem!!"

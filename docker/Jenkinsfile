@@ -67,7 +67,7 @@ pipeline {
             }
             post {
                 always {
-                    junit "/root/tagdns/test/unit/report/*.xml"
+                    junit "/root/tagdns/test/unit/report/tagdns_unit_test.xml"
                 }
             }
         }

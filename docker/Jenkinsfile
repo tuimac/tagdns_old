@@ -59,12 +59,10 @@ pipeline {
                 }
             }
             steps {
-                dir("/root") {
-                    sh "pip3 install git+${REPOSITORY}"
-                    sh "cat /etc/tagdns/tagdns.yml"
-                    sh "tagdns &"
-                    sh "ls /var/log/tagdns"
-                }
+                sh "pip3 install git+${REPOSITORY}"
+                sh "cat /etc/tagdns/tagdns.yml"
+                sh "tagdns &"
+                sh "ls /var/log/tagdns"
                 dir("${TESTDIR}/unit") {
                     sh "python3 test_endpoint.py"
                 }
@@ -132,7 +130,6 @@ pipeline {
     }
     post {
         always {
-            sh "docker stop ${NAME}"
             sh "docker rm ${NAME}"
             sh "docker network rm ${NAME}"
             sh "docker rmi ${NAME}"

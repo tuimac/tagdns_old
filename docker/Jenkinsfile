@@ -67,11 +67,7 @@ pipeline {
             }
             post {
                 always {
-<<<<<<< HEAD
                     junit "/root/tagdns/test/unit/report/*.xml"
-=======
-                    junit "/root/tagdns/test/unit/report"
->>>>>>> bc984a123445fa299ef6d9ab345d535fea17d328
                 }
             }
         }

@@ -5,7 +5,7 @@ pipeline {
         REPOSITORY = "https://github.com/tuimac/tagdns.git"
         DEPLOY = "/root/workplace"
         DOCKERFILE = "/root/workplace/tagdns/docker"
-        TESTDIR = "/opt/tagdns"
+        TESTDIR = "/root/tagdns/test"
         IPADDR = "10.255.0.2"
     }
     stages("Tagdns Pipeline") {
@@ -59,12 +59,20 @@ pipeline {
                 }
             }
             steps {
-                sh "pip3 install git+${REPOSITORY}"
-                sh "cat /etc/tagdns/tagdns.yml"
-                sh "tagdns &"
-                sh "ls /var/log/tagdns"
+                dir("/root") {
+                    sh "pip3 install git+${REPOSITORY}"
+                    sh "cat /etc/tagdns/tagdns.yml"
+                    sh "tagdns &"
+                    sh "ls /var/log/tagdns"
+                }
+                dir("${TESTDIR}/unit") {
+                    sh "python3 test_endpoint.py"
+                }
             }
             post {
+                always {
+                    junit "/root/tagdns/test/unit/report"
+                }
                 failure {
                     sh "docker stop ${NAME}"
                     sh "docker rm ${NAME}"

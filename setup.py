@@ -48,7 +48,7 @@ if os.path.exists(path) is False:
     directory = path.split("/")
     directory = "/".join(directory[:len(directory) - 1])
     os.mkdir(directory)
-    confFile = os.getcwd() + "/etc/tagdns.yml"
+    confFile = os.getcwd() + "/conf/tagdns.yml"
     shutil.copyfile(confFile, path)
 
 # Insert IP address to configration file.

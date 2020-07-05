@@ -64,11 +64,7 @@ pipeline {
                 sh "tagdns &"
                 sh "ls /var/log/tagdns"
                 sh "python3 /root/tagdns/test/unit/test_endpoint.py"
-            }
-            post {
-                always {
-                    junit "/root/tagdns/test/unit/report/*.xml"
-                }
+                junit "**/unit/report/tagdns_unit_test.xml"
             }
         }
         stage("Start Container") {
@@ -119,7 +115,6 @@ pipeline {
     }
     post {
         always {
-            sh "docker rm ${NAME}"
             sh "docker network rm ${NAME}"
             sh "docker rmi ${NAME}"
             sh "docker container prune -f"

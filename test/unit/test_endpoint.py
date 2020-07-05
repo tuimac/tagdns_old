@@ -10,7 +10,7 @@ import xmlrunner
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 from tagdns.endpoint import Endpoint
 
-REPORT = os.path.dirname(os.path.abspath(__file__)) + "/report"
+REPORT = os.path.dirname(os.path.abspath(__file__)) + '/report/tagdns_unit_test.xml'
 
 class TestEndpoint(unittest.TestCase):
     def test_closeEndpoint(self):
@@ -23,10 +23,15 @@ class TestEndpoint(unittest.TestCase):
             self.fail(traceback.format_exc())
 
 if __name__ == '__main__':
-    unittest.main(
-        testRunner=xmlrunner.XMLTestRunner(output=REPORT),
-        failfast=False,
-        buffer=False,
-        catchbreak=False,
-        exit=False
-    )
+    if not os.path.exists(REPORT):
+        os.mkdir(os.path.dirname(REPORT))
+        with open(REPORT, 'a') as f:
+            f.write("")
+    with open(REPORT, 'wb') as output:
+        unittest.main(
+            testRunner=xmlrunner.XMLTestRunner(output=output),
+            failfast=False,
+            buffer=False,
+            catchbreak=False,
+            exit=False
+        )

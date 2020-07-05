@@ -26,7 +26,7 @@ pipeline {
             }
             post {
                 failure {
-                    sh "docker image prune -f"
+                    sh "python3 /root/deletedockerenv.py ${name}"
                     echo "Failed to build image!"
                 }
             }
@@ -41,7 +41,7 @@ pipeline {
             }
             post {
                 failure {
-                    sh "docker network rm ${NAME}"
+                    sh "python3 /root/deletedockerenv.py ${name}"
                     echo "Failed to create bridge network!"
                 }
             }

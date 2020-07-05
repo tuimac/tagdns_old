@@ -69,6 +69,9 @@ pipeline {
                 always {
                     junit "/root/tagdns/test/unit/report/*.xml"
                 }
+                failure {
+                    sh "docker network rm ${NAME}"
+                }
             }
         }
         stage("Start Container") {

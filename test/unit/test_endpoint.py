@@ -24,7 +24,7 @@ class TestEndpoint(unittest.TestCase):
             self.fail(traceback.format_exc())
 
 if __name__ == '__main__':
-    unittest.main(testRunner=xmlrunner.XMLTestRunner(output=output))
+    unittest.main(testRunner=xmlrunner.XMLTestRunner(output=REPORT))
     '''
     if not os.path.exists(REPORT):
         #os.mkdir(os.path.dirname(REPORT))

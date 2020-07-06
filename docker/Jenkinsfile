@@ -66,12 +66,7 @@ pipeline {
                 sh "tagdns &"
                 sh "ls /var/log/tagdns"
                 sh "python3 /root/tagdns/test/unit/test_endpoint.py"
-            }
-            post {
-                always {
-                    sh "docker ps -a"
-                    junit allowEmptyResults: true, testResults: "${REPORT}"
-                }
+                junit allowEmptyResults: true, testResults: "${REPORT}"
             }
         }
         stage("Start Container") {

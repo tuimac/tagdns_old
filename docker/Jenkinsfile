@@ -26,7 +26,7 @@ pipeline {
             }
             post {
                 failure {
-                    sh "python3 /root/deletedockerenv.py ${name}"
+                    sh "python3 /root/tools/deletedockerenv.py ${name}"
                     echo "Failed to build image!"
                 }
             }
@@ -41,7 +41,7 @@ pipeline {
             }
             post {
                 failure {
-                    sh "python3 /root/deletedockerenv.py ${name}"
+                    sh "python3 /root/tools/deletedockerenv.py ${name}"
                     echo "Failed to create bridge network!"
                 }
             }
@@ -53,6 +53,7 @@ pipeline {
                     args "-itd --name ${NAME} \
                                 -h ${NAME} \
                                 -v /etc/localtime:/etc/localtime:ro \
+                                -v /root/reports:/root/tagdns/test/unit/reports \
                                 -v volume:/tmp \
                                 --ip ${IPADDR} \
                                 --network ${NAME}"
@@ -64,7 +65,6 @@ pipeline {
                 sh "tagdns &"
                 sh "ls /var/log/tagdns"
                 sh "python3 /root/tagdns/test/unit/test_endpoint.py"
-                junit "**/unit/report/tagdns_unit_test.xml"
             }
         }
         stage("Start Container") {
@@ -79,7 +79,7 @@ pipeline {
             }
             post {
                 failure {
-                    sh "python3 /root/deletedockerenv.py ${name}"
+                    sh "python3 /root/tools/deletedockerenv.py ${name}"
                     echo "Failed to start container!"
                 }
             }
@@ -111,7 +111,8 @@ pipeline {
     }
     post {
         always {
-            sh "python3 /root/deletedockerenv.py ${NAME}"
+            junit "/root/reports/*.xml"
+            sh "python3 /root/tools/deletedockerenv.py ${NAME}"
         }
         success {
             echo "No problem!!"

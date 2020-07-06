@@ -27,7 +27,7 @@ pipeline {
             }
             post {
                 failure {
-                    sh "python3 /root/tools/deletedockerenv.py ${name}"
+                    sh "python3 /root/tools/deletedockerenv.py ${NAME}"
                     echo "Failed to build image!"
                 }
             }
@@ -42,7 +42,7 @@ pipeline {
             }
             post {
                 failure {
-                    sh "python3 /root/tools/deletedockerenv.py ${name}"
+                    sh "python3 /root/tools/deletedockerenv.py ${NAME}"
                     echo "Failed to create bridge network!"
                 }
             }
@@ -68,9 +68,7 @@ pipeline {
                 sh "python3 /root/tagdns/test/unit/test_endpoint.py"
             }
             post {
-                always {
-                    junit "${REPORT}"
-                }
+                junit "${REPORT}"
             }
         }
         stage("Start Container") {
@@ -86,7 +84,7 @@ pipeline {
             }
             post {
                 failure {
-                    sh "python3 /root/tools/deletedockerenv.py ${name}"
+                    sh "python3 /root/tools/deletedockerenv.py ${NAME}"
                     echo "Failed to start container!"
                 }
             }

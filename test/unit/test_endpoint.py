@@ -24,7 +24,7 @@ class TestEndpoint(unittest.TestCase):
 
 if __name__ == '__main__':
     if not os.path.exists(REPORT):
-        os.mkdir(os.path.dirname(REPORT))
+        #os.mkdir(os.path.dirname(REPORT))
         with open(REPORT, 'a') as f:
             f.write("")
     with open(REPORT, 'wb') as output:

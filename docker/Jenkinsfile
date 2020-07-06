@@ -69,8 +69,7 @@ pipeline {
             }
             post {
                 always {
-                    sh "cat ${REPORT}"
-                    junit allowEmptyResults: true, testResults: "${REPORT}"
+                    junit(allowEmptyResults: true, testResults: "${REPORT}", keepLongStdio: true)
                 }
             }
         }

@@ -6,7 +6,7 @@ pipeline {
         DEPLOY = "/root/workplace"
         DOCKERFILE = "/root/workplace/tagdns/docker"
         TESTDIR = "/root/tagdns/test"
-        REPORT = "/root/reports/tagdns_unit_test.xml"
+        REPORT = "/root/tagdns/test/unit/reports/tagdns_unit_test.xml"
         IPADDR = "10.255.0.2"
     }
     stages("Tagdns Pipeline") {

@@ -113,8 +113,8 @@ pipeline {
     }
     post {
         always {
-            junit "/root/reports/*.xml"
             sh "python3 /root/tools/deletedockerenv.py ${NAME}"
+            junit "/root/reports/*.xml"
         }
         success {
             echo "No problem!!"

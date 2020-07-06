@@ -65,6 +65,7 @@ pipeline {
                 sh "tagdns &"
                 sh "ls /var/log/tagdns"
                 sh "python3 /root/tagdns/test/unit/test_endpoint.py"
+                sh "ls /root/tagdns/test/unit/reports/"
             }
         }
         stage("Start Container") {
@@ -75,7 +76,8 @@ pipeline {
                                 -v /etc/localtime:/etc/localtime:ro \
                                 -v volume:/tmp \
                                 --ip ${IPADDR} \
-                                --network ${NAME}"
+                                --network ${NAME} \
+                                ${NAME}"
             }
             post {
                 failure {

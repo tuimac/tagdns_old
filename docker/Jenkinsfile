@@ -69,7 +69,7 @@ pipeline {
             }
             post {
                 always {
-                    junit(allowEmptyResults: true, testResults: "${REPORT}", keepLongStdio: true)
+                    junit "${REPORT}"
                 }
             }
         }

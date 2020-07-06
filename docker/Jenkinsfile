@@ -65,7 +65,7 @@ pipeline {
                 sh "tagdns &"
                 sh "ls /var/log/tagdns"
                 sh "python3 /root/tagdns/test/unit/test_endpoint.py"
-                sh "ls /root/tagdns/test/unit/reports/"
+                junit "/root/tagdns/test/unit/reports/tagdns_unit_test.xml"
             }
         }
         stage("Start Container") {

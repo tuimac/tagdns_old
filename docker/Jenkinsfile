@@ -68,8 +68,10 @@ pipeline {
                 sh "python3 /root/tagdns/test/unit/test_endpoint.py"
             }
             post {
-                archive "${REPORT}"
-                junit "${REPORT}"
+                always {
+                    archive "${REPORT}"
+                    junit "${REPORT}"
+                }
             }
         }
         stage("Start Container") {

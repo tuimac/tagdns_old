@@ -6,7 +6,7 @@ pipeline {
         DEPLOY = "/root/workplace"
         DOCKERFILE = "/root/workplace/tagdns/docker"
         TESTDIR = "/root/tagdns/test"
-        REPORT = "/root/tagdns/test/unit/reports/tagdns_unit_test.xml"
+        REPORT = "/root/reports/tagdns_unit_test.xml"
         IPADDR = "10.255.0.2"
     }
     stages("Tagdns Pipeline") {
@@ -66,7 +66,13 @@ pipeline {
                 sh "tagdns &"
                 sh "ls /var/log/tagdns"
                 sh "python3 /root/tagdns/test/unit/test_endpoint.py"
-                junit allowEmptyResults: true, testResults: "${REPORT}"
+                sh "ls /root/tagdns/test/unit/reports"
+            }
+            post {
+                always {
+                    sh "ls ${REPORT}"
+                    junit allowEmptyResults: true, testResults: "${REPORT}"
+                }
             }
         }
         stage("Start Container") {

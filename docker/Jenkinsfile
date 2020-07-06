@@ -5,7 +5,7 @@ pipeline {
         REPOSITORY = "https://github.com/tuimac/tagdns.git"
         DEPLOY = "/root/workplace"
         DOCKERFILE = "/root/workplace/tagdns/docker"
-        TESTDIR = "/root/tagdns/test"
+        TESTDIR = "/root/workplace/tagdns/test"
         REPORT = "/root/tagdns/test/unit/reports/tagdns_unit_test.xml"
         IPADDR = "10.255.0.2"
     }
@@ -95,7 +95,6 @@ pipeline {
         stage("UDP connection Test") {
             steps {
                 dir("${TESTDIR}/integration/connection") {
-                    sh "ls"
                     sh "python3 test_connection.py -v"
                 }
             }

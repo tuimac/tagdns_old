@@ -69,6 +69,7 @@ pipeline {
             }
             post {
                 always {
+                    sh "cat ${REPORT}"
                     junit allowEmptyResults: true, testResults: "${REPORT}"
                 }
             }

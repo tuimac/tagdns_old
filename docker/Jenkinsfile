@@ -66,11 +66,10 @@ pipeline {
                 sh "tagdns &"
                 sh "ls /var/log/tagdns"
                 sh "python3 /root/tagdns/test/unit/test_endpoint.py"
-                sh "ls /root/tagdns/test/unit/reports"
             }
             post {
                 always {
-                    sh "ls ${REPORT}"
+                    sh "tree /root"
                     junit allowEmptyResults: true, testResults: "${REPORT}"
                 }
             }

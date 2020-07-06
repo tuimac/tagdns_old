@@ -95,6 +95,7 @@ pipeline {
         stage("UDP connection Test") {
             steps {
                 dir("${TESTDIR}/integration/connection") {
+                    sh "ls"
                     sh "python3 test_connection.py -v"
                 }
             }

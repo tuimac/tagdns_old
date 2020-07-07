@@ -23,4 +23,4 @@ RUN apt-get update && \
     mkdir -p /etc/vim/backup && \
     mkdir -p /etc/vim/undo
 
-#ENTRYPOINT ["tagdns", "&"]
+ENTRYPOINT ["tagdns", "&"]

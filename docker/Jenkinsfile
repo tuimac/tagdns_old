@@ -6,7 +6,7 @@ pipeline {
         DEPLOY = "/root/workplace"
         DOCKERFILE = "/root/workplace/tagdns/docker"
         TESTDIR = "/root/workplace/tagdns/test"
-        REPORT = "/root/tagdns/test/unit/reports/*.xml"
+        REPORT = "/root/tagdns/test/unit/reports"
         IPADDR = "10.255.0.2"
     }
     stages("Tagdns Pipeline") {
@@ -69,7 +69,8 @@ pipeline {
             }
             post {
                 always {
-                    junit "${REPORT}"
+                    sh "cd ${REPORT}"
+                    junit "*.xml"
                 }
             }
         }

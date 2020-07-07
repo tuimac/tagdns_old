@@ -10,8 +10,8 @@ import xmlrunner
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 from tagdns.endpoint import Endpoint
 
-#REPORT = os.path.dirname(os.path.abspath(__file__)) + '/reports/tagdns_unit_test.xml'
-REPORT = '/var/jenkins_home/tagdns_reports'
+REPORT = os.path.dirname(os.path.abspath(__file__)) + '/reports/tagdns_unit_test.xml'
+#REPORT = '/var/jenkins_home/tagdns_reports'
 
 class TestEndpoint(unittest.TestCase):
     def test_closeEndpoint(self):

@@ -3,10 +3,11 @@ pipeline {
     environment {
         NAME = "tagdns_test"
         REPOSITORY = "https://github.com/tuimac/tagdns.git"
-        DEPLOY = "/root/workplace"
-        DOCKERFILE = "/root/workplace/tagdns/docker"
-        TESTDIR = "/root/workplace/tagdns/test"
-        REPORT = "/root/tagdns/test/unit/reports"
+        DEPLOY = "/root/workspace"
+        DOCKERFILE = "/root/workspace/tagdns/docker"
+        UNITTESTDIR = "/root/tagdns/test/unit"
+        INTTESTDIR = "/root/workspace/tagdns/test/integration"
+        REPORT = "/root/tagdns/test/reports"
         IPADDR = "10.255.0.2"
     }
     stages("Tagdns Pipeline") {
@@ -54,8 +55,6 @@ pipeline {
                     args "-itd --name ${NAME} \
                                 -h ${NAME} \
                                 -v /etc/localtime:/etc/localtime:ro \
-                                -v /root/reports:/root/tagdns/test/unit/reports \
-                                -v volume:/tmp \
                                 --ip ${IPADDR} \
                                 --network ${NAME}"
                 }
@@ -65,15 +64,12 @@ pipeline {
                 sh "cat /etc/tagdns/tagdns.yml"
                 sh "tagdns &"
                 sh "ls /var/log/tagdns"
-                sh "python3 /root/tagdns/test/unit/test_endpoint.py"
+                sh "python3 ${UNITTESTDIR}/test_endpoint.py"
             }
             post {
                 always {
-                    sh """
-                        cd ${REPORT}
-                        tree .
-                    """
-                    junit "*.xml"
+                    sh "docker cp ${NAME}:${REPORT} ."
+                    junit "reports/*.xml"
                 }
             }
         }
@@ -97,25 +93,25 @@ pipeline {
         }
         stage("UDP connection Test") {
             steps {
-                dir("${TESTDIR}/integration/connection") {
-                    sh "python3 test_connection.py -v"
+                dir("${INTTESTDIR}/connection") {
+                    sh "python3 test_connection.py"
                 }
             }
             post {
-                failure {
-                    echo "There is no connection."
+                always {
+                    junit "reports/*.xml"
                 }
             }
         }
         stage("DNS Query Test") {
             steps {
-                dir("${TESTDIR}/integration/dnsquery") {
-                    sh "python3 test_dnsQuery.py -v"
+                dir("${INTTESTDIR}/dnsquery") {
+                    sh "python3 test_dnsQuery.py ${IPADDR}"
                 }
             }
             post {
-                failure {
-                    echo "Query name resolving was failed."
+                always {
+                    junit "reports/*.xml"
                 }
             }
         }
@@ -123,12 +119,6 @@ pipeline {
     post {
         always {
             sh "python3 /root/tools/deletedockerenv.py ${NAME}"
-        }
-        success {
-            echo "No problem!!"
-        }
-        failure {
-            echo "Failed to delete!"
         }
     }
 }

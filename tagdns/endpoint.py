@@ -27,7 +27,7 @@ class Endpoint(Thread):
             self.outbound.daemon = True
             self.outbound.start()
         except:
-            traceback.print_exc()
+            raise
             #logger.error(traceback.format_exc())
     
     def getInboundQueue(self):
@@ -41,7 +41,7 @@ class Endpoint(Thread):
             self.inbound.closeEndpoint()
             self.outbound.closeEndpoint()
         except:
-            traceback.print_exc()
+            raise
             #logger.error(traceback.format_exc())
 
 class Inbound(Thread):
@@ -60,10 +60,8 @@ class Inbound(Thread):
                 data = self.__socket.recvfrom(0xffff)
                 if data[0] == self.__secret: break
                 self.__queue.put(data)
-        except KeyboardInterrupt:
-            self.closeEndpoint()
-        except Exception as e:
-            raise e
+        except:
+            raise
 
     def closeEndpoint(self):
         try:
@@ -72,10 +70,8 @@ class Inbound(Thread):
             self.__secret = ''.join(random.choice(all) for i in range(10)).encode('utf-8')
             self.__socket.sendto(self.__secret, (self.__ip, self.__port))
             self.__socket.close()
-        except OSError as e:
-            raise e
-        except Exception as e:
-            raise e
+        except:
+            raise
 
 class Outbound(Thread):
     def __init__(self, socket):
@@ -90,8 +86,8 @@ class Outbound(Thread):
                 packet = self.queue.get()
                 if packet == self.__secret: break
                 self.__socket.sendto(packet)
-        except Exception as e:
-            raise e
+        except:
+            raise
 
     def closeEndpoint(self):
         try:
@@ -100,7 +96,5 @@ class Outbound(Thread):
             self.queue.put(self.__secret)
             self.__queue.put()
             self.__socket.close()
-        except OSError as e:
-            raise e
-        except Exception as e:
-            raise e
+        except:
+            raise

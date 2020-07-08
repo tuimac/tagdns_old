@@ -1,0 +1,17 @@
+stage("Unit Test inside of docker container") {
+	agent {
+		docker {
+            image "python:latest"
+            args "--name unittest"
+        }
+	}
+	steps {
+		sh "unittest.py"
+	}
+	post {
+		always {
+			sh "docker cp unittest:/path/to/report/unittest.xml ."
+			junit "unittest.xml"
+		}
+	}
+}

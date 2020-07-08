@@ -54,8 +54,6 @@ pipeline {
                     args "-itd --name ${NAME} \
                                 -h ${NAME} \
                                 -v /etc/localtime:/etc/localtime:ro \
-                                -v /root/reports:/root/tagdns/test/unit/reports \
-                                -v volume:/tmp \
                                 --ip ${IPADDR} \
                                 --network ${NAME}"
                 }

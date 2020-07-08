@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
 
-import os
+from os import path, mkdir
 import sys
 import time
 import traceback
 import unittest
 import xmlrunner
 
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+sys.path.insert(0, path.dirname(path.dirname(path.dirname(path.abspath(__file__)))))
 from tagdns.endpoint import Endpoint
 
-REPORT = os.path.dirname(os.path.abspath(__file__)) + '/reports/tagdns_unit_test.xml'
+REPORT = path.dirname(path.dirname(path.abspath(__file__))) + '/reports/TEST_tagdns_' + path.basename(__file__).split('.')[0] + '.xml'
 
 class TestEndpoint(unittest.TestCase):
     def test_closeEndpoint(self):
@@ -24,13 +24,9 @@ class TestEndpoint(unittest.TestCase):
             self.fail(traceback.format_exc())
 
 if __name__ == '__main__':
-    if not os.path.exists(REPORT):
-        os.mkdir(os.path.dirname(REPORT))
+    if not path.exists(path.dirname(REPORT)):
+        mkdir(path.dirname(REPORT))
         with open(REPORT, 'a') as f:
-            f.write("")
+            f.write('')
     with open(REPORT, 'wb') as output:
-        unittest.main(
-            testRunner=xmlrunner.XMLTestRunner(output=output),
-        	failfast=False,
-        	exit=False
-        )
+        unittest.main(testRunner=xmlrunner.XMLTestRunner(output=output))

@@ -5,8 +5,8 @@ pipeline {
         REPOSITORY = "https://github.com/tuimac/tagdns.git"
         DEPLOY = "/root/workplace"
         DOCKERFILE = "/root/workplace/tagdns/docker"
-        TESTDIR = "/root/workplace/tagdns/test"
-        REPORT = "/root/tagdns/test/unit/reports/tagdns_unit_test.xml"
+        TESTDIR = "/root/workplace/tagAdns/test"
+        REPORT = "/root/tagdns/test/reports"
         IPADDR = "10.255.0.2"
     }
     stages("Tagdns Pipeline") {
@@ -68,7 +68,7 @@ pipeline {
             post {
                 always {
                     sh "docker cp ${NAME}:${REPORT} ."
-                    junit "tagdns_unit_test.xml"
+                    junit "reports/TEST_tagdns*.xml"
                 }
             }
         }

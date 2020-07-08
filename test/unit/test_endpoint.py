@@ -19,6 +19,7 @@ class TestEndpoint(unittest.TestCase):
             endpoint.daemon = True
             endpoint.start()
             endpoint.closeAllEndpoint()
+            time.sleep(1)
         except:
             self.fail(traceback.format_exc())
 
@@ -29,9 +30,7 @@ if __name__ == '__main__':
             f.write("")
     with open(REPORT, 'wb') as output:
         unittest.main(
-            testRunner=xmlrunner.XMLTestRunner(output=output)
+            testRunner=xmlrunner.XMLTestRunner(output=output),
         	failfast=False,
-        	buffer=False,
-        	catchbreak=False,
         	exit=False
         )

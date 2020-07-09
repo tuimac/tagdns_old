@@ -93,8 +93,10 @@ pipeline {
         }
         stage("UDP connection Test") {
             steps {
-                dir("${INTTESTDIR}/connection") {
-                    sh "python3 test_connection.py"
+                catchError(buildResult: "SUCCESS", stageResult: "FAILURE") {
+                    dir("${INTTESTDIR}/connection") {
+                        sh "python3 test_connection.py"
+                    }
                 }
             }
             post {
@@ -105,8 +107,10 @@ pipeline {
         }
         stage("DNS Query Test") {
             steps {
-                dir("${INTTESTDIR}/dnsquery") {
-                    sh "python3 test_dnsQuery.py ${IPADDR}"
+                catchError(buildResult: "SUCCESS", stageResult: "FAILURE") {
+                    dir("${INTTESTDIR}/dnsquery") {
+                        sh "python3 test_dnsQuery.py ${IPADDR}"
+                    }
                 }
             }
             post {

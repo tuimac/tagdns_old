@@ -18,8 +18,23 @@ class TestEndpoint(unittest.TestCase):
             endpoint = Endpoint()
             endpoint.daemon = True
             endpoint.start()
+            time.sleep(2)
             endpoint.closeAllEndpoint()
-            time.sleep(1)
+            time.sleep(2)
+        except:
+            self.fail(traceback.format_exc())
+
+    def test_getInboundQueue(self):
+        try:
+            endpoint = Endpoint()
+            endpoint.daemon = True
+            endpoint.start()
+            time.sleep(2)
+            inbound = endpoint.getInboundQueue()
+            inbound.put('test')
+            self.assertEqual('test', inbound.get())
+            endpoint.closeAllEndpoint()
+            time.sleep(2)
         except:
             self.fail(traceback.format_exc())
 

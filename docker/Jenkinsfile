@@ -60,11 +60,13 @@ pipeline {
                 }
             }
             steps {
-                sh "pip3 install git+${REPOSITORY}"
-                sh "cat /etc/tagdns/tagdns.yml"
-                sh "tagdns &"
-                sh "ls /var/log/tagdns"
-                sh "python3 ${UNITTESTDIR}/test_endpoint.py"
+                catchError(buildResult: "SUCCESS", stageResult: "FAILURE") {
+                    sh "pip3 install git+${REPOSITORY}"
+                    sh "cat /etc/tagdns/tagdns.yml"
+                    sh "tagdns &"
+                    sh "ls /var/log/tagdns"
+                    sh "python3 ${UNITTESTDIR}/test_endpoint.py"
+                }
             }
             post {
                 always {

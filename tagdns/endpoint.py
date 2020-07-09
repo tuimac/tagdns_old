@@ -69,7 +69,7 @@ class Inbound(Thread):
                 data = self.__socket.recvfrom(0xffff)
                 if data[0] == self.__secret:
                     break
-                self.__queue.put(data)
+                self.queue.put(data)
         except:
             raise
 

@@ -2,6 +2,7 @@
 
 from os import path, mkdir
 import sys
+import socket
 import time
 import traceback
 import unittest
@@ -51,8 +52,8 @@ class TestEndpoint(unittest.TestCase):
             time.sleep(2)
             outbound = endpoint.getOutboundQueue()
             inbound = endpoint.getInboundQueue()
-            outbound.put((b'test', ('localhost', 53)))
-            self.assertEqual(b'test', inbound.get())
+            outbound.put((b'test', (socket.gethostname(), 53)))
+            self.assertEqual(b'test', inbound.get()[0])
             endpoint.closeAllEndpoint()
             time.sleep(2)
         except:

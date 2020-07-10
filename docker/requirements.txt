@@ -2,3 +2,4 @@ boto3
 pyyaml
 setuptools
 unittest-xml-reporting
+timeout-decorator

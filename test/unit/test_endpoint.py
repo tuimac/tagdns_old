@@ -2,10 +2,12 @@
 
 from os import path, mkdir
 import sys
+import socket
 import time
 import traceback
 import unittest
 import xmlrunner
+import timeout_decorator
 
 sys.path.insert(0, path.dirname(path.dirname(path.dirname(path.abspath(__file__)))))
 from tagdns.endpoint import Endpoint
@@ -13,13 +15,47 @@ from tagdns.endpoint import Endpoint
 REPORT = path.dirname(path.dirname(path.abspath(__file__))) + '/reports/tagdns_' + path.basename(__file__).split('.')[0] + '.xml'
 
 class TestEndpoint(unittest.TestCase):
+
+    @timeout_decorator.timeout(6)
     def test_closeEndpoint(self):
         try:
             endpoint = Endpoint()
             endpoint.daemon = True
             endpoint.start()
+            time.sleep(2)
             endpoint.closeAllEndpoint()
-            time.sleep(1)
+            time.sleep(2)
+        except:
+            self.fail(traceback.format_exc())
+
+    @timeout_decorator.timeout(6)
+    def test_getInboundQueue(self):
+        try:
+            endpoint = Endpoint()
+            endpoint.daemon = True
+            endpoint.start()
+            time.sleep(2)
+            inbound = endpoint.getInboundQueue()
+            inbound.put('test')
+            self.assertEqual('test', inbound.get())
+            endpoint.closeAllEndpoint()
+            time.sleep(2)
+        except:
+            self.fail(traceback.format_exc())
+
+    @timeout_decorator.timeout(6)
+    def test_getOutboundQueue(self):
+        try:
+            endpoint = Endpoint()
+            endpoint.daemon = True
+            endpoint.start()
+            time.sleep(2)
+            outbound = endpoint.getOutboundQueue()
+            inbound = endpoint.getInboundQueue()
+            outbound.put((b'test', (socket.gethostname(), 53)))
+            self.assertEqual(b'test', inbound.get()[0])
+            endpoint.closeAllEndpoint()
+            time.sleep(2)
         except:
             self.fail(traceback.format_exc())
 

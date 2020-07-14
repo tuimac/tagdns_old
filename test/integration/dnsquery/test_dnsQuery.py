@@ -27,10 +27,7 @@ class TestDnsQuery(unittest.TestCase):
         self.assertNotEqual(0, results.len())
 
 if __name__ == '__main__':
-    if len(sys.argv) != 2:
-        raise Exception('Need argument.')
-    else:
-        NAMESERVER = sys.argv[1]
+    NAMESERVER = sys.argv[1]
     if not path.exists(path.dirname(REPORT)):
         mkdir(path.dirname(REPORT))
         with open(REPORT, 'a') as f:

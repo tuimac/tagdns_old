@@ -3,6 +3,7 @@ pipeline {
     environment {
         NAME = "tagdns_test"
         REPOSITORY = "https://github.com/tuimac/tagdns.git"
+        BRANCH = "v2.0.0-beta"
         DEPLOY = "/root/workspace"
         DOCKERFILE = "/root/workspace/tagdns/docker"
         UNITTESTDIR = "/root/tagdns/test/unit"
@@ -15,7 +16,7 @@ pipeline {
             steps {
                 dir("${DEPLOY}") {
                     sh "rm -rf tagdns"
-                    sh "git clone ${REPOSITORY}"
+                    sh "git clone -b ${BRANCH} ${REPOSITORY}"
                     sh "cp -r ${HOME}/.aws ${DOCKERFILE}"
                 }
             }

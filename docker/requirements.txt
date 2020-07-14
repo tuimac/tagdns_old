@@ -1,5 +1,6 @@
 boto3
 pyyaml
 setuptools
+dnspython
 unittest-xml-reporting
 timeout-decorator

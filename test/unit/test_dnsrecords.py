@@ -10,7 +10,7 @@ import xmlrunner
 import timeout_decorator
 
 sys.path.insert(0, path.dirname(path.dirname(path.dirname(path.abspath(__file__)))))
-from tagdns.dnsrecords import DNSRecords
+from src.dnsrecords import DNSRecords
 
 REPORT = path.dirname(path.dirname(path.abspath(__file__))) + '/reports/tagdns_' + path.basename(__file__).split('.')[0] + '.xml'
 PATH = 'sample.json'

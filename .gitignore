@@ -3,6 +3,7 @@ __pycache__
 *.swp
 records.json
 old/
+<<<<<<< HEAD
 docker/tagdns/.aws
 build/*
 dist/*
@@ -11,3 +12,9 @@ docker/tagdns/volume/*
 docker/tagdns/volume/*
 docker/build_tagdns.sh
 driver.py
+=======
+.aws
+volume
+reports
+sample.json
+>>>>>>> ea9a24fd31809967be42431e91d530686f556f24

@@ -80,8 +80,9 @@ function main(){
     git add $1
     git commit -m "${COMMENT}"
     git remote add origin "${REPOURL}"
-    git pull origin ${BRANCH}
-    git push -u origin ${BRANCH}
+    git fetch origin
+    git merge origin "${BRANCH}"
+    git push origin "${BRANCH}"
 }
 
 main $1

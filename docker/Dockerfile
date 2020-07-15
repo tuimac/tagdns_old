@@ -12,7 +12,7 @@ ADD env/vimrc /etc/vim/vimrc.local
 ADD env/bashrc /root/.bashrc
 ADD env/login_screen /root/.login_screen
 ADD requirements.txt /root/requirements.txt
-#ADD .aws /root/.aws
+ADD .aws /root/.aws
 
 RUN apt-get update && \
     apt-get upgrade -y && \
@@ -22,7 +22,5 @@ RUN apt-get update && \
     rm -rf anaconda-ks.cfg anaconda-post.log original-ks.cfg requirements.txt && \
     mkdir -p /etc/vim/backup && \
     mkdir -p /etc/vim/undo
-
-WORKDIR /root/tagdns
 
 #ENTRYPOINT ["tagdns", "&"]

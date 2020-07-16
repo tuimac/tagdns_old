@@ -101,7 +101,7 @@ pipeline {
             }
             post {
                 always {
-                    junit "**reports/*.xml"
+                    junit "**test/reports/*.xml"
                 }
             }
         }
@@ -115,7 +115,7 @@ pipeline {
             }
             post {
                 always {
-                    junit "**reports/*.xml"
+                    junit "**test/reports/*.xml"
                 }
             }
         }

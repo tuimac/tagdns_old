@@ -73,9 +73,9 @@ function main(){
     readComment
 
     [[ ! -e .git ]] && git init
-    git remote rm origin
-    git reset --hard "{URL}" v2.0.0-beta
-    git rm -r --cached .
+    #git remote rm origin
+    #git reset --hard "{URL}" v2.0.0-beta
+    #git rm -r --cached .
     git checkout ${BRANCH}
     git add $1
     git commit -m "${COMMENT}"

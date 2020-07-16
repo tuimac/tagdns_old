@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 
 from dns import resolver, reversename
-from os import path, mkdir
+from os import path, mkdir, remove
 import unittest
 import socket
 import xmlrunner
 import traceback
 import sys
 
-REPORT = 'reports/tagdns_' + path.basename(__file__).split('.')[0] + '.xml'
+REPORT = path.dirname(path.dirname(path.dirname(path.abspath(__file__)))) + '/reports/tagdns_' + path.basename(__file__).split('.')[0] + '.xml'
 NAMESERVER = ''
 
 class TestDnsQuery(unittest.TestCase):
@@ -34,9 +34,11 @@ class TestDnsQuery(unittest.TestCase):
 
 if __name__ == '__main__':
     NAMESERVER = sys.argv[1]
+    if path.exists(REPORT):
+        remove(REPORT)
     if not path.exists(path.dirname(REPORT)):
         mkdir(path.dirname(REPORT))
-        with open(REPORT, 'a') as f:
-            f.write('')
+    with open(REPORT, 'a') as f:
+        f.write('')
     with open(REPORT, 'wb') as output:
         unittest.main(testRunner=xmlrunner.XMLTestRunner(output=output))

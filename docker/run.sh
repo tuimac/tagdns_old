@@ -11,9 +11,7 @@ IMAGE=${DOCKERHUBUSER}/${NAME}
 function runContainer(){
     docker run -itd --name ${NAME} \
                 -h ${NAME} \
-                -v "${VOLUME}:/tmp" \
                 -v "/etc/localtime:/etc/localtime:ro" \
-                --network="bridge" \
                 ${NAME}
 }
 
@@ -23,7 +21,6 @@ function cleanup(){
 }
 
 function createContainer(){
-    mkdir ${VOLUME}
     docker build -t ${NAME} .
     runContainer
     cleanup
@@ -46,7 +43,6 @@ function deleteAll(){
     docker rm ${NAME}
     docker rmi ${NAME}
     cleanup
-    rm -rf ${VOLUME}
 }
 
 function commitImage(){
